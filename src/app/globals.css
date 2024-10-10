@@ -103,12 +103,14 @@ body::-ms-scrollbar-thumb:hover {
 }
 
 .animate-marquee-right {
-  animation: marquee-right 30s linear infinite;
+  animation: marquee-right 15s linear infinite; /* Changed from 30s to 15s */
 }
 
 .animate-marquee-left {
-  animation: marquee-left 30s linear infinite;
+  animation: marquee-left 15s linear infinite; /* Changed from 30s to 15s */
 }
+
+
 @keyframes shootingStarAnimation {
   0% {
     transform: translateX(0) translateY(0) rotate(15deg);

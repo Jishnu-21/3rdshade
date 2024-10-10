@@ -5,6 +5,7 @@ import Videoplayback from './components/Homepage/Videoplayback';
 import ScrollingTimeline from './components/Homepage/ScrollingTimeline';
 import ServiceLine from './components/Homepage/Services';
 import Brands from './components/Homepage/Brands';
+import WhatWeDo from './components/Homepage/WhatWeDo';
 
 const page = () => {
   return (
@@ -15,6 +16,7 @@ const page = () => {
     <ScrollingTimeline/>
     <ServiceLine/>
     <Brands/>
+    <WhatWeDo/>
     </>
   )
 }
