@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-export async function POST(req: Request) {
-  const body = await req.json();
+export async function POST(request: Request) {
+  const body = await request.json();
   const { name, organization, email, website, services, message } = body;
 
   // Create a transporter using SMTP
-  let transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
     secure: false, // Use TLS
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
 }
 
 // Add this to handle OPTIONS requests (for CORS preflight)
-export async function OPTIONS(req: Request) {
+export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,
     headers: {
