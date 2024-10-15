@@ -2,84 +2,165 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-export default function Component() {
-  const [isVisible, setIsVisible] = useState({
-    card1: false,
-    card2: false,
-    card3: false,
-  })
+type CardState = {
+  isVisible: boolean;
+  showBack: boolean;
+};
 
-  const card1Ref = useRef(null)
-  const card2Ref = useRef(null)
-  const card3Ref = useRef(null)
+type CardStates = {
+  [key: string]: CardState;
+};
+
+export default function Component() {
+  const [cardStates, setCardStates] = useState<CardStates>({
+    card1: { isVisible: false, showBack: false },
+    card2: { isVisible: false, showBack: false },
+    card3: { isVisible: false, showBack: false },
+  });
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const card1Ref = useRef<HTMLDivElement>(null)
+  const card2Ref = useRef<HTMLDivElement>(null)
+  const card3Ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    let lastScrollY = window.pageYOffset
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Set the current card to visible
-            setIsVisible((prev) => ({ ...prev, [entry.target.id]: true }))
+          const cardId = entry.target.id;
+          const index = parseInt(cardId.replace('card', '')) - 1;
 
-            // Delay the visibility of the next card based on the current card's visibility
-            if (entry.target.id === "card1") {
+          if (entry.isIntersecting) {
+            // Card is visible
+            setTimeout(() => {
+              setCardStates(prev => ({
+                ...prev,
+                [cardId]: { isVisible: true, showBack: false }
+              }))
               setTimeout(() => {
-                setIsVisible((prev) => ({ ...prev, card2: true }));
-              }, 300); // Delay for the second card
-            } else if (entry.target.id === "card2") {
-              setTimeout(() => {
-                setIsVisible((prev) => ({ ...prev, card3: true }));
-              }, 300); // Delay for the third card
-            }
+                setCardStates(prev => ({
+                  ...prev,
+                  [cardId]: { isVisible: true, showBack: true }
+                }))
+              }, 1000)
+            }, index * 500)
           } else {
-            // Reset visibility when the card is not in view
-            setIsVisible((prev) => ({ ...prev, [entry.target.id]: false }));
+            // Card is not visible
+            setCardStates(prev => ({
+              ...prev,
+              [cardId]: { isVisible: false, showBack: false }
+            }))
           }
         })
       },
-      { threshold: 0.3 }
+      { threshold: 0.5 }
     )
 
-    if (card1Ref.current) observer.observe(card1Ref.current)
-    if (card2Ref.current) observer.observe(card2Ref.current)
-    if (card3Ref.current) observer.observe(card3Ref.current)
+    const handleScroll = () => {
+      lastScrollY = window.pageYOffset
+    }
 
-    return () => observer.disconnect()
+    window.addEventListener('scroll', handleScroll)
+
+    const refs = [card1Ref, card2Ref, card3Ref];
+    refs.forEach(ref => {
+      if (ref.current) observer.observe(ref.current);
+    });
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
+  const cards = [
+    { 
+      ref: card1Ref, 
+      id: "card1", 
+      color: "bg-red-500", 
+      top: "top-0", 
+      left: "left-0",
+      frontContent: (
+        <>
+          <div className="mb-6 h-36 w-36 rounded-full bg-gray-300"></div>
+          <p className="text-3xl text-white">Hush Hiven</p>
+        </>
+      ),
+      backContent: (
+        <p className="text-xl text-white">
+          We create unique digital experiences tailored to your brand's identity.
+        </p>
+      )
+    },
+    { 
+      ref: card2Ref, 
+      id: "card2", 
+      color: "bg-purple-500", 
+      top: "top-1/4",
+      left: "left-1/3",
+      frontContent: (
+        <>
+          <div className="mb-6 h-36 w-36 rounded-full bg-gray-300"></div>
+          <p className="text-3xl text-white">Hush Hiven</p>
+        </>
+      ),
+      backContent: (
+        <p className="text-xl text-white">
+          It's not just about having a website or social media presence. We understand you and your brand to market in a
+          unique way.
+        </p>
+      )
+    },
+    { 
+      ref: card3Ref, 
+      id: "card3", 
+      color: "bg-blue-500", 
+      top: "top-1/2",
+      left: "left-2/3",
+      frontContent: (
+        <>
+          <div className="mb-6 h-36 w-36 rounded-full bg-gray-300"></div>
+          <p className="text-3xl text-white">Hush Hiven</p>
+        </>
+      ),
+      backContent: (
+        <p className="text-xl text-white">
+          We leverage cutting-edge technology to bring your vision to life.
+        </p>
+      )
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-white p-8">
+    <div ref={containerRef} className="min-h-screen bg-white p-8">
       <h1 className="mb-16 text-center text-5xl font-bold">
         <span className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-          What do we Differently?
+          What do we do Differently?
         </span>
       </h1>
-      <div className="relative mx-auto h-[700px] max-w-[900px]">
-        {[
-          { ref: card1Ref, id: "card1", color: "bg-red-500", top: "top-0", left: "left-0" },
-          { ref: card2Ref, id: "card2", color: "bg-purple-500", top: "top-1/3", left: "left-1/3" },
-          { ref: card3Ref, id: "card3", color: "bg-blue-500", top: "top-2/3", left: "left-2/3" },
-        ].map((card, index) => (
+      <div className="relative mx-auto h-[900px] max-w-[1200px] overflow-hidden">
+        {cards.map((card) => (
           <div
             key={card.id}
             ref={card.ref}
             id={card.id}
-            className={`absolute h-72 w-72 ${card.color} p-6 shadow-lg transition-all duration-1000 ease-out
-              ${card.top} ${card.left}
-              ${isVisible[card.id] ? 'translate-x-0 translate-y-0 opacity-100' : 'translate-x-[-10px] translate-y-16 opacity-0'}`} // Adjusted translate properties
+            className={`absolute h-96 w-96 ${card.top} ${card.left}
+              transition-all duration-1000 ease-out perspective-1000
+              ${cardStates[card.id].isVisible 
+                ? 'opacity-100 translate-x-0 translate-y-0' 
+                : 'opacity-0 translate-x-[25%] translate-y-[25%]'}`}
           >
-            {index !== 1 && (
-              <>
-                <div className="mb-4 h-28 w-28 rounded-full bg-gray-300"></div>
-                <p className="text-2xl text-white">Hush Hiven</p>
-              </>
-            )}
-            {index === 1 && (
-              <p className="text-lg text-white">
-                It's not just about having a website or social media presence. We understand you and your brand to market in a
-                unique way.
-              </p>
-            )}
+            <div 
+              className={`relative w-full h-full transition-transform duration-1000 transform-style-3d ${cardStates[card.id].showBack ? 'rotate-y-180' : ''}`}
+            >
+              <div className={`absolute w-full h-full ${card.color} p-8 shadow-lg backface-hidden`}>
+                {card.frontContent}
+              </div>
+              <div className={`absolute w-full h-full ${card.color} p-8 shadow-lg backface-hidden rotate-y-180`}>
+                {card.backContent}
+              </div>
+            </div>
           </div>
         ))}
       </div>

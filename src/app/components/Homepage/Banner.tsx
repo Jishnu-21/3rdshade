@@ -22,7 +22,7 @@ const Banner = () => {
   }, []);
 
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 lg:px-16 pt-4 sm:pt-6 md:pt-8 pb-10 sm:pb-16 md:pb-20">
+    <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 lg:px-16 pt-24 sm:pt-28 md:pt-32 pb-10 sm:pb-16 md:pb-20">
       <div className="w-full max-w-4xl mx-auto">
         <h2 className="text-blue-300 text-sm sm:text-base md:text-lg mb-2 sm:mb-3 md:mb-4">
           Breaking the norms of Marketing Because

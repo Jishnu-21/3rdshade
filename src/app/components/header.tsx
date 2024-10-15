@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -18,7 +20,30 @@ export default function Header() {
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
 
-  const menuItems = ['Home', 'Solutions', 'Work', 'About Us', 'Careers'];
+  useEffect(() => {
+    const controlNavbar = () => {
+      if (typeof window !== 'undefined') {
+        if (window.scrollY > lastScrollY) { // if scroll down hide the navbar
+          setIsVisible(false);
+        } else { // if scroll up show the navbar
+          setIsVisible(true);
+        }
+        // remember current page location to use in the next move
+        setLastScrollY(window.scrollY);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', controlNavbar);
+
+      // cleanup function
+      return () => {
+        window.removeEventListener('scroll', controlNavbar);
+      };
+    }
+  }, [lastScrollY]);
+
+  const menuItems = ['Home','Solutions', 'Work', 'About Us', 'Careers'];
 
   const menuVariants = {
     closed: { opacity: 0, x: "100%" },
@@ -31,33 +56,59 @@ export default function Header() {
   };
 
   const ContactButton = () => (
-    <button className="relative w-[160px] h-[57px] rounded-full text-sm font-medium text-white overflow-hidden group">
-      <span className="relative z-10">Contact us</span>
-      <span className="absolute inset-0 rounded-full opacity-100" style={{
-        background: 'linear-gradient(90deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE)',
-        padding: '1px',
-        content: "''",
-        zIndex: 0,
-      }}></span>
-      <span className="absolute inset-[1px] bg-[#282B2C] rounded-full z-[1]"></span>
-      <span className="absolute inset-0 rounded-full opacity-75 blur-[2px]" style={{
-        background: 'linear-gradient(90deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE)',
-        content: "''",
-        zIndex: -1,
-      }}></span>
-    </button>
+    <Link href="/contact-us" className="group">
+      <motion.div 
+        className="relative w-[160px] h-[57px] rounded-full text-sm font-medium text-white overflow-hidden inline-block"
+        whileHover={{ scale: 1.05 }}
+        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+      >
+        <span className="relative z-10 flex items-center justify-center w-full h-full group-hover:text-black transition-colors duration-300">Contact us</span>
+        <motion.span 
+          className="absolute inset-0 rounded-full opacity-100"
+          initial={{
+            background: 'linear-gradient(90deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE)',
+          }}
+          whileHover={{
+            background: 'linear-gradient(90deg, #1CB0CE, #7071E9, #955DDC, #C93F80, #F1967D)',
+          }}
+          transition={{ duration: 0.3 }}
+          style={{
+            padding: '1px',
+            content: "''",
+            zIndex: 0,
+          }}
+        ></motion.span>
+        <span className="absolute inset-[1px] bg-[#282B2C] rounded-full z-[1] group-hover:bg-transparent transition-colors duration-300"></span>
+        <motion.span 
+          className="absolute inset-0 rounded-full opacity-75 blur-[2px]"
+          initial={{
+            background: 'linear-gradient(90deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE)',
+          }}
+          whileHover={{
+            background: 'linear-gradient(90deg, #1CB0CE, #7071E9, #955DDC, #C93F80, #F1967D)',
+          }}
+          transition={{ duration: 0.3 }}
+          style={{
+            content: "''",
+            zIndex: -1,
+          }}
+        ></motion.span>
+      </motion.div>
+    </Link>
   );
 
   return (
-    <header className="bg-black pt-4 pb-4 px-4 md:px-[122px] flex items-center justify-between">
+    <header className={`bg-black pt-4 pb-4 px-4 md:px-[122px] flex items-center justify-between fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="flex-shrink-0">
-        <Image 
-          src="/logo png-01 2.png" 
-          alt="3RD SHADE" 
-          width={180} 
-          height={57} 
-          className="w-[120px] h-auto md:w-[180px]"
-        />
+        <Link href="/">
+          <Image 
+            src="/logo png-01 2.png" 
+            alt="3RD SHADE" 
+            width={180} 
+            height={57} 
+            className="w-[120px] h-auto md:w-[180px]"
+          />
+        </Link>
       </div>
       {!isMobile && (
         <nav className="hidden md:flex flex-grow justify-center mx-4">

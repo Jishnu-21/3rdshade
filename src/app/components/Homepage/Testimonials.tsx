@@ -1,0 +1,148 @@
+"use client"
+
+import { useRef, useState, useEffect } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+
+const testimonials = [
+    {
+      content: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal.",
+      author: "John Mikias",
+      position: "Manager"
+    },
+    {
+      content: "Working with Hush Hiven has been a game-changer for our business. Their innovative approach to digital marketing has significantly increased our online presence and customer engagement.",
+      author: "Sarah Johnson",
+      position: "CEO, TechStart Inc."
+    },
+    {
+      content: "The team at Hush Hiven is incredibly professional and creative. They took our vague ideas and transformed them into a stunning website that perfectly represents our brand.",
+      author: "Michael Chen",
+      position: "Marketing Director"
+    },
+    {
+      content: "I was impressed by Hush Hiven's attention to detail and their ability to meet tight deadlines. They delivered a product that exceeded our expectations in both quality and functionality.",
+      author: "Emily Rodriguez",
+      position: "Project Manager"
+    },
+    {
+      content: "Hush Hiven's expertise in SEO and content strategy has been invaluable. We've seen a significant increase in organic traffic and lead generation since partnering with them.",
+      author: "David Thompson",
+      position: "Digital Marketing Specialist"
+    },
+    {
+      content: "The personalized service we received from Hush Hiven was outstanding. They took the time to understand our unique needs and delivered a tailored solution that has greatly improved our online operations.",
+      author: "Lisa Patel",
+      position: "Operations Manager"
+    }
+  ]
+  
+export default function Component() {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
+
+  const checkScroll = () => {
+    const { current } = scrollRef
+    if (current) {
+      setCanScrollLeft(current.scrollLeft > 0)
+      setCanScrollRight(
+        current.scrollLeft < current.scrollWidth - current.clientWidth
+      )
+    }
+  }
+
+  useEffect(() => {
+    checkScroll()
+    window.addEventListener('resize', checkScroll)
+    return () => window.removeEventListener('resize', checkScroll)
+  }, [])
+
+  const scroll = (direction: 'left' | 'right') => {
+    const { current } = scrollRef
+    if (current) {
+      const scrollAmount = direction === 'left' ? -current.offsetWidth : current.offsetWidth
+      current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+    }
+  }
+
+  const startDragging = (e: React.MouseEvent<HTMLDivElement>) => {
+    setIsDragging(true)
+    setStartX(e.pageX - scrollRef.current!.offsetLeft)
+    setScrollLeft(scrollRef.current!.scrollLeft)
+  }
+
+  const stopDragging = () => {
+    setIsDragging(false)
+  }
+
+  const onDrag = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging) return
+    e.preventDefault()
+    const x = e.pageX - scrollRef.current!.offsetLeft
+    const walk = (x - startX) * 2 // Adjust scrolling speed
+    scrollRef.current!.scrollLeft = scrollLeft - walk
+    checkScroll()
+  }
+
+  return (
+    <div className="bg-black text-white py-16 px-4 relative">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-center text-sm mb-2">What Client Say About Us</h2>
+        <h1 className="text-center text-4xl font-bold mb-12">OUR TESTIMONIALS</h1>
+        
+        <div className="relative">
+          <div 
+            ref={scrollRef} 
+            className="flex overflow-x-auto gap-6 snap-x snap-mandatory scrollbar-hide cursor-grab"
+            onMouseDown={startDragging}
+            onMouseLeave={stopDragging}
+            onMouseUp={stopDragging}
+            onMouseMove={onDrag}
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 snap-center">
+                <div className="bg-[#111] p-6 rounded-tl-[40px] rounded-br-[40px] relative">
+                  <div className="text-yellow-500 text-4xl absolute top-4 left-4">"</div>
+                  <p className="mb-4 mt-8">{testimonial.content}</p>
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                    <div>
+                      <p className="font-semibold">{testimonial.author}</p>
+                      <p className="text-sm text-gray-400">{testimonial.position}</p>
+                    </div>
+                  </div>
+                  <div className="text-yellow-500 text-4xl absolute bottom-4 right-4">"</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {canScrollLeft && (
+            <button 
+              onClick={() => scroll('left')} 
+              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black/50 p-2 rounded-full"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-6 h-6 text-white" />
+            </button>
+          )}
+          
+          {canScrollRight && (
+            <button 
+              onClick={() => scroll('right')} 
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black/50 p-2 rounded-full"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-6 h-6 text-white" />
+            </button>
+          )}
+        </div>
+      </div>
+      <div className="h-16 bg-black"></div> {/* Add this line */}
+    </div>
+  )
+}

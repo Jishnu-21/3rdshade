@@ -9,7 +9,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #ffffff;
     --foreground: #ededed;
   }
 }
@@ -26,7 +26,7 @@ body {
   }
 }
 
-/* For Webkit browsers like Chrome, Safari */
+/* Scrollbar styles */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -44,13 +44,11 @@ body {
   background: #555;
 }
 
-/* For Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: #888 #000000;
 }
 
-/* For Edge and IE */
 body {
   -ms-overflow-style: none;
 }
@@ -72,6 +70,7 @@ body::-ms-scrollbar-thumb:hover {
   background: #555;
 }
 
+/* Other existing styles */
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -92,6 +91,7 @@ body::-ms-scrollbar-thumb:hover {
   -webkit-text-fill-color: transparent;
 }
 
+/* Marquee animations */
 @keyframes marquee-right {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(0); }
@@ -103,14 +103,14 @@ body::-ms-scrollbar-thumb:hover {
 }
 
 .animate-marquee-right {
-  animation: marquee-right 15s linear infinite; /* Changed from 30s to 15s */
+  animation: marquee-right 15s linear infinite;
 }
 
 .animate-marquee-left {
-  animation: marquee-left 15s linear infinite; /* Changed from 30s to 15s */
+  animation: marquee-left 15s linear infinite;
 }
 
-
+/* Shooting star animation */
 @keyframes shootingStarAnimation {
   0% {
     transform: translateX(0) translateY(0) rotate(15deg);
@@ -136,4 +136,66 @@ body::-ms-scrollbar-thumb:hover {
   background: linear-gradient(90deg, rgba(255,165,0,0), rgba(255,165,0,1));
   animation: shootingStarAnimation 2s linear infinite;
   transform-origin: left center;
+}
+
+/* Marquee styles */
+.marquee-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.marquee-row {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-content {
+  display: flex;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-row:nth-child(2) .marquee-content {
+  animation-direction: reverse;
+}
+
+.client-logo {
+  flex: 0 0 auto;
+  margin: 0 30px;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Utility classes */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

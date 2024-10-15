@@ -6,19 +6,28 @@ import ScrollingTimeline from './components/Homepage/ScrollingTimeline';
 import ServiceLine from './components/Homepage/Services';
 import Brands from './components/Homepage/Brands';
 import WhatWeDo from './components/Homepage/WhatWeDo';
+import ClientsMarquee from './components/Homepage/Clients';
+import Testimonials from './components/Homepage/Testimonials';
+import FAQ from './components/Homepage/FAQ';
+import MoreInfoWithTime from './components/Homepage/MoreInfoWithTime';
+import Layout from './components/Homepage/Layout';
 
-const page = () => {
+const Page = () => {
   return (
-    <>
-    <Header/>
-    <Banner/>
-    <Videoplayback/>
-    <ScrollingTimeline/>
-    <ServiceLine/>
-    <Brands/>
-    <WhatWeDo/>
-    </>
+    <Layout>
+      <Header/>
+      <Banner/>
+      <Videoplayback/>
+      <ScrollingTimeline/>
+      <ServiceLine/>
+      <Brands/>
+      <WhatWeDo/>
+      <ClientsMarquee/>
+      <Testimonials/>
+      <FAQ/>
+      <MoreInfoWithTime/>
+    </Layout>
   )
 }
 
-export default page
+export default Page
