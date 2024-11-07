@@ -2,9 +2,8 @@
 
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import gsap from 'gsap';
-import { useThree } from '@react-three/fiber';
 
 const SpinningStar = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -22,37 +21,37 @@ const SpinningStar = () => {
       mountRef.current.appendChild(renderer.domElement);
     }
 
-    // Create sphere of particles
-    const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+    // Create sphere of particles (increased size)
+    const sphereGeometry = new THREE.SphereGeometry(2, 64, 64); // Increased radius and segments
     const sphereParticles = new THREE.Points(
       sphereGeometry,
       new THREE.PointsMaterial({
         color: 0xffffff,
-        size: 0.02,
+        size: 0.04, // Increased particle size
       })
     );
     scene.add(sphereParticles);
 
-    // Create dust particles
+    // Create dust particles (increased count and size)
     const particlesGeometry = new THREE.BufferGeometry();
-    const particleCount = 5000;
+    const particleCount = 10000; // Increased particle count
     const posArray = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 5;
+      posArray[i] = (Math.random() - 0.5) * 10; // Increased spread
     }
 
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.005,
+      size: 0.01, // Increased particle size
       color: 0xffffff,
     });
 
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
-    camera.position.z = 3;
+    camera.position.z = 5; // Moved camera back to see the larger object
 
     // Add OrbitControls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -61,28 +60,28 @@ const SpinningStar = () => {
     controls.rotateSpeed = 0.5;
     controls.enableZoom = false;
 
-    // Mouse movement effect
+    // Mouse movement effect (adjusted for larger object)
     const mouseEffect = (event) => {
       const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
       const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
 
       gsap.to(scene.rotation, {
-        x: mouseY * 0.1,
-        y: mouseX * 0.1,
+        x: mouseY * 0.2, // Increased effect
+        y: mouseX * 0.2, // Increased effect
         duration: 1,
       });
     };
 
     window.addEventListener('mousemove', mouseEffect);
 
-    // Device orientation effect
+    // Device orientation effect (adjusted for larger object)
     const deviceOrientationEffect = (event) => {
       const beta = event.beta * (Math.PI / 180);
       const gamma = event.gamma * (Math.PI / 180);
 
       gsap.to(scene.rotation, {
-        x: beta * 0.1,
-        y: gamma * 0.1,
+        x: beta * 0.2, // Increased effect
+        y: gamma * 0.2, // Increased effect
         duration: 1,
       });
     };
@@ -91,10 +90,10 @@ const SpinningStar = () => {
       window.addEventListener('deviceorientation', deviceOrientationEffect);
     }
 
-    // Mouse scroll effect
+    // Mouse scroll effect (adjusted for larger object)
     const handleMouseWheel = (event: WheelEvent) => {
       if (sceneRef.current) {
-        const scrollSpeed = 0.001;
+        const scrollSpeed = 0.002; // Increased speed
         sceneRef.current.rotation.x += event.deltaY * scrollSpeed;
         sceneRef.current.rotation.y += event.deltaX * scrollSpeed;
       }

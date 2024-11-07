@@ -5,31 +5,24 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import SpinningStar from './SpinningStar';
+import gsap from 'gsap';
 
 interface ImageProps {
   url: string;
-  position: { x: number; y: number };
   width: number;
   height: number;
-  description: string
+  description: string;
 }
 
 const images: ImageProps[] = [
-  { url: '/images (1).jpeg', position: { x: 5, y: 5 }, width: 300, height: 300, description: "A retro-styled Game Boy console with a glowing screen" },
-  { url: '/images.jpeg', position: { x: 25, y: 10 }, width: 360, height: 260, description: "Another interesting image description" },
-  { url: '/images (1).jpeg', position: { x: 45, y: 5 }, width: 280, height: 280, description: "Third image description" },
-  { url: '/images (1).jpeg', position: { x: 65, y: 15 }, width: 320, height: 320, description: "Fourth image description" },
-  { url: '/images.jpeg', position: { x: 85, y: 10 }, width: 340, height: 340, description: "Fifth image description" },
-  { url: '/images (1).jpeg', position: { x: 10, y: 30 }, width: 380, height: 180, description: "Sixth image description" },
-  { url: '/images.jpeg', position: { x: 30, y: 35 }, width: 260, height: 260, description: "Seventh image description" },
-  { url: '/images (1).jpeg', position: { x: 50, y: 40 }, width: 400, height: 200, description: "Eighth image description" },
-  { url: '/images (1).jpeg', position: { x: 70, y: 35 }, width: 300, height: 300, description: "Ninth image description" },
-  { url: '/images.jpeg', position: { x: 90, y: 45 }, width: 360, height: 360, description: "Tenth image description" },
-  { url: '/images (1).jpeg', position: { x: 15, y: 60 }, width: 320, height: 320, description: "Eleventh image description" },
-  { url: '/images.jpeg', position: { x: 35, y: 65 }, width: 280, height: 280, description: "Twelfth image description" },
-  { url: '/images (1).jpeg', position: { x: 55, y: 70 }, width: 340, height: 340, description: "Thirteenth image description" },
-  { url: '/images (1).jpeg', position: { x: 75, y: 75 }, width: 380, height: 180, description: "Fourteenth image description" },
-  { url: '/images.jpeg', position: { x: 95, y: 80 }, width: 300, height: 300, description: "Fifteenth image description" },
+  { url: '/images (1).jpeg', width: 250, height: 250, description: "A retro-styled Game Boy console with a glowing screen" },
+  { url: '/images.jpeg', width: 300, height: 220, description: "Another interesting image description" },
+  { url: '/images (1).jpeg', width: 230, height: 230, description: "Third image description" },
+  { url: '/images (1).jpeg', width: 270, height: 270, description: "Fourth image description" },
+  { url: '/images.jpeg', width: 280, height: 280, description: "Fifth image description" },
+  { url: '/images (1).jpeg', width: 250, height: 250, description: "Sixth image description" },
+  { url: '/images.jpeg', width: 300, height: 220, description: "Seventh image description" },
+  { url: '/images (1).jpeg', width: 230, height: 230, description: "Eighth image description" },
 ];
 
 const ImageGallery: React.FC = () => {
@@ -39,82 +32,145 @@ const ImageGallery: React.FC = () => {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
-  const [draggedImage, setDraggedImage] = useState<ImageProps | null>(null);
-  const [dragPositions, setDragPositions] = useState<{ x: number; y: number }[]>([]);
+  const [renderedImages, setRenderedImages] = useState<JSX.Element[]>([]);
+  const [containerSize, setContainerSize] = useState({ width: 6000, height: 6000 });
+  const cellSize = 500; // Size of each cell in the grid
 
   useEffect(() => {
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleScroll = () => {
-      if (scrollContainerRef.current) {
-        setScrollPosition({
-          x: scrollContainerRef.current.scrollLeft,
-          y: scrollContainerRef.current.scrollTop,
-        });
-      }
-    };
-
-    const handleInfiniteScroll = () => {
-      if (scrollContainerRef.current) {
-        const { scrollLeft, scrollTop, scrollWidth, scrollHeight, clientWidth, clientHeight } = scrollContainerRef.current;
-
-        if (scrollLeft + clientWidth >= scrollWidth - 1) {
-          scrollContainerRef.current.scrollLeft = 1;
-        } else if (scrollLeft <= 0) {
-          scrollContainerRef.current.scrollLeft = scrollWidth - clientWidth - 1;
-        }
-
-        if (scrollTop + clientHeight >= scrollHeight - 1) {
-          scrollContainerRef.current.scrollTop = 1;
-        } else if (scrollTop <= 0) {
-          scrollContainerRef.current.scrollTop = scrollHeight - clientHeight - 1;
-        }
-      }
-    };
-
     handleResize();
     window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
-    scrollContainerRef.current?.addEventListener('scroll', handleScroll);
-    scrollContainerRef.current?.addEventListener('scroll', handleInfiniteScroll);
+    generateImages(0, 0, containerSize.width, containerSize.height);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      scrollContainerRef.current?.removeEventListener('scroll', handleScroll);
-      scrollContainerRef.current?.removeEventListener('scroll', handleInfiniteScroll);
     };
   }, []);
 
-  const handleMouseDown = (e: React.MouseEvent, image: ImageProps) => {
+  const generateImages = (startX: number, startY: number, width: number, height: number) => {
+    const newImages: JSX.Element[] = [];
+    const grid: boolean[][] = Array(Math.ceil(height / cellSize))
+      .fill(null)
+      .map(() => Array(Math.ceil(width / cellSize)).fill(false));
+
+    const placeImage = (x: number, y: number, w: number, h: number) => {
+      const startCol = Math.floor(x / cellSize);
+      const endCol = Math.ceil((x + w) / cellSize);
+      const startRow = Math.floor(y / cellSize);
+      const endRow = Math.ceil((y + h) / cellSize);
+
+      for (let row = startRow; row < endRow; row++) {
+        for (let col = startCol; col < endCol; col++) {
+          if (grid[row] && grid[row][col]) return false;
+        }
+      }
+
+      for (let row = startRow; row < endRow; row++) {
+        for (let col = startCol; col < endCol; col++) {
+          if (!grid[row]) grid[row] = [];
+          grid[row][col] = true;
+        }
+      }
+      return true;
+    };
+
+    for (let i = 0; i < 30; i++) {
+      const randomImage = images[Math.floor(Math.random() * images.length)];
+      let x, y;
+      let placed = false;
+
+      for (let attempts = 0; attempts < 100 && !placed; attempts++) {
+        x = startX + Math.random() * (width - randomImage.width);
+        y = startY + Math.random() * (height - randomImage.height);
+        placed = placeImage(x, y, randomImage.width, randomImage.height);
+      }
+
+      if (placed) {
+        newImages.push(
+          <motion.div
+            key={`${x}-${y}`}
+            className="absolute cursor-pointer"
+            style={{
+              left: `${x}px`,
+              top: `${y}px`,
+              width: `${randomImage.width}px`,
+              height: `${randomImage.height}px`,
+            }}
+            whileHover={{ scale: 1.05, zIndex: 10 }}
+            transition={{ type: "spring", stiffness: 300, damping: 10 }}
+            onClick={(e) => handleImageClick(randomImage, e)}
+          >
+            <Image
+              src={randomImage.url}
+              alt={`Image ${i}`}
+              layout="fill"
+              objectFit="cover"
+              draggable={false}
+            />
+          </motion.div>
+        );
+      }
+    }
+
+    setRenderedImages(prevImages => [...prevImages, ...newImages]);
+  };
+
+  const handleInfiniteScroll = () => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollTop, scrollWidth, scrollHeight, clientWidth, clientHeight } = scrollContainerRef.current;
+      const threshold = 1000; // Increased threshold for earlier generation
+
+      let newWidth = containerSize.width;
+      let newHeight = containerSize.height;
+
+      if (scrollLeft + clientWidth >= scrollWidth - threshold) {
+        generateImages(containerSize.width, 0, 3000, containerSize.height);
+        newWidth += 3000;
+      }
+      if (scrollTop + clientHeight >= scrollHeight - threshold) {
+        generateImages(0, containerSize.height, containerSize.width, 3000);
+        newHeight += 3000;
+      }
+
+      if (newWidth !== containerSize.width || newHeight !== containerSize.height) {
+        setContainerSize({ width: newWidth, height: newHeight });
+      }
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
-    setDraggedImage(image);
-    setDragPositions([{ x: e.clientX, y: e.clientY }]);
     e.preventDefault();
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
-    setDraggedImage(null);
-    setDragPositions([]);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isDragging && scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft -= e.movementX;
-      scrollContainerRef.current.scrollTop -= e.movementY;
+      const newX = scrollPosition.x - e.movementX * 0.02;
+      const newY = scrollPosition.y - e.movementY * 0.02;
 
-      if (draggedImage) {
-        setDragPositions(prev => [...prev, { x: e.clientX, y: e.clientY }].slice(-10));
-      }
+      gsap.to(scrollContainerRef.current, {
+        scrollLeft: newX,
+        scrollTop: newY,
+        duration: 3,
+        ease: "power1.out",
+        onUpdate: () => {
+          if (scrollContainerRef.current) {
+            setScrollPosition({
+              x: scrollContainerRef.current.scrollLeft,
+              y: scrollContainerRef.current.scrollTop
+            });
+          }
+        },
+        onComplete: handleInfiniteScroll
+      });
     }
   };
 
@@ -131,90 +187,32 @@ const ImageGallery: React.FC = () => {
     setSelectedImage(null);
   };
 
-  const renderImages = () => {
-    const repeatedImages = [...images, ...images, ...images, ...images]; // Repeat images 4 times
-    return repeatedImages.map((img, index) => (
-      <motion.div
-        key={index}
-        className="absolute cursor-pointer"
-        style={{
-          left: `${img.position.x}%`,
-          top: `${img.position.y}%`,
-          width: `${img.width}px`,
-          height: `${img.height}px`,
-          transition: 'filter 0.1s ease-out',
-        }}
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 300, damping: 10 }}
-        onMouseDown={(e) => handleMouseDown(e, img)}
-        onClick={(e) => handleImageClick(img, e)}
-      >
-        <Image
-          src={img.url}
-          alt={`Image ${index + 1}`}
-          layout="fill"
-          objectFit="cover"
-          className="rounded-lg"
-          draggable={false}
-        />
-      </motion.div>
-    ));
-  };
-
-  const renderDragEffect = () => {
-    if (!draggedImage || dragPositions.length < 2) return null;
-
-    return dragPositions.map((pos, index) => (
-      <motion.div
-        key={index}
-        className="absolute pointer-events-none"
-        style={{
-          left: pos.x - draggedImage.width / 2,
-          top: pos.y - draggedImage.height / 2,
-          width: draggedImage.width,
-          height: draggedImage.height,
-          opacity: (index + 1) / dragPositions.length * 0.5,
-        }}
-      >
-        <Image
-          src={draggedImage.url}
-          alt="Dragged image"
-          layout="fill"
-          objectFit="cover"
-          className="rounded-lg"
-        />
-      </motion.div>
-    ));
-  };
-
   return (
     <div 
       className="relative w-full h-screen overflow-hidden" 
       ref={containerRef}
+      onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
       onMouseMove={handleMouseMove}
     >
-      {/* SpinningStar Background */}
       <div className="absolute inset-0">
         <SpinningStar />
       </div>
 
-      {/* Scrollable Content */}
       <div 
         className="absolute inset-0 overflow-auto scrollbar-hide"
         ref={scrollContainerRef}
-        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        style={{ 
+          cursor: isDragging ? 'grabbing' : 'grab',
+        }}
+        onScroll={handleInfiniteScroll}
       >
-        <div className="relative" style={{ width: '400%', height: '400%' }}>
-          {renderImages()}
+        <div className="relative" style={{ width: `${containerSize.width}px`, height: `${containerSize.height}px` }}>
+          {renderedImages}
         </div>
       </div>
 
-      {/* Drag Effect */}
-      {renderDragEffect()}
-
-      {/* Image Description Modal */}
       <AnimatePresence>
         {selectedImage && windowSize.width > 0 && (
           <motion.div

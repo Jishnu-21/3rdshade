@@ -88,7 +88,7 @@ export default function Component() {
   }
 
   return (
-    <div className="bg-black text-white py-16 px-4 relative">
+    <div className="bg-black text-white py-16 px-4 relative z-10">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-center text-sm mb-2">What Client Say About Us</h2>
         <h1 className="text-center text-4xl font-bold mb-12">OUR TESTIMONIALS</h1>
@@ -142,7 +142,7 @@ export default function Component() {
           )}
         </div>
       </div>
-      <div className="h-16 bg-black"></div> {/* Add this line */}
+      <div className="h-16 bg-black"></div>
     </div>
   )
 }

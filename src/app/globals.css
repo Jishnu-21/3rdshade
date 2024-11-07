@@ -9,8 +9,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #ffffff;
-    --foreground: #ededed;
+    --background: black;
+    --foreground: white;
   }
 }
 
@@ -167,11 +167,15 @@ body::-ms-scrollbar-thumb:hover {
 
 @keyframes marquee {
   0% {
-    transform: translateX(0%);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
 }
 
 /* Utility classes */
@@ -198,4 +202,26 @@ body::-ms-scrollbar-thumb:hover {
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+
+
+.video-container {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Add this to your global CSS file */
+body header.bg-black {
+  background-color: black !important;
 }

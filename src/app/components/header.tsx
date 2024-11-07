@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,8 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -21,29 +20,17 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const controlNavbar = () => {
-      if (typeof window !== 'undefined') {
-        if (window.scrollY > lastScrollY) { // if scroll down hide the navbar
-          setIsVisible(false);
-        } else { // if scroll up show the navbar
-          setIsVisible(true);
-        }
-        // remember current page location to use in the next move
-        setLastScrollY(window.scrollY);
+    const ensureBlackBackground = () => {
+      if (headerRef.current) {
+        headerRef.current.style.backgroundColor = 'black';
       }
     };
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', controlNavbar);
+    window.addEventListener('scroll', ensureBlackBackground);
+    return () => window.removeEventListener('scroll', ensureBlackBackground);
+  }, []);
 
-      // cleanup function
-      return () => {
-        window.removeEventListener('scroll', controlNavbar);
-      };
-    }
-  }, [lastScrollY]);
-
-  const menuItems = ['Home','Solutions', 'Work', 'About Us', 'Careers'];
+  const menuItems = ['Home', 'Solutions', 'Work', 'About Us', 'Careers'];
 
   const menuVariants = {
     closed: { opacity: 0, x: "100%" },
@@ -57,48 +44,38 @@ export default function Header() {
 
   const ContactButton = () => (
     <Link href="/contact-us" className="group">
-      <motion.div 
+      <div 
         className="relative w-[160px] h-[57px] rounded-full text-sm font-medium text-white overflow-hidden inline-block"
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 400, damping: 10 }}
       >
-        <span className="relative z-10 flex items-center justify-center w-full h-full group-hover:text-black transition-colors duration-300">Contact us</span>
-        <motion.span 
+        <span className="relative z-10 flex items-center justify-center w-full h-full">Contact us</span>
+        <span 
           className="absolute inset-0 rounded-full opacity-100"
-          initial={{
-            background: 'linear-gradient(90deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE)',
-          }}
-          whileHover={{
-            background: 'linear-gradient(90deg, #1CB0CE, #7071E9, #955DDC, #C93F80, #F1967D)',
-          }}
-          transition={{ duration: 0.3 }}
           style={{
+            background: 'linear-gradient(90deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE)',
             padding: '1px',
             content: "''",
             zIndex: 0,
           }}
-        ></motion.span>
-        <span className="absolute inset-[1px] bg-[#282B2C] rounded-full z-[1] group-hover:bg-transparent transition-colors duration-300"></span>
-        <motion.span 
+        ></span>
+        <span className="absolute inset-[1px] bg-[#282B2C] rounded-full z-[1]"></span>
+        <span 
           className="absolute inset-0 rounded-full opacity-75 blur-[2px]"
-          initial={{
-            background: 'linear-gradient(90deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE)',
-          }}
-          whileHover={{
-            background: 'linear-gradient(90deg, #1CB0CE, #7071E9, #955DDC, #C93F80, #F1967D)',
-          }}
-          transition={{ duration: 0.3 }}
           style={{
+            background: 'linear-gradient(90deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE)',
             content: "''",
             zIndex: -1,
           }}
-        ></motion.span>
-      </motion.div>
+        ></span>
+      </div>
     </Link>
   );
 
   return (
-    <header className={`bg-black pt-4 pb-4 px-4 md:px-[122px] flex items-center justify-between fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+    <header 
+      ref={headerRef}
+      className="pt-4 pb-4 px-4 md:px-[122px] flex items-center justify-between fixed top-0 left-0 right-0 z-50"
+      style={{ backgroundColor: 'black' }}
+    >
       <div className="flex-shrink-0">
         <Link href="/">
           <Image 
@@ -164,38 +141,49 @@ export default function Header() {
               animate="open"
               exit="closed"
               variants={menuVariants}
-              className="absolute inset-y-0 right-0 max-w-sm w-full bg-gradient-to-b from-gray-900 to-black shadow-xl"
+              className="absolute inset-y-0 right-0 max-w-sm w-full shadow-xl overflow-hidden"
+              style={{
+                background: 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)',
+              }}
             >
-              <div className="flex justify-end p-4">
-                <button onClick={() => setIsMenuOpen(false)} className="text-white">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              <div className="px-4 mb-6 flex justify-center">
-                <ContactButton />
-              </div>
-              <nav className="px-4">
-                <ul className="space-y-6">
-                  {menuItems.map((item) => (
-                    <motion.li
-                      key={item}
-                      variants={itemVariants}
-                      whileHover={{ scale: 1.05, x: 10, color: "#ffffff" }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <Link 
-                        href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                        className="text-gray-300 transition-colors text-2xl font-medium flex items-center"
-                        onClick={() => setIsMenuOpen(false)}
+              <div className="absolute inset-0 opacity-50"
+                   style={{
+                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                     backgroundSize: '30px 30px',
+                   }}
+              ></div>
+              <div className="relative z-10">
+                <div className="flex justify-end p-4">
+                  <button onClick={() => setIsMenuOpen(false)} className="text-white">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="px-4 mb-6 flex justify-center">
+                  <ContactButton />
+                </div>
+                <nav className="px-4">
+                  <ul className="space-y-6">
+                    {menuItems.map((item) => (
+                      <motion.li
+                        key={item}
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.05, x: 10, color: "#ffffff" }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        {item}
-                      </Link>
-                    </motion.li>
-                  ))}
-                </ul>
-              </nav>
+                        <Link 
+                          href={`/${item.toLowerCase().replace(' ', '-')}`} 
+                          className="text-gray-300 transition-colors text-2xl font-medium flex items-center"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {item}
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
             </motion.div>
           </motion.div>
         )}

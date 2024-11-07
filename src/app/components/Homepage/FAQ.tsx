@@ -3,7 +3,12 @@
 import React, { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 
-const faqs = [
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+const faqs: FAQ[] = [
   {
     question: "Where does Char Befikar provide property management services?",
     answer: "We manage property within Pune and parts of PCMC. Our endeavor is to expand our reach to serve you better. Currently, we manage properties in Wakad, Hinjewadi, Pimple Saudagar, Pimple Gurav, Pundit, Baner, Balewadi, Mahalunge, SusGaon, Bavdhan, Bhugaon, Sakal Nagar, Katraj, Ambegaon, NIBM, Kondhwa, Wagnoli, Bhugaon, Sinhagad Road, Kothrud, Hadapsar, Kharadi, Kalyani Nagar, and Keshav Nagar, etc. Please check with us if the area of your interest is not covered above."
@@ -18,7 +23,14 @@ const faqs = [
   { question: "What kind of inspections do you perform as part of the full property management service?", answer: "" },
 ];
 
-const FAQItem = ({ question, answer, isOpen, toggleOpen }) => (
+interface FAQItemProps {
+  question: string;
+  answer: string;
+  isOpen: boolean;
+  toggleOpen: () => void;
+}
+
+const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, toggleOpen }) => (
   <div className="border-b border-[#1E1E1E] py-4">
     <button
       className="flex justify-between items-center w-full text-left"
@@ -31,20 +43,20 @@ const FAQItem = ({ question, answer, isOpen, toggleOpen }) => (
         <Plus className="w-5 h-5 text-[#ABABAB]" />
       )}
     </button>
-    {isOpen && <p className="mt-2 text-sm text-[#ABABAB]">{answer}</p>}
+    {isOpen && <p className="pt-2 text-sm text-[#ABABAB]">{answer}</p>}
   </div>
 );
 
-const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState(0);
+const FAQ: React.FC = () => {
+  const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
-    <div className="bg-black text-white pt-0 pb-16 flex flex-col items-center justify-center px-4">
+    <div className="bg-black text-white pt-16 pb-32 flex flex-col items-center justify-center px-4 -mt-16 relative z-20">
       <div className="max-w-3xl w-full">
         <h2 className="text-2xl font-normal mb-6 text-center">
           The Most Frequently Asked Questions.
         </h2>
-        <div className="bg-black rounded-lg p-6 border border-[#1E1E1E]">
+        <div className="bg-black rounded-lg p-6 border-x border-t border-[#1E1E1E]">
           {faqs.map((faq, index) => (
             <FAQItem
               key={index}
@@ -56,7 +68,6 @@ const FAQ = () => {
           ))}
         </div>
       </div>
-      <div className="h-16 bg-black w-full"></div> {/* Add this line */}
     </div>
   );
 };

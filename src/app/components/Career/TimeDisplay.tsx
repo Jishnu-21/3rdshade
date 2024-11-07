@@ -19,7 +19,7 @@ const TimeDisplay = () => {
   });
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-2 md:space-x-4 lg:space-x-8 px-4 sm:px-0">
+    <div className="flex justify-center items-center space-x-8 bg-white text-black p-4"> {/* Ensured bg is white and text is black */}
       <TimeButton label="India" time={formattedTime} />
       <TimeButton label="London" time={formattedTime} />
       <TimeButton label="Dubai" time={formattedTime} />

@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState, useRef } from 'react';
-import Footer from './Footer';
+import Footer from './DarkFooter';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -19,7 +19,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   useEffect(() => {
     if (footerRef.current) {
       const footerHeight = footerRef.current.offsetHeight;
-      document.body.style.minHeight = `calc(100vh + ${footerHeight / 2}px)`;
+      document.body.style.minHeight = `calc(100vh + ${footerHeight}px)`;
     }
   }, []);
 
@@ -27,8 +27,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const contentHeight = contentRef.current?.offsetHeight || 0;
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
 
-  const maxScrollPosition = contentHeight - windowHeight + footerHeight / 1.2;
-  const translateY = Math.max(0, Math.min(scrollPosition / 2, footerHeight / 1.2));
+  const maxScrollPosition = contentHeight - windowHeight + footerHeight/1.3;
+  const translateY = Math.max(0, Math.min(scrollPosition, footerHeight/1.3));
 
   return (
     <div className="relative">

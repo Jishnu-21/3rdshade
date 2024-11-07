@@ -14,19 +14,23 @@ import Layout from './components/Homepage/Layout';
 
 const Page = () => {
   return (
-    <Layout>
-      <Header/>
-      <Banner/>
-      <Videoplayback/>
-      <ScrollingTimeline/>
-      <ServiceLine/>
-      <Brands/>
-      <WhatWeDo/>
-      <ClientsMarquee/>
-      <Testimonials/>
-      <FAQ/>
-      <MoreInfoWithTime/>
-    </Layout>
+    <div className='bg-white'>
+      <Layout>
+        <Header/>
+        <Banner/>
+        <Videoplayback/>
+        <ScrollingTimeline/>
+        <ServiceLine/>
+        <Brands/>
+        <WhatWeDo/>
+        <ClientsMarquee/>
+        <div className="bg-black relative">
+          <Testimonials />
+          <FAQ />
+        </div>
+        <MoreInfoWithTime/>
+      </Layout>
+    </div>
   )
 }
 
