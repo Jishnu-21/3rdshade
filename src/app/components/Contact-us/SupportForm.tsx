@@ -16,9 +16,6 @@ const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
     message: ''
   });
 
-  const [alertInfo, setAlertInfo] = useState({ message: '', type: 'success' as 'success' | 'error', isVisible: false });
-
-
   const toggleService = (service: string) => {
     setSelectedServices(prev => 
       prev.includes(service) 
@@ -67,10 +64,6 @@ const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
       console.error('Error:', error);
       onAlertShow('Error submitting form. Please try again.', 'error');
     }
-  };
-
-  const closeAlert = () => {
-    setAlertInfo(prev => ({ ...prev, isVisible: false }));
   };
 
   const services = [
@@ -173,7 +166,7 @@ const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
                 name="message"
                 value={formData.message}
                 onChange={handleInputChange}
-                placeholder="What's on your mind?"
+                placeholder="What&apos;s on your mind?"
                 className="w-full bg-transparent border-b border-gray-700 py-2 text-sm focus:outline-none text-white placeholder-gray-500"
                 rows={2}
                 required
