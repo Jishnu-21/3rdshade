@@ -23,45 +23,94 @@ export default function Component() {
   const card2Ref = useRef<HTMLDivElement>(null)
   const card3Ref = useRef<HTMLDivElement>(null)
 
+  const [isAnimating, setIsAnimating] = useState(false);
+
   useEffect(() => {
-    let lastScrollY = window.pageYOffset
+    const ANIMATION_DELAY = 500;
+    const FLIP_DELAY = 1000;
+    const REWIND_DELAY = 3000;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const cardId = entry.target.id;
-          const index = parseInt(cardId.replace('card', '')) - 1;
+          if (entry.isIntersecting && !isAnimating) {
+            setIsAnimating(true);
+            
+            const animateForward = () => {
+              if (!entry.isIntersecting) return;
+              
+              ['card1', 'card2', 'card3'].forEach((cardId, index) => {
+                setTimeout(() => {
+                  setCardStates(prev => ({
+                    ...prev,
+                    [cardId]: { isVisible: true, showBack: false }
+                  }));
+                  
+                  setTimeout(() => {
+                    if (!entry.isIntersecting) return;
+                    setCardStates(prev => ({
+                      ...prev,
+                      [cardId]: { isVisible: true, showBack: true }
+                    }));
+                  }, FLIP_DELAY);
+                }, index * ANIMATION_DELAY);
+              });
 
-          if (entry.isIntersecting) {
-            // Card is visible
-            setTimeout(() => {
-              setCardStates(prev => ({
-                ...prev,
-                [cardId]: { isVisible: true, showBack: false }
-              }))
               setTimeout(() => {
-                setCardStates(prev => ({
-                  ...prev,
-                  [cardId]: { isVisible: true, showBack: true }
-                }))
-              }, 1000)
-            }, index * 500)
-          } else {
-            // Card is not visible
-            setCardStates(prev => ({
-              ...prev,
-              [cardId]: { isVisible: false, showBack: false }
-            }))
+                if (entry.isIntersecting) animateReverse();
+              }, REWIND_DELAY);
+            };
+
+            const animateReverse = () => {
+              if (!entry.isIntersecting) return;
+              
+              ['card3', 'card2', 'card1'].forEach((cardId, index) => {
+                setTimeout(() => {
+                  setCardStates(prev => ({
+                    ...prev,
+                    [cardId]: { isVisible: true, showBack: false }
+                  }));
+                  
+                  setTimeout(() => {
+                    if (!entry.isIntersecting) return;
+                    setCardStates(prev => ({
+                      ...prev,
+                      [cardId]: { isVisible: false, showBack: false }
+                    }));
+                  }, FLIP_DELAY);
+                }, index * ANIMATION_DELAY);
+              });
+
+              setTimeout(() => {
+                if (entry.isIntersecting) {
+                  animateForward();
+                } else {
+                  setIsAnimating(false);
+                }
+              }, REWIND_DELAY);
+            };
+
+            animateForward();
+          } else if (!entry.isIntersecting) {
+            setIsAnimating(false);
+            setCardStates({
+              card1: { isVisible: false, showBack: false },
+              card2: { isVisible: false, showBack: false },
+              card3: { isVisible: false, showBack: false },
+            });
           }
-        })
+        });
       },
-      { threshold: 0.5 }
-    )
+      { threshold: 0.7 }
+    );
+
+    let lastScrollY = 0;
 
     const handleScroll = () => {
-      lastScrollY = window.pageYOffset
+      lastScrollY = window.pageYOffset;
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll);
 
     const refs = [card1Ref, card2Ref, card3Ref];
     refs.forEach(ref => {
@@ -72,7 +121,7 @@ export default function Component() {
       observer.disconnect()
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [isAnimating])
 
   const cards = [
     { 
@@ -146,13 +195,15 @@ export default function Component() {
             ref={card.ref}
             id={card.id}
             className={`absolute h-96 w-96 ${card.top} ${card.left}
-              transition-all duration-1000 ease-out perspective-1000
+              transition-all duration-700 ease-in-out perspective-1000
               ${cardStates[card.id].isVisible 
                 ? 'opacity-100 translate-x-0 translate-y-0' 
-                : 'opacity-0 translate-x-[25%] translate-y-[25%]'}`}
+                : 'opacity-0 translate-x-[25%] translate-y-[25%]'}
+              ${isAnimating ? 'pointer-events-none' : 'cursor-pointer'}`}
           >
             <div 
-              className={`relative w-full h-full transition-transform duration-1000 transform-style-3d ${cardStates[card.id].showBack ? 'rotate-y-180' : ''}`}
+              className={`relative w-full h-full transition-transform duration-700 transform-style-3d 
+                ${cardStates[card.id].showBack ? 'rotate-y-180' : ''}`}
             >
               <div className={`absolute w-full h-full ${card.color} p-8 shadow-lg backface-hidden`}>
                 {card.frontContent}

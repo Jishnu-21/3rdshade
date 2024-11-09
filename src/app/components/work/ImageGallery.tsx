@@ -36,6 +36,7 @@ const ImageGallery: React.FC = () => {
   const [renderedImages, setRenderedImages] = useState<JSX.Element[]>([]);
   const [containerSize, setContainerSize] = useState({ width: 6000, height: 6000 });
   const cellSize = 500; // Size of each cell in the grid
+  const IMAGE_SPACING = 90; // pixels between images
 
   useEffect(() => {
     const handleResize = () => {
@@ -58,10 +59,10 @@ const ImageGallery: React.FC = () => {
       .map(() => Array(Math.ceil(width / cellSize)).fill(false));
 
     const placeImage = (x: number, y: number, w: number, h: number) => {
-      const startCol = Math.floor(x / cellSize);
-      const endCol = Math.ceil((x + w) / cellSize);
-      const startRow = Math.floor(y / cellSize);
-      const endRow = Math.ceil((y + h) / cellSize);
+      const startCol = Math.floor((x - IMAGE_SPACING) / cellSize);
+      const endCol = Math.ceil((x + w + IMAGE_SPACING) / cellSize);
+      const startRow = Math.floor((y - IMAGE_SPACING) / cellSize);
+      const endRow = Math.ceil((y + h + IMAGE_SPACING) / cellSize);
 
       for (let row = startRow; row < endRow; row++) {
         for (let col = startCol; col < endCol; col++) {
@@ -100,8 +101,26 @@ const ImageGallery: React.FC = () => {
               width: `${randomImage.width}px`,
               height: `${randomImage.height}px`,
             }}
-            whileHover={{ scale: 1.05, zIndex: 10 }}
-            transition={{ type: "spring", stiffness: 300, damping: 10 }}
+            whileHover={{ 
+              scale: 1.05, 
+              zIndex: 10,
+              opacity: 1 // Return to full opacity on hover
+            }}
+            animate={{
+              y: [0, -10, 0],
+              transition: {
+                duration: 3,
+                repeat: Infinity,
+                repeatType: "reverse",
+                ease: "easeInOut",
+                delay: Math.random() * 2,
+              }
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 10,
+            }}
             onClick={(e) => handleImageClick(randomImage, e)}
           >
             <Image
@@ -110,6 +129,7 @@ const ImageGallery: React.FC = () => {
               layout="fill"
               objectFit="cover"
               draggable={false}
+              className=" opacity-100"
             />
           </motion.div>
         );
@@ -153,24 +173,21 @@ const ImageGallery: React.FC = () => {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isDragging && scrollContainerRef.current) {
-      const newX = scrollPosition.x - e.movementX * 0.02;
-      const newY = scrollPosition.y - e.movementY * 0.02;
+      const newX = scrollPosition.x + e.movementX;
+      const newY = scrollPosition.y + e.movementY;
 
-      gsap.to(scrollContainerRef.current, {
-        scrollLeft: newX,
-        scrollTop: newY,
-        duration: 3,
-        ease: "power1.out",
-        onUpdate: () => {
-          if (scrollContainerRef.current) {
-            setScrollPosition({
-              x: scrollContainerRef.current.scrollLeft,
-              y: scrollContainerRef.current.scrollTop
-            });
-          }
-        },
-        onComplete: handleInfiniteScroll
+      scrollContainerRef.current.scrollTo({
+        left: scrollPosition.x - e.movementX,
+        top: scrollPosition.y - e.movementY,
+        behavior: 'auto'
       });
+
+      setScrollPosition({
+        x: scrollContainerRef.current.scrollLeft,
+        y: scrollContainerRef.current.scrollTop
+      });
+      
+      handleInfiniteScroll();
     }
   };
 
@@ -205,6 +222,7 @@ const ImageGallery: React.FC = () => {
         ref={scrollContainerRef}
         style={{ 
           cursor: isDragging ? 'grabbing' : 'grab',
+          userSelect: 'none', // Prevent text selection while dragging
         }}
         onScroll={handleInfiniteScroll}
       >
@@ -253,7 +271,7 @@ const ImageGallery: React.FC = () => {
                 alt="Selected image"
                 layout="fill"
                 objectFit="contain"
-                className="rounded-lg"
+                className="rounded-md"
               />
               <motion.div
                 initial={{ y: -20, opacity: 0 }}

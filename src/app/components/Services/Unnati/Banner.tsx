@@ -119,10 +119,10 @@ const Banner: React.FC = () => {
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-[1.1]"
           variants={textVariants}
         >
-          <span className={`${styles.glowOnHover} inline-block`}>Bringing Your</span>
+          <span className="inline-block">Bringing Your</span>
           <br />
-          <span className={`${styles.glowOnHover} inline-block`}>Dream Into{' '}</span>
-          <span className={`text-[#0066FF] italic ${styles.glowOnHoverBlue}`}>Reality</span>
+          <span className="inline-block">Dream Into{' '}</span>
+          <span className="text-[#0066FF] italic">Reality</span>
         </motion.h1>
 
         <motion.p 
