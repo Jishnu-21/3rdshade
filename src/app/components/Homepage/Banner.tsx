@@ -2,25 +2,86 @@
 
 import React, { useState, useEffect } from 'react';
 import GradientButton from '../GradientButton';
+import { Noto_Sans, Noto_Sans_Arabic } from 'next/font/google';
+
+// Load fonts
+const notoSans = Noto_Sans({
+  weight: ['400', '700'],
+  subsets: ['devanagari'],
+});
+
+const notoSansArabic = Noto_Sans_Arabic({
+  weight: ['400', '700'],
+  subsets: ['arabic'],
+});
 
 const translations = [
-  { language: 'English', word: 'Different' },
-  { language: 'Hindi', word: 'अलग' },
-  { language: 'Marathi', word: 'वेगळे' },
-  { language: 'Arabic', word: 'مختلف' },
+  { language: 'English', word: 'Different', font: '' },
+  { 
+    language: 'Hindi', 
+    word: 'अलग', 
+    font: notoSans.className 
+  },
+  { 
+    language: 'Marathi', 
+    word: 'वेगळे', 
+    font: notoSans.className 
+  },
+  { 
+    language: 'Arabic', 
+    word: 'مختلف', 
+    font: notoSansArabic.className,
+    direction: 'rtl'
+  },
 ];
 
 const Banner: React.FC = () => {
-  const [currentWord, setCurrentWord] = useState(translations[0].word);
+  const [currentWord, setCurrentWord] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * translations.length);
-      setCurrentWord(translations[randomIndex].word);
-    }, 1000);
+    const cursorInterval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 530);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(cursorInterval);
   }, []);
+
+  useEffect(() => {
+    const targetWord = translations[currentIndex].word;
+    const typingSpeed = isDeleting ? 100 : 150;
+
+    const handleTyping = () => {
+      setCurrentWord((prev) => {
+        if (!isDeleting) {
+          if (prev.length < targetWord.length) {
+            return targetWord.slice(0, prev.length + 1);
+          } else {
+            setTimeout(() => setIsDeleting(true), 1500);
+            return prev;
+          }
+        } else {
+          if (prev.length > 0) {
+            return prev.slice(0, -1);
+          } else {
+            setIsDeleting(false);
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % translations.length);
+            return prev;
+          }
+        }
+      });
+    };
+
+    const typingTimeout = setTimeout(handleTyping, typingSpeed);
+    return () => clearTimeout(typingTimeout);
+  }, [currentWord, isDeleting, currentIndex]);
+
+  const getCurrentWordStyle = () => ({
+    fontFamily: translations[currentIndex].font,
+    direction: 'ltr' as const
+  });
 
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 lg:px-16 pt-[20px] sm:pt-4 md:pt-6 pb-6 sm:pb-16 md:pb-20">
@@ -29,8 +90,20 @@ const Banner: React.FC = () => {
           Breaking the norms of Marketing Because
         </h2>
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-2 sm:mb-4 leading-tight">
-          <span className="bg-gradient-to-r from-[#F1967D] via-[#C93F80] to-[#1CB0CE] text-transparent bg-clip-text inline-block transition-all duration-300 ease-in-out">
+          <span 
+            className={`bg-gradient-to-r from-[#F1967D] via-[#C93F80] to-[#1CB0CE] text-transparent bg-clip-text inline-block transition-all duration-300 ease-in-out ${translations[currentIndex].font}`}
+            style={getCurrentWordStyle()}
+          >
             {currentWord}
+            <span 
+              className={`inline-block w-[2px] h-[1em] ml-1 align-middle ${
+                showCursor ? 'opacity-100' : 'opacity-0'
+              } bg-gradient-to-r from-[#F1967D] via-[#C93F80] to-[#1CB0CE]`}
+              style={{ 
+                transform: 'translateY(-0.1em)',
+                transition: 'opacity 0.1s ease-in-out'
+              }}
+            />
           </span>
           <span className="text-white"> is the</span>
           <br className="hidden sm:block" />

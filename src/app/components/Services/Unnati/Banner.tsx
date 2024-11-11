@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import styles from './Banner.module.css';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -43,12 +42,12 @@ const Banner: React.FC = () => {
 
   if (!mounted) {
     return (
-      <div className="bg-black text-white min-h-[calc(100vh-80px)]"></div>
+      <div className="bg-black text-white min-h-[calc(100vh-73px)]"></div>
     );
   }
 
   return (
-    <div className="bg-black text-white min-h-[calc(100vh-80px)] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden pb-0" ref={ref}>
+    <div className="bg-black text-white min-h-[calc(100vh-73px)] flex flex-col items-center justify-start text-center px-4 relative overflow-hidden pb-0 pt-20" ref={ref}>
       {/* Background Glow Effects */}
       {mounted && (
         <div className="absolute inset-0">
@@ -116,7 +115,7 @@ const Banner: React.FC = () => {
         animate={inView ? "visible" : "hidden"}
       >
         <motion.h1 
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-[1.1]"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-4 leading-[1.1]"
           variants={textVariants}
         >
           <span className="inline-block">Bringing Your</span>
@@ -126,7 +125,7 @@ const Banner: React.FC = () => {
         </motion.h1>
 
         <motion.p 
-          className="text-gray-400 text-base sm:text-lg mb-8 max-w-2xl mx-auto leading-relaxed"
+          className="text-gray-400 text-base sm:text-lg mb-6 max-w-2xl mx-auto leading-relaxed"
           variants={textVariants}
         >
           We increase revenue and ensure sustainable long-term growth

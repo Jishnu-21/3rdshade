@@ -34,7 +34,7 @@ const HowWeWork = () => {
   };
 
   return (
-    <div className="bg-black text-white py-24" ref={ref}>
+    <div className="bg-black text-white py-12" ref={ref}>
       <motion.div 
         className="max-w-[1200px] mx-auto px-6 flex justify-between items-start gap-20"
         variants={containerVariants}

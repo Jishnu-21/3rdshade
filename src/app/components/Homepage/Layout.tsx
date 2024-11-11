@@ -33,7 +33,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <div className="relative">
       <div 
         ref={contentRef} 
-        className="relative z-10 transition-transform duration-300 ease-in-out pt-[40px] md:pt-[80px] pb-[20px]"
+        className="relative z-10 transition-transform duration-300 ease-in-out pt-[80px] pb-[20px]"
         style={{ transform: `translateY(-${translateY}px)` }}
       >
         {React.Children.map(children, (child, index) => (

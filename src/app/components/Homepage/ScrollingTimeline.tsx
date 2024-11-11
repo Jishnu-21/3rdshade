@@ -82,7 +82,7 @@ export default function Component() {
   const [scrollY, setScrollY] = useState(0)
   const scrollRef = useRef<HTMLDivElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
-  const itemHeight = 200
+  const itemHeight = 180
   const totalItems = 6
 
   useEffect(() => {
@@ -113,8 +113,8 @@ export default function Component() {
 
   return (
     <div ref={componentRef} className="min-h-screen h-auto md:h-screen bg-black text-white px-4 md:px-[122px] py-8 flex flex-col relative">
-      {/* Title section - only added pl-4 md:pl-[122px] */}
-      <div className="md:absolute md:top-8 md:left-4 md:left-[122px] w-full md:w-1/3 z-10 mb-8 md:mb-0 pl-4 md:pl-[122px]">
+      {/* Title section - adjusted for better mobile layout */}
+      <div className="md:absolute md:top-8 md:left-4 md:left-[122px] w-full md:w-1/3 z-10 mb-8 md:mb-0">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-left">
           What we do ?
         </h2>

@@ -32,7 +32,10 @@ const SpinningStar = () => {
     const scene = new THREE.Scene();
     sceneRef.current = scene;
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true,
+      alpha: true 
+    });
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 1);
@@ -72,36 +75,39 @@ const SpinningStar = () => {
 
     camera.position.z = 5; // Moved camera back to see the larger object
 
-    // Add OrbitControls
+    // Smoother OrbitControls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.rotateSpeed = 0.5;
+    controls.dampingFactor = 0.08; // Increased for smoother damping
+    controls.rotateSpeed = 0.3; // Reduced for smoother rotation
     controls.enableZoom = false;
+    controls.enablePan = false;
 
-    // Mouse movement effect (adjusted for larger object)
+    // Smoother mouse movement
     const mouseEffect = (event: { clientX: number; clientY: number; }) => {
       const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
       const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
 
       gsap.to(scene.rotation, {
-        x: mouseY * 0.2, // Increased effect
-        y: mouseX * 0.2, // Increased effect
-        duration: 1,
+        x: mouseY * 0.1, // Reduced for smoother movement
+        y: mouseX * 0.1,
+        duration: 2, // Increased duration
+        ease: "power2.out" // Smoother easing
       });
     };
 
     window.addEventListener('mousemove', mouseEffect);
 
-    // Device orientation effect (adjusted for larger object)
+    // Smoother device orientation
     const deviceOrientationEffect = (event: DeviceOrientationEvent) => {
       const beta = event.beta ? event.beta * (Math.PI / 180) : 0;
       const gamma = event.gamma ? event.gamma * (Math.PI / 180) : 0;
 
       gsap.to(scene.rotation, {
-        x: beta * 0.2, // Increased effect
-        y: gamma * 0.2, // Increased effect
-        duration: 1,
+        x: beta * 0.1,
+        y: gamma * 0.1,
+        duration: 2,
+        ease: "power2.out"
       });
     };
 
@@ -109,41 +115,31 @@ const SpinningStar = () => {
       window.addEventListener('deviceorientation', deviceOrientationEffect);
     }
 
-    // Enhanced scroll effect with better momentum
+    // Enhanced scroll effect with smoother momentum
     const handleMouseWheel = (event: WheelEvent) => {
       if (!isClient) return;
       event.preventDefault();
 
-      // Adjust scroll speed and momentum
-      const scrollSpeed = 0.005; // Reduced for more control
-      const momentumFactor = 0.2; // Added momentum factor
+      const scrollSpeed = 0.002; // Reduced for smoother control
+      const momentumFactor = 0.15; // Reduced for smoother momentum
 
-      // Update rotation with momentum
       rotationRef.current.x += event.deltaY * scrollSpeed * momentumFactor;
       rotationRef.current.y += event.deltaX * scrollSpeed * momentumFactor;
 
-      // Apply rotation to both sphere and particles
       if (sphereParticles && particlesMesh) {
-        // Immediate rotation for responsive feel
-        sphereParticles.rotation.x += event.deltaY * scrollSpeed;
-        sphereParticles.rotation.y += event.deltaX * scrollSpeed;
-        
-        particlesMesh.rotation.x += event.deltaY * scrollSpeed * 0.5;
-        particlesMesh.rotation.y += event.deltaX * scrollSpeed * 0.5;
-
-        // Smooth animation that maintains position
+        // Smoother immediate rotation
         gsap.to(sphereParticles.rotation, {
-          x: sphereParticles.rotation.x + (rotationRef.current.x * momentumFactor),
-          y: sphereParticles.rotation.y + (rotationRef.current.y * momentumFactor),
-          duration: 1,
-          ease: "power2.out"
+          x: sphereParticles.rotation.x + (event.deltaY * scrollSpeed),
+          y: sphereParticles.rotation.y + (event.deltaX * scrollSpeed),
+          duration: 1.5,
+          ease: "power3.out"
         });
-
+        
         gsap.to(particlesMesh.rotation, {
-          x: particlesMesh.rotation.x + (rotationRef.current.x * momentumFactor * 0.5),
-          y: particlesMesh.rotation.y + (rotationRef.current.y * momentumFactor * 0.5),
-          duration: 1,
-          ease: "power2.out"
+          x: particlesMesh.rotation.x + (event.deltaY * scrollSpeed * 0.3),
+          y: particlesMesh.rotation.y + (event.deltaX * scrollSpeed * 0.3),
+          duration: 1.5,
+          ease: "power3.out"
         });
       }
     };
@@ -155,27 +151,30 @@ const SpinningStar = () => {
       });
     }
 
-    // Modified animation loop with persistent rotation
+    // Modified animation loop with smoother persistent rotation
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Reduced momentum decay
-      const momentum = 0.995; // Increased from 0.99 for longer-lasting momentum
+      const momentum = 0.998; // Increased for longer-lasting, smoother momentum
       rotationRef.current.x *= momentum;
       rotationRef.current.y *= momentum;
 
       if (sphereParticles && particlesMesh) {
-        // Base rotation (reduced for subtler movement)
-        sphereParticles.rotation.y += 0.0005;
-        particlesMesh.rotation.x += 0.0002;
-        particlesMesh.rotation.y += 0.0002;
+        // Slower base rotation
+        sphereParticles.rotation.y += 0.0002;
+        particlesMesh.rotation.x += 0.0001;
+        particlesMesh.rotation.y += 0.0001;
 
-        // Add momentum rotation without resetting position
-        const momentumInfluence = 0.01; // Reduced for smoother movement
+        // Smoother momentum influence
+        const momentumInfluence = 0.005; // Reduced for smoother movement
         sphereParticles.rotation.x += rotationRef.current.x * momentumInfluence;
         sphereParticles.rotation.y += rotationRef.current.y * momentumInfluence;
-        particlesMesh.rotation.x += rotationRef.current.x * momentumInfluence * 0.5;
-        particlesMesh.rotation.y += rotationRef.current.y * momentumInfluence * 0.5;
+        particlesMesh.rotation.x += rotationRef.current.x * momentumInfluence * 0.3;
+        particlesMesh.rotation.y += rotationRef.current.y * momentumInfluence * 0.3;
+
+        // Add slight oscillation for more organic movement
+        sphereParticles.position.y = Math.sin(Date.now() * 0.0005) * 0.05;
+        particlesMesh.position.y = Math.sin(Date.now() * 0.0003) * 0.03;
       }
 
       controls.update();
