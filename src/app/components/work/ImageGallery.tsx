@@ -1,11 +1,11 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import SpinningStar from './SpinningStar';
-import gsap from 'gsap';
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 interface ImageProps {
   url: string;
@@ -15,150 +15,198 @@ interface ImageProps {
 }
 
 const images: ImageProps[] = [
-  { url: '/images (1).jpeg', width: 250, height: 250, description: "A retro-styled Game Boy console with a glowing screen" },
-  { url: '/images.jpeg', width: 300, height: 220, description: "Another interesting image description" },
-  { url: '/images (1).jpeg', width: 230, height: 230, description: "Third image description" },
-  { url: '/images (1).jpeg', width: 270, height: 270, description: "Fourth image description" },
-  { url: '/images.jpeg', width: 280, height: 280, description: "Fifth image description" },
-  { url: '/images (1).jpeg', width: 250, height: 250, description: "Sixth image description" },
-  { url: '/images.jpeg', width: 300, height: 220, description: "Seventh image description" },
-  { url: '/images (1).jpeg', width: 230, height: 230, description: "Eighth image description" },
+  { url: '/work/1.jpg', width: 250, height: 250, description: "A retro-styled Game Boy console with a glowing screen" },
+  { url: '/work/2.jpg', width: 300, height: 220, description: "Another interesting image description" },
+  { url: '/work/3.jpg', width: 230, height: 230, description: "Third image description" },
+  { url: '/work/4.jpg', width: 270, height: 270, description: "Fourth image description" },
+  { url: '/work/5.jpg', width: 280, height: 280, description: "Fifth image description" },
+  { url: '/work/6.jpg', width: 250, height: 250, description: "Sixth image description" },
+  { url: '/work/7.jpg', width: 300, height: 220, description: "Seventh image description" },
+  { url: '/work/8.jpg', width: 230, height: 230, description: "Eighth image description" },
 ];
 
 const ImageGallery: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [selectedImage, setSelectedImage] = useState<ImageProps | null>(null);
   const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
   const [renderedImages, setRenderedImages] = useState<JSX.Element[]>([]);
-  const [containerSize, setContainerSize] = useState({ width: 6000, height: 6000 });
-  const cellSize = 500; // Size of each cell in the grid
-  const IMAGE_SPACING = 90; // pixels between images
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const mousePositionRef = useRef({ x: 0, y: 0 });
+  const [containerSize, _setContainerSize] = useState({ width: 2000, height: 2000 });
+
+  const GRID_GAP = 200; // Reduced gap
+
+  const windowSize = useWindowSize()
+
+  const createImageElements = useCallback((positions: { x: number; y: number }[]) => {
+    return images.map((image, index) => {
+      const pos = positions[index];
+      
+      return (
+        <motion.div
+          key={`image-${index}`}
+          className="absolute cursor-pointer bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden"
+          style={{
+            left: `${pos.x}px`,
+            top: `${pos.y}px`,
+            width: `${image.width}px`,
+            height: `${image.height}px`,
+          }}
+          whileHover={{ 
+            scale: 1.05, 
+            zIndex: 10,
+          }}
+          animate={{
+            x: mousePositionRef.current.x * 0.02,
+            y: mousePositionRef.current.y * 0.02,
+            transition: {
+              type: "spring",
+              stiffness: 50,
+              damping: 20,
+              mass: 0.5
+            }
+          }}
+          drag
+          dragConstraints={{
+            left: -100,
+            right: 100,
+            top: -100,
+            bottom: 100
+          }}
+          dragElastic={0.1}
+          onClick={(e) => handleImageClick(image, e)}
+        >
+          {/* First ripple layer */}
+          <motion.div
+            className="absolute inset-0 bg-white/5 rounded-lg"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.1, 0.3, 0.1],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: index * 0.1,
+            }}
+          />
+
+          {/* Second ripple layer */}
+          <motion.div
+            className="absolute inset-0 bg-white/5 rounded-lg"
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.1, 0.2, 0.1],
+            }}
+            transition={{
+              duration: 2.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: index * 0.2,
+            }}
+          />
+
+          {/* Third ripple layer */}
+          <motion.div
+            className="absolute inset-0 bg-white/5 rounded-lg"
+            animate={{
+              scale: [1, 1.4, 1],
+              opacity: [0.1, 0.15, 0.1],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: index * 0.3,
+            }}
+          />
+
+          {/* Image */}
+          <Image
+            src={image.url}
+            alt={image.description}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={true}
+            className="object-cover rounded-lg"
+            style={{
+              opacity: 0.9,
+              transition: 'opacity 0.3s ease-in-out'
+            }}
+            onLoad={(e) => {
+              (e.target as HTMLImageElement).style.opacity = '1';
+            }}
+          />
+        </motion.div>
+      );
+    });
+  }, []);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      
+      // Set initial scroll position to center
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollLeft = containerSize.width / 4;
+        scrollContainerRef.current.scrollTop = containerSize.height / 4;
+      }
+
+      const positions = calculateImagePositions(viewportWidth, viewportHeight);
+      const imageElements = createImageElements(positions);
+      setRenderedImages(imageElements);
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
-    generateImages(0, 0, containerSize.width, containerSize.height);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [createImageElements]);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  const calculateImagePositions = useCallback((width: number, height: number) => {
+    const positions = [];
+    const gridColumns = 3;
+    const gridRows = Math.ceil(images.length / gridColumns);
+    
+    const cellWidth = Math.max(width / gridColumns, 400); // Minimum cell width
+    const cellHeight = Math.max(height / gridRows, 400); // Minimum cell height
 
-  const generateImages = (startX: number, startY: number, width: number, height: number) => {
-    const newImages: JSX.Element[] = [];
-    const grid: boolean[][] = Array(Math.ceil(height / cellSize))
-      .fill(null)
-      .map(() => Array(Math.ceil(width / cellSize)).fill(false));
-
-    const placeImage = (x: number, y: number, w: number, h: number) => {
-      const startCol = Math.floor((x - IMAGE_SPACING) / cellSize);
-      const endCol = Math.ceil((x + w + IMAGE_SPACING) / cellSize);
-      const startRow = Math.floor((y - IMAGE_SPACING) / cellSize);
-      const endRow = Math.ceil((y + h + IMAGE_SPACING) / cellSize);
-
-      for (let row = startRow; row < endRow; row++) {
-        for (let col = startCol; col < endCol; col++) {
-          if (grid[row] && grid[row][col]) return false;
-        }
-      }
-
-      for (let row = startRow; row < endRow; row++) {
-        for (let col = startCol; col < endCol; col++) {
-          if (!grid[row]) grid[row] = [];
-          grid[row][col] = true;
-        }
-      }
-      return true;
-    };
-
-    for (let i = 0; i < 30; i++) {
-      const randomImage = images[Math.floor(Math.random() * images.length)];
-      let x, y;
-      let placed = false;
-
-      for (let attempts = 0; attempts < 100 && !placed; attempts++) {
-        x = startX + Math.random() * (width - randomImage.width);
-        y = startY + Math.random() * (height - randomImage.height);
-        placed = placeImage(x, y, randomImage.width, randomImage.height);
-      }
-
-      if (placed) {
-        newImages.push(
-          <motion.div
-            key={`${x}-${y}`}
-            className="absolute cursor-pointer"
-            style={{
-              left: `${x}px`,
-              top: `${y}px`,
-              width: `${randomImage.width}px`,
-              height: `${randomImage.height}px`,
-            }}
-            whileHover={{ 
-              scale: 1.05, 
-              zIndex: 10,
-              opacity: 1 // Return to full opacity on hover
-            }}
-            animate={{
-              y: [0, -10, 0],
-              transition: {
-                duration: 3,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "easeInOut",
-                delay: Math.random() * 2,
-              }
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 10,
-            }}
-            onClick={(e) => handleImageClick(randomImage, e)}
-          >
-            <Image
-              src={randomImage.url}
-              alt={`Image ${i}`}
-              layout="fill"
-              objectFit="cover"
-              draggable={false}
-              className=" opacity-100"
-            />
-          </motion.div>
-        );
-      }
+    for (let i = 0; i < images.length; i++) {
+      const col = i % gridColumns;
+      const row = Math.floor(i / gridColumns);
+      
+      // Base position
+      const x = col * (cellWidth + GRID_GAP);
+      const y = row * (cellHeight + GRID_GAP);
+      
+      positions.push({ x, y });
     }
 
-    setRenderedImages(prevImages => [...prevImages, ...newImages]);
-  };
+    return positions;
+  }, [GRID_GAP]);
 
   const handleInfiniteScroll = () => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, scrollTop, scrollWidth, scrollHeight, clientWidth, clientHeight } = scrollContainerRef.current;
-      const threshold = 1000; // Increased threshold for earlier generation
+    if (!scrollContainerRef.current) return;
+    
+    const { scrollLeft, scrollTop } = scrollContainerRef.current;
+    const containerWidth = containerSize.width;
+    const containerHeight = containerSize.height;
 
-      let newWidth = containerSize.width;
-      let newHeight = containerSize.height;
+    // When reaching edges, reset position to create infinite effect
+    if (scrollLeft > containerWidth * 0.75) {
+      scrollContainerRef.current.scrollLeft = containerWidth * 0.25;
+    } else if (scrollLeft < containerWidth * 0.25) {
+      scrollContainerRef.current.scrollLeft = containerWidth * 0.75;
+    }
 
-      if (scrollLeft + clientWidth >= scrollWidth - threshold) {
-        generateImages(containerSize.width, 0, 3000, containerSize.height);
-        newWidth += 3000;
-      }
-      if (scrollTop + clientHeight >= scrollHeight - threshold) {
-        generateImages(0, containerSize.height, containerSize.width, 3000);
-        newHeight += 3000;
-      }
-
-      if (newWidth !== containerSize.width || newHeight !== containerSize.height) {
-        setContainerSize({ width: newWidth, height: newHeight });
-      }
+    if (scrollTop > containerHeight * 0.75) {
+      scrollContainerRef.current.scrollTop = containerHeight * 0.25;
+    } else if (scrollTop < containerHeight * 0.25) {
+      scrollContainerRef.current.scrollTop = containerHeight * 0.75;
     }
   };
 
@@ -171,25 +219,28 @@ const ImageGallery: React.FC = () => {
     setIsDragging(false);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    mousePositionRef.current = { x: e.clientX, y: e.clientY };
+    
+    // Use requestAnimationFrame to limit updates
+    requestAnimationFrame(() => {
+      setMousePosition(mousePositionRef.current);
+    });
+    
     if (isDragging && scrollContainerRef.current) {
-      const newX = scrollPosition.x + e.movementX;
-      const newY = scrollPosition.y + e.movementY;
+      const sensitivity = 1.5;
+      const deltaX = e.movementX * sensitivity;
+      const deltaY = e.movementY * sensitivity;
 
-      scrollContainerRef.current.scrollTo({
-        left: scrollPosition.x - e.movementX,
-        top: scrollPosition.y - e.movementY,
+      scrollContainerRef.current.scrollBy({
+        left: -deltaX,
+        top: -deltaY,
         behavior: 'auto'
       });
 
-      setScrollPosition({
-        x: scrollContainerRef.current.scrollLeft,
-        y: scrollContainerRef.current.scrollTop
-      });
-      
       handleInfiniteScroll();
     }
-  };
+  }, [isDragging]);
 
   const handleImageClick = (image: ImageProps, event: React.MouseEvent) => {
     const rect = (event.target as HTMLElement).getBoundingClientRect();
@@ -203,6 +254,32 @@ const ImageGallery: React.FC = () => {
   const closeModal = () => {
     setSelectedImage(null);
   };
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      if (scrollContainerRef.current) {
+        const sensitivity = 1.2; // Adjust scroll sensitivity
+        scrollContainerRef.current.scrollBy({
+          left: e.deltaX * sensitivity,
+          top: e.deltaY * sensitivity,
+          behavior: 'auto'
+        });
+        handleInfiniteScroll();
+      }
+    };
+
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener('wheel', handleWheel, { passive: false });
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, []);
 
   return (
     <div 
@@ -222,12 +299,47 @@ const ImageGallery: React.FC = () => {
         ref={scrollContainerRef}
         style={{ 
           cursor: isDragging ? 'grabbing' : 'grab',
-          userSelect: 'none', // Prevent text selection while dragging
+          userSelect: 'none',
         }}
         onScroll={handleInfiniteScroll}
       >
-        <div className="relative" style={{ width: `${containerSize.width}px`, height: `${containerSize.height}px` }}>
-          {renderedImages}
+        <div 
+          className="relative" 
+          style={{ 
+            width: `${containerSize.width}px`, 
+            height: `${containerSize.height}px`,
+          }}
+        >
+          {/* Center set */}
+          <div className="absolute inset-0">
+            {renderedImages}
+          </div>
+          
+          {/* All 8 surrounding sets */}
+          <div className="absolute" style={{ transform: `translate(${-containerSize.width}px, ${-containerSize.height}px)` }}>
+            {renderedImages}
+          </div>
+          <div className="absolute" style={{ transform: `translate(0px, ${-containerSize.height}px)` }}>
+            {renderedImages}
+          </div>
+          <div className="absolute" style={{ transform: `translate(${containerSize.width}px, ${-containerSize.height}px)` }}>
+            {renderedImages}
+          </div>
+          <div className="absolute" style={{ transform: `translate(${-containerSize.width}px, 0px)` }}>
+            {renderedImages}
+          </div>
+          <div className="absolute" style={{ transform: `translate(${containerSize.width}px, 0px)` }}>
+            {renderedImages}
+          </div>
+          <div className="absolute" style={{ transform: `translate(${-containerSize.width}px, ${containerSize.height}px)` }}>
+            {renderedImages}
+          </div>
+          <div className="absolute" style={{ transform: `translate(0px, ${containerSize.height}px)` }}>
+            {renderedImages}
+          </div>
+          <div className="absolute" style={{ transform: `translate(${containerSize.width}px, ${containerSize.height}px)` }}>
+            {renderedImages}
+          </div>
         </div>
       </div>
 

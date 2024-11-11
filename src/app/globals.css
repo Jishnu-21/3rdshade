@@ -225,3 +225,23 @@ body::-ms-scrollbar-thumb:hover {
 body header.bg-black {
   background-color: black !important;
 }
+
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 2s linear infinite;
+  background: rgba(255, 255, 255, 0.1);
+}

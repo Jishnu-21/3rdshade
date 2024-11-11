@@ -1,12 +1,5 @@
-import React from 'react'
-import ImageGallery from '../components/work/ImageGallery'
+import ClientGallery from '../components/work/ClientGallery';
 
-const page = () => {
-  return (
-    <>
-    <ImageGallery/>
-    </>
-  )
+export default function WorkPage() {
+  return <ClientGallery />;
 }
-
-export default page

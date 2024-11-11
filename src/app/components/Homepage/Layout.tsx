@@ -27,14 +27,13 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const contentHeight = contentRef.current?.offsetHeight || 0;
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
 
-  const maxScrollPosition = contentHeight - windowHeight + footerHeight / 1.2;
   const translateY = Math.max(0, Math.min(scrollPosition / 2, footerHeight / 1.2));
 
   return (
     <div className="relative">
       <div 
         ref={contentRef} 
-        className="relative z-10 transition-transform duration-300 ease-in-out pt-[80px] pb-[20px]"
+        className="relative z-10 transition-transform duration-300 ease-in-out pt-[40px] md:pt-[80px] pb-[20px]"
         style={{ transform: `translateY(-${translateY}px)` }}
       >
         {React.Children.map(children, (child, index) => (

@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react'
 type CardState = {
   isVisible: boolean;
   showBack: boolean;
+  progress: number;
+  isHovered: boolean;
 };
 
 type CardStates = {
@@ -13,208 +15,266 @@ type CardStates = {
 
 export default function Component() {
   const [cardStates, setCardStates] = useState<CardStates>({
-    card1: { isVisible: false, showBack: false },
-    card2: { isVisible: false, showBack: false },
-    card3: { isVisible: false, showBack: false },
+    card1: { isVisible: false, showBack: false, progress: 0, isHovered: false },
+    card2: { isVisible: false, showBack: false, progress: 0, isHovered: false },
+    card3: { isVisible: false, showBack: false, progress: 0, isHovered: false },
   });
 
-  const containerRef = useRef<HTMLDivElement>(null)
-  const card1Ref = useRef<HTMLDivElement>(null)
-  const card2Ref = useRef<HTMLDivElement>(null)
-  const card3Ref = useRef<HTMLDivElement>(null)
-
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const animationFrameRef = useRef<number>();
 
   useEffect(() => {
-    const ANIMATION_DELAY = 500;
-    const FLIP_DELAY = 1000;
-    const REWIND_DELAY = 3000;
+    const ANIMATION_DELAY = 400;
+    const FLIP_DURATION = 800;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !isAnimating) {
-            setIsAnimating(true);
-            
-            const animateForward = () => {
-              if (!entry.isIntersecting) return;
-              
-              ['card1', 'card2', 'card3'].forEach((cardId, index) => {
-                setTimeout(() => {
-                  setCardStates(prev => ({
-                    ...prev,
-                    [cardId]: { isVisible: true, showBack: false }
-                  }));
-                  
-                  setTimeout(() => {
-                    if (!entry.isIntersecting) return;
-                    setCardStates(prev => ({
-                      ...prev,
-                      [cardId]: { isVisible: true, showBack: true }
-                    }));
-                  }, FLIP_DELAY);
-                }, index * ANIMATION_DELAY);
-              });
+    const updateCardProgress = (scrollY: number) => {
+      if (!containerRef.current) return;
 
-              setTimeout(() => {
-                if (entry.isIntersecting) animateReverse();
-              }, REWIND_DELAY);
-            };
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const triggerOffset = window.innerHeight * 0.7;
+      const scrollingDown = scrollY > lastScrollY;
 
-            const animateReverse = () => {
-              if (!entry.isIntersecting) return;
-              
-              ['card3', 'card2', 'card1'].forEach((cardId, index) => {
-                setTimeout(() => {
-                  setCardStates(prev => ({
-                    ...prev,
-                    [cardId]: { isVisible: true, showBack: false }
-                  }));
-                  
-                  setTimeout(() => {
-                    if (!entry.isIntersecting) return;
-                    setCardStates(prev => ({
-                      ...prev,
-                      [cardId]: { isVisible: false, showBack: false }
-                    }));
-                  }, FLIP_DELAY);
-                }, index * ANIMATION_DELAY);
-              });
+      const calculateProgress = (trigger: number): number => {
+        const distance = triggerOffset - trigger;
+        return Math.max(0, Math.min(1, distance / (window.innerHeight * 0.3)));
+      };
 
-              setTimeout(() => {
-                if (entry.isIntersecting) {
-                  animateForward();
-                } else {
-                  setIsAnimating(false);
-                }
-              }, REWIND_DELAY);
-            };
+      const card1Trigger = containerRect.top + 0;
+      const card2Trigger = containerRect.top + 200;
+      const card3Trigger = containerRect.top + 400;
 
-            animateForward();
-          } else if (!entry.isIntersecting) {
-            setIsAnimating(false);
-            setCardStates({
-              card1: { isVisible: false, showBack: false },
-              card2: { isVisible: false, showBack: false },
-              card3: { isVisible: false, showBack: false },
-            });
-          }
-        });
-      },
-      { threshold: 0.7 }
-    );
+      setCardStates(prev => ({
+        card1: {
+          ...prev.card1,
+          isVisible: card1Trigger <= triggerOffset,
+          progress: calculateProgress(card1Trigger)
+        },
+        card2: {
+          ...prev.card2,
+          isVisible: card2Trigger <= triggerOffset,
+          progress: calculateProgress(card2Trigger)
+        },
+        card3: {
+          ...prev.card3,
+          isVisible: card3Trigger <= triggerOffset,
+          progress: calculateProgress(card3Trigger)
+        }
+      }));
 
-    let lastScrollY = 0;
+      if (scrollingDown) {
+        if (card1Trigger <= triggerOffset) {
+          setTimeout(() => {
+            setCardStates(prev => ({
+              ...prev,
+              card1: { ...prev.card1, showBack: !prev.card1.isHovered }
+            }));
+          }, FLIP_DURATION);
+        }
+
+        if (card2Trigger <= triggerOffset) {
+          setTimeout(() => {
+            setCardStates(prev => ({
+              ...prev,
+              card2: { ...prev.card2, showBack: !prev.card2.isHovered }
+            }));
+          }, FLIP_DURATION + ANIMATION_DELAY);
+        }
+
+        if (card3Trigger <= triggerOffset) {
+          setTimeout(() => {
+            setCardStates(prev => ({
+              ...prev,
+              card3: { ...prev.card3, showBack: !prev.card3.isHovered }
+            }));
+          }, FLIP_DURATION + (ANIMATION_DELAY * 2));
+        }
+      }
+    };
 
     const handleScroll = () => {
-      lastScrollY = window.pageYOffset;
-    }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
 
-    window.addEventListener('scroll', handleScroll);
+      animationFrameRef.current = requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        setLastScrollY(scrollY);
+        updateCardProgress(scrollY);
+      });
+    };
 
-    const refs = [card1Ref, card2Ref, card3Ref];
-    refs.forEach(ref => {
-      if (ref.current) observer.observe(ref.current);
-    });
-
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      observer.disconnect()
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [isAnimating])
+      window.removeEventListener('scroll', handleScroll);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [lastScrollY]);
+
+  const handleMouseEnter = (cardId: string) => {
+    setCardStates(prev => ({
+      ...prev,
+      [cardId]: { ...prev[cardId], isHovered: true, showBack: !prev[cardId].showBack }
+    }));
+  };
+
+  const handleMouseLeave = (cardId: string) => {
+    setCardStates(prev => ({
+      ...prev,
+      [cardId]: { ...prev[cardId], isHovered: false, showBack: !prev[cardId].showBack }
+    }));
+  };
 
   const cards = [
-    { 
-      ref: card1Ref, 
-      id: "card1", 
-      color: "bg-red-500", 
-      top: "top-0", 
-      left: "left-0",
+    {
+      id: "card1",
+      color: "bg-red-500",
+      position: "left-4 top-0",
       frontContent: (
-        <>
-          <div className="mb-6 h-36 w-36 rounded-full bg-gray-300"></div>
-          <p className="text-3xl text-white">Hush Hiven</p>
-        </>
+        <div className="flex flex-col items-start p-12">
+          <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
+          <p className="text-2xl font-light text-white mt-auto">Hush Hiven</p>
+        </div>
       ),
       backContent: (
-        <p className="text-xl text-white">
-          We create unique digital experiences tailored to your brand's identity.
-        </p>
+        <div className="text-xl font-light text-white p-12 text-left leading-relaxed">
+          It&apos;s not just about having a website or social media presence, we understand you and your brand to market in a unique way.
+        </div>
       )
     },
-    { 
-      ref: card2Ref, 
-      id: "card2", 
-      color: "bg-purple-500", 
-      top: "top-1/4",
-      left: "left-1/3",
+    {
+      id: "card2",
+      color: "bg-purple-500",
+      position: "left-1/3 top-1/4",
       frontContent: (
-        <>
-          <div className="mb-6 h-36 w-36 rounded-full bg-gray-300"></div>
-          <p className="text-3xl text-white">Hush Hiven</p>
-        </>
+        <div className="flex flex-col items-start p-12">
+          <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
+          <p className="text-2xl font-light text-white mt-auto">Hush Hiven</p>
+        </div>
       ),
       backContent: (
-        <p className="text-xl text-white">
-          It's not just about having a website or social media presence. We understand you and your brand to market in a
-          unique way.
-        </p>
+        <div className="text-xl font-light text-white p-12 text-left leading-relaxed">
+          It&apos;s not just about having a website or social media presence, we understand you and your brand to market in a unique way.
+        </div>
       )
     },
-    { 
-      ref: card3Ref, 
-      id: "card3", 
-      color: "bg-blue-500", 
-      top: "top-1/2",
-      left: "left-2/3",
+    {
+      id: "card3",
+      color: "bg-blue-600",
+      position: "left-2/3 top-2/4",
       frontContent: (
-        <>
-          <div className="mb-6 h-36 w-36 rounded-full bg-gray-300"></div>
-          <p className="text-3xl text-white">Hush Hiven</p>
-        </>
+        <div className="flex flex-col items-start p-12">
+          <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
+          <p className="text-2xl font-light text-white mt-auto">Hush Hiven</p>
+        </div>
       ),
       backContent: (
-        <p className="text-xl text-white">
+        <div className="text-xl font-light text-white p-12 text-left leading-relaxed">
           We leverage cutting-edge technology to bring your vision to life.
-        </p>
+        </div>
       )
     },
   ];
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-white p-8">
-      <h1 className="mb-16 text-center text-5xl font-bold">
+    <div className="min-h-screen bg-white p-4 md:p-8">
+      <h1 className="mb-8 md:mb-16 text-center text-3xl md:text-5xl font-bold">
         <span className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
           What do we do Differently?
         </span>
       </h1>
-      <div className="relative mx-auto h-[900px] max-w-[1200px] overflow-hidden">
+      {/* Mobile View */}
+      <div className="md:hidden flex flex-col gap-4 px-2">
         {cards.map((card) => (
           <div
             key={card.id}
-            ref={card.ref}
-            id={card.id}
-            className={`absolute h-96 w-96 ${card.top} ${card.left}
-              transition-all duration-700 ease-in-out perspective-1000
-              ${cardStates[card.id].isVisible 
-                ? 'opacity-100 translate-x-0 translate-y-0' 
-                : 'opacity-0 translate-x-[25%] translate-y-[25%]'}
-              ${isAnimating ? 'pointer-events-none' : 'cursor-pointer'}`}
+            className="w-full aspect-square max-w-[280px] mx-auto"
+            onClick={() => handleMouseEnter(card.id)}
           >
             <div 
-              className={`relative w-full h-full transition-transform duration-700 transform-style-3d 
+              className={`relative w-full h-full transition-all duration-700 transform-style-3d
                 ${cardStates[card.id].showBack ? 'rotate-y-180' : ''}`}
+              style={{
+                transformStyle: 'preserve-3d',
+                perspective: '1500px'
+              }}
             >
-              <div className={`absolute w-full h-full ${card.color} p-8 shadow-lg backface-hidden`}>
-                {card.frontContent}
+              <div className={`absolute w-full h-full ${card.color} flex flex-col
+                shadow-lg backface-hidden rounded-sm`}>
+                <div className="flex flex-col items-start p-6">
+                  <div className="mb-auto h-12 w-12 rounded-full bg-gray-200/20"></div>
+                  <p className="text-lg font-light text-white mt-auto">Hush Hiven</p>
+                </div>
               </div>
-              <div className={`absolute w-full h-full ${card.color} p-8 shadow-lg backface-hidden rotate-y-180`}>
-                {card.backContent}
+              <div className={`absolute w-full h-full ${card.color} flex items-start
+                shadow-lg backface-hidden rotate-y-180 rounded-sm`}>
+                <div className="text-base font-light text-white p-6 text-left leading-relaxed">
+                  {card.backContent}
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Desktop View */}
+      <div className="hidden md:block">
+        <div ref={containerRef} className="relative mx-auto h-[800px] max-w-[1200px]">
+          {cards.map((card) => (
+            <div
+              key={card.id}
+              className={`absolute w-80 h-80 ${card.position}
+                transition-all duration-1000 ease-out will-change-transform cursor-pointer
+                hover:scale-105 group
+                ${cardStates[card.id].isVisible 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 -translate-x-full'}`}
+              style={{
+                transform: `
+                  translate3d(${cardStates[card.id].isVisible ? '0' : '-100%'}, 
+                  ${cardStates[card.id].progress * 20}px, 0)
+                  scale(${0.95 + (cardStates[card.id].progress * 0.05)})
+                `,
+              }}
+              onMouseEnter={() => handleMouseEnter(card.id)}
+              onMouseLeave={() => handleMouseLeave(card.id)}
+            >
+              <div 
+                className={`relative w-full h-full transition-all duration-700 transform-style-3d
+                  group-hover:shadow-2xl
+                  ${cardStates[card.id].showBack ? 'rotate-y-180' : ''}`}
+                style={{
+                  transformStyle: 'preserve-3d',
+                  perspective: '1500px'
+                }}
+              >
+                <div 
+                  className={`absolute w-full h-full ${card.color} flex flex-col
+                    shadow-lg backface-hidden rounded-sm transition-all duration-500
+                    group-hover:shadow-xl`}
+                  style={{ 
+                    backfaceVisibility: 'hidden',
+                    transform: cardStates[card.id].isHovered ? 'scale(1.02)' : 'scale(1)'
+                  }}>
+                  {card.frontContent}
+                </div>
+                <div 
+                  className={`absolute w-full h-full ${card.color} flex items-start
+                    shadow-lg backface-hidden rounded-sm transition-all duration-500
+                    group-hover:shadow-xl`}
+                  style={{ 
+                    backfaceVisibility: 'hidden',
+                    transform: `rotateY(180deg) ${cardStates[card.id].isHovered ? 'scale(1.02)' : 'scale(1)'}`,
+                  }}>
+                  {card.backContent}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
-  )
+  );
 }

@@ -6,43 +6,61 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function LightHeader() {
+  const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const headerRef = useRef<HTMLElement>(null);
 
+  // Handle initial mounting
   useEffect(() => {
+    setMounted(true);
+    const initialIsMobile = window.innerWidth < 768;
+    setIsMobile(initialIsMobile);
+  }, []);
+
+  // Handle resize
+  useEffect(() => {
+    if (!mounted) return;
+
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    checkIsMobile();
+
     window.addEventListener('resize', checkIsMobile);
     return () => window.removeEventListener('resize', checkIsMobile);
-  }, []);
+  }, [mounted]);
 
+  // Handle scroll
   useEffect(() => {
+    if (!mounted) return;
+
     const controlNavbar = () => {
-      if (typeof window !== 'undefined') {
-        if (window.scrollY === 0) {
-          setIsVisible(true);
-        } else if (window.scrollY > lastScrollY && window.scrollY > 100) {
-          setIsVisible(false);
-        } else {
-          setIsVisible(true);
-        }
-        setLastScrollY(window.scrollY);
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY === 0) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
       }
+      setLastScrollY(currentScrollY);
     };
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', controlNavbar);
-      return () => {
-        window.removeEventListener('scroll', controlNavbar);
-      };
-    }
-  }, [lastScrollY]);
+    window.addEventListener('scroll', controlNavbar);
+    return () => {
+      window.removeEventListener('scroll', controlNavbar);
+    };
+  }, [lastScrollY, mounted]);
 
+  // Don't render anything until mounted
+  if (!mounted) {
+    return null;
+  }
+
+  // Rest of your component remains the same
   const menuItems = ['Home', 'About Us', 'Solutions', 'Work', 'Careers'];
 
   const menuVariants = {

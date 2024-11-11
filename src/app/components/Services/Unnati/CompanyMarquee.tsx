@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import Image from 'next/image';
 
 const CompanyMarquee = () => {
   const [ref, inView] = useInView({
@@ -50,10 +51,11 @@ const CompanyMarquee = () => {
               key={index}
               className="flex items-center gap-4 text-gray-400 mx-12"
             >
-              <img
+              <Image 
                 src={company.icon}
                 alt={company.name}
-                className="h-10 w-10"
+                width={40}
+                height={40}
               />
               <span className="text-lg font-medium whitespace-nowrap">
                 {company.name}

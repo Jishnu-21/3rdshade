@@ -1,15 +1,34 @@
 "use client"
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import gsap from 'gsap';
 
 const SpinningStar = () => {
   const mountRef = useRef<HTMLDivElement>(null);
+  const [isClient, setIsClient] = useState(false);
   const sceneRef = useRef<THREE.Scene | null>(null);
+  const rotationRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    const currentMount = mountRef.current;
+    
+    if (currentMount) {
+      // Use currentMount instead of mountRef.current
+    }
+    
+    return () => {
+      if (currentMount) {
+        // Cleanup using currentMount
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsClient(true);
+    if (!mountRef.current) return;
+
     const scene = new THREE.Scene();
     sceneRef.current = scene;
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -61,7 +80,7 @@ const SpinningStar = () => {
     controls.enableZoom = false;
 
     // Mouse movement effect (adjusted for larger object)
-    const mouseEffect = (event) => {
+    const mouseEffect = (event: { clientX: number; clientY: number; }) => {
       const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
       const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -75,9 +94,9 @@ const SpinningStar = () => {
     window.addEventListener('mousemove', mouseEffect);
 
     // Device orientation effect (adjusted for larger object)
-    const deviceOrientationEffect = (event) => {
-      const beta = event.beta * (Math.PI / 180);
-      const gamma = event.gamma * (Math.PI / 180);
+    const deviceOrientationEffect = (event: DeviceOrientationEvent) => {
+      const beta = event.beta ? event.beta * (Math.PI / 180) : 0;
+      const gamma = event.gamma ? event.gamma * (Math.PI / 180) : 0;
 
       gsap.to(scene.rotation, {
         x: beta * 0.2, // Increased effect
@@ -90,27 +109,76 @@ const SpinningStar = () => {
       window.addEventListener('deviceorientation', deviceOrientationEffect);
     }
 
-    // Mouse scroll effect (adjusted for larger object)
+    // Enhanced scroll effect with better momentum
     const handleMouseWheel = (event: WheelEvent) => {
-      if (sceneRef.current) {
-        const scrollSpeed = 0.002; // Increased speed
-        sceneRef.current.rotation.x += event.deltaY * scrollSpeed;
-        sceneRef.current.rotation.y += event.deltaX * scrollSpeed;
+      if (!isClient) return;
+      event.preventDefault();
+
+      // Adjust scroll speed and momentum
+      const scrollSpeed = 0.005; // Reduced for more control
+      const momentumFactor = 0.2; // Added momentum factor
+
+      // Update rotation with momentum
+      rotationRef.current.x += event.deltaY * scrollSpeed * momentumFactor;
+      rotationRef.current.y += event.deltaX * scrollSpeed * momentumFactor;
+
+      // Apply rotation to both sphere and particles
+      if (sphereParticles && particlesMesh) {
+        // Immediate rotation for responsive feel
+        sphereParticles.rotation.x += event.deltaY * scrollSpeed;
+        sphereParticles.rotation.y += event.deltaX * scrollSpeed;
+        
+        particlesMesh.rotation.x += event.deltaY * scrollSpeed * 0.5;
+        particlesMesh.rotation.y += event.deltaX * scrollSpeed * 0.5;
+
+        // Smooth animation that maintains position
+        gsap.to(sphereParticles.rotation, {
+          x: sphereParticles.rotation.x + (rotationRef.current.x * momentumFactor),
+          y: sphereParticles.rotation.y + (rotationRef.current.y * momentumFactor),
+          duration: 1,
+          ease: "power2.out"
+        });
+
+        gsap.to(particlesMesh.rotation, {
+          x: particlesMesh.rotation.x + (rotationRef.current.x * momentumFactor * 0.5),
+          y: particlesMesh.rotation.y + (rotationRef.current.y * momentumFactor * 0.5),
+          duration: 1,
+          ease: "power2.out"
+        });
       }
     };
 
-    window.addEventListener('wheel', handleMouseWheel, { passive: false });
+    if (isClient) {
+      window.addEventListener('wheel', handleMouseWheel, { 
+        passive: false,
+        capture: true 
+      });
+    }
 
-    // Animation loop
+    // Modified animation loop with persistent rotation
     const animate = () => {
       requestAnimationFrame(animate);
 
-      sphereParticles.rotation.y += 0.001;
-      particlesMesh.rotation.x += 0.0005;
-      particlesMesh.rotation.y += 0.0005;
+      // Reduced momentum decay
+      const momentum = 0.995; // Increased from 0.99 for longer-lasting momentum
+      rotationRef.current.x *= momentum;
+      rotationRef.current.y *= momentum;
+
+      if (sphereParticles && particlesMesh) {
+        // Base rotation (reduced for subtler movement)
+        sphereParticles.rotation.y += 0.0005;
+        particlesMesh.rotation.x += 0.0002;
+        particlesMesh.rotation.y += 0.0002;
+
+        // Add momentum rotation without resetting position
+        const momentumInfluence = 0.01; // Reduced for smoother movement
+        sphereParticles.rotation.x += rotationRef.current.x * momentumInfluence;
+        sphereParticles.rotation.y += rotationRef.current.y * momentumInfluence;
+        particlesMesh.rotation.x += rotationRef.current.x * momentumInfluence * 0.5;
+        particlesMesh.rotation.y += rotationRef.current.y * momentumInfluence * 0.5;
+      }
 
       controls.update();
-
       renderer.render(scene, camera);
     };
 
@@ -132,13 +200,19 @@ const SpinningStar = () => {
       if (window.DeviceOrientationEvent) {
         window.removeEventListener('deviceorientation', deviceOrientationEffect);
       }
-      window.removeEventListener('wheel', handleMouseWheel);
+      if (isClient) {
+        window.removeEventListener('wheel', handleMouseWheel, { capture: true });
+      }
       if (mountRef.current) {
         window.removeEventListener('wheel', handleMouseWheel);
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, [isClient]);
+
+  if (!isClient) {
+    return <div className="w-full h-screen bg-black" />;
+  }
 
   return <div ref={mountRef} style={{ width: '100%', height: '100vh' }} />;
 };

@@ -73,7 +73,7 @@ export default function Header() {
   return (
     <header 
       ref={headerRef}
-      className="pt-4 pb-4 px-4 md:px-[122px] flex items-center justify-between fixed top-0 left-0 right-0 z-50"
+      className="py-1 md:py-4 px-4 md:px-[122px] flex items-center justify-between fixed top-0 left-0 right-0 z-50 h-[50px] md:h-auto"
       style={{ backgroundColor: 'black' }}
     >
       <div className="flex-shrink-0">

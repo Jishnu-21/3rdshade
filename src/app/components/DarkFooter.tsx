@@ -26,16 +26,16 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '' }, ref)
         <div className="flex flex-col sm:flex-row flex-wrap justify-between items-center sm:items-start">
           <div className="flex space-x-6 sm:space-x-10 mb-8 sm:mb-10 md:mb-0 order-2 sm:order-1">
             <Link href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
-              <FaLinkedinIn size={24} sm={28} />
+              <FaLinkedinIn className="w-6 h-6 sm:w-7 sm:h-7" />
             </Link>
             <Link href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
-              <FaInstagram size={24} sm={28} />
+              <FaInstagram className="w-6 h-6 sm:w-7 sm:h-7" />
             </Link>
             <Link href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
-              <FaYoutube size={24} sm={28} />
+              <FaYoutube className="w-6 h-6 sm:w-7 sm:h-7" />
             </Link>
             <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
-              <FaFacebookF size={24} sm={28} />
+              <FaFacebookF className="w-6 h-6 sm:w-7 sm:h-7" />
             </Link>
           </div>
           <nav className="flex flex-wrap justify-center sm:justify-start space-x-4 sm:space-x-6 md:space-x-10 mb-8 sm:mb-10 md:mb-0 text-sm sm:text-base order-1 sm:order-2">
