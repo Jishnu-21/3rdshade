@@ -6,8 +6,17 @@ import Image from 'next/image'
 import { useInView } from 'react-intersection-observer'
 
 const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY: number }) => {
+  const [windowHeight, setWindowHeight] = useState(0);
+
+  useEffect(() => {
+    setWindowHeight(window.innerHeight);
+    const handleResize = () => setWindowHeight(window.innerHeight);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Make first three items visible initially
-  const isVisible = index <= 2 || (y - window.innerHeight/2 <= scrollY && y + window.innerHeight/2 >= scrollY)
+  const isVisible = index <= 2 || (y - (windowHeight/2 || 0) <= scrollY && y + (windowHeight/2 || 0) >= scrollY)
   const opacity = isVisible ? 1 : 0
 
   // Calculate opacity for the left side elements (keeping original logic)
