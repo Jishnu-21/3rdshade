@@ -24,12 +24,12 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
 
   // Alternate between images based on index
   const getImageSrc = (index: number) => {
-    if (index === 0) return "/Rectangle 5.png"
-    if (index === 1) return "/Rectangle 41984.png"
-    if (index === 2) return "/Rectangle 5.png"
-    if (index === 3) return "/Rectangle 41984.png"
-    if (index === 4) return "/Rectangle 5.png"
-    return "/Rectangle 41984.png"
+    if (index === 0) return "/Rectangle 5.svg"
+    if (index === 1) return "/Rectangle 41984.svg"
+    if (index === 2) return "/Rectangle 5.svg"
+    if (index === 3) return "/Rectangle 41984.svg"
+    if (index === 4) return "/Rectangle 5.svg"
+    return "/Rectangle 41984.svg"
   }
 
   return (
