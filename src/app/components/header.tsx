@@ -30,7 +30,7 @@ export default function Header() {
     return () => window.removeEventListener('scroll', ensureBlackBackground);
   }, []);
 
-  const menuItems = ['Home', 'Solutions', 'Work', 'About Us', 'Careers'];
+  const menuItems = ['Home', 'Work', 'About Us', 'Careers'];
 
   const menuVariants = {
     closed: { opacity: 0, x: "100%" },
