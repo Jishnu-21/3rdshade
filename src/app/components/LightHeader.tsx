@@ -74,14 +74,17 @@ export default function LightHeader() {
   };
 
   const ContactButton = () => (
-    <Link href="/contact-us" className="group">
+    <Link href="/contact-us" className="group block">
       <motion.div 
-        className="relative w-[160px] h-[57px] rounded-full text-sm font-medium text-white overflow-hidden inline-block"
-        whileHover={{ scale: 1.05 }}
+        className="relative h-[40px] sm:h-[45px] md:h-[50px] lg:h-[57px] rounded-full overflow-hidden"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 400, damping: 10 }}
       >
-        <span className="relative z-10 flex items-center justify-center w-full h-full text-white">Contact us</span>
         <span className="absolute inset-0 bg-black rounded-full"></span>
+        <span className="relative z-10 flex items-center justify-center w-full h-full text-white text-xs sm:text-sm md:text-base font-medium px-4 sm:px-6">
+          Contact us
+        </span>
       </motion.div>
     </Link>
   );
@@ -89,8 +92,18 @@ export default function LightHeader() {
   return (
     <header 
       ref={headerRef}
-      className={`bg-white pt-4 pb-4 px-4 md:px-[122px] flex items-center justify-between fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+      className={`
+        bg-white 
+        py-2 sm:py-3 md:py-4 
+        px-4 sm:px-6 md:px-8 lg:px-[122px] 
+        flex items-center justify-between 
+        fixed top-0 left-0 right-0 z-50 
+        transition-all duration-300 
+        shadow-sm
+        ${isVisible ? 'translate-y-0' : '-translate-y-full'}
+      `}
     >
+      {/* Logo */}
       <div className="flex-shrink-0">
         <Link href="/">
           <Image 
@@ -98,19 +111,22 @@ export default function LightHeader() {
             alt="3RD SHADE" 
             width={180} 
             height={57} 
-            className="w-[120px] h-auto md:w-[180px]"
+            className="w-[100px] sm:w-[120px] md:w-[150px] lg:w-[180px] h-auto"
+            priority
           />
         </Link>
       </div>
+
+      {/* Desktop Navigation */}
       {!isMobile && (
-        <nav className="hidden md:flex flex-grow justify-center mx-4">
-          <div className="relative w-[654px] h-[57px] rounded-full overflow-hidden border border-gray-200">
-            <ul className="flex items-center justify-between h-full rounded-full px-12 relative z-10 bg-white bg-opacity-50">
+        <nav className="hidden md:flex flex-grow justify-center mx-2 lg:mx-4">
+          <div className="relative w-full max-w-[654px] h-[45px] md:h-[50px] lg:h-[57px] rounded-full overflow-hidden border border-gray-200">
+            <ul className="flex items-center justify-between h-full rounded-full px-4 sm:px-8 lg:px-12 relative z-10 bg-white bg-opacity-50">
               {menuItems.map((item) => (
                 <li key={item}>
                   <Link 
                     href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                    className="text-gray-800 hover:text-gray-600 transition-colors text-sm font-medium"
+                    className="text-gray-800 hover:text-gray-600 transition-colors text-xs sm:text-sm lg:text-base font-medium whitespace-nowrap"
                   >
                     {item}
                   </Link>
@@ -120,12 +136,15 @@ export default function LightHeader() {
           </div>
         </nav>
       )}
+
+      {/* Mobile Menu Button */}
       {isMobile ? (
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-gray-800 focus:outline-none"
+          className="text-gray-800 focus:outline-none p-2"
+          aria-label="Toggle menu"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
           </svg>
         </button>
@@ -134,44 +153,58 @@ export default function LightHeader() {
           <ContactButton />
         </div>
       )}
+
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobile && isMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-white bg-opacity-90 z-50"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-white bg-opacity-95 backdrop-blur-sm z-50"
           >
             <motion.div
               initial="closed"
               animate="open"
               exit="closed"
               variants={menuVariants}
-              className="absolute inset-y-0 right-0 max-w-sm w-full bg-gradient-to-b from-gray-100 to-white shadow-xl"
+              className="absolute inset-y-0 right-0 max-w-[320px] w-full bg-white shadow-xl"
             >
-              <div className="flex justify-end p-4">
-                <button onClick={() => setIsMenuOpen(false)} className="text-gray-800">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              {/* Mobile Menu Header */}
+              <div className="flex items-center justify-between p-4 border-b">
+                <Image 
+                  src="/logo png-02 2.png" 
+                  alt="3RD SHADE" 
+                  width={120} 
+                  height={38} 
+                  className="w-[100px] h-auto"
+                />
+                <button 
+                  onClick={() => setIsMenuOpen(false)} 
+                  className="p-2 text-gray-800"
+                  aria-label="Close menu"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
-              <div className="px-4 pb-6 flex justify-center">
-                <ContactButton />
-              </div>
-              <nav className="px-4">
-                <ul className="space-y-6">
+
+              {/* Mobile Menu Items */}
+              <nav className="px-4 py-6">
+                <ul className="space-y-4">
                   {menuItems.map((item) => (
                     <motion.li
                       key={item}
                       variants={itemVariants}
-                      whileHover={{ scale: 1.05, x: 10, color: "#000000" }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ scale: 1.02, x: 8 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="border-b border-gray-100 pb-3"
                     >
                       <Link 
                         href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                        className="text-gray-600 transition-colors text-2xl font-medium flex items-center"
+                        className="text-gray-800 text-lg sm:text-xl font-medium flex items-center"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {item}
@@ -180,6 +213,11 @@ export default function LightHeader() {
                   ))}
                 </ul>
               </nav>
+
+              {/* Mobile Contact Button */}
+              <div className="absolute bottom-8 left-0 right-0 px-4">
+                <ContactButton />
+              </div>
             </motion.div>
           </motion.div>
         )}

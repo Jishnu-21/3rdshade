@@ -12,6 +12,7 @@ import CTASection from '@/app/components/Services/Unnati/CTASection'
 const Page = () => {
   return (
     <>
+    <div className='bg-black'>
       <Header />
       <Banner />
       <HowWeWork />
@@ -19,6 +20,7 @@ const Page = () => {
       <CompanyMarquee />
       <HowWeWork2 />
       <CTASection />
+      </div>
     </>
   )
 }
