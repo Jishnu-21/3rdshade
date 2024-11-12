@@ -7,12 +7,13 @@ const Header = () => {
       <div className="max-w-[1200px] mx-auto flex justify-center items-center h-[70px] px-6">
         <Link href="/">
           <Image
-            src="/unnati logo 1.png"
+            src="/unnatilogo.png"
             alt="Unnati Logo"
             width={200}
             height={64}
             className="cursor-pointer transition-transform hover:scale-105"
             priority
+            unoptimized
           />
         </Link>
       </div>
