@@ -84,8 +84,46 @@ const Banner: React.FC = () => {
   });
 
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 lg:px-16 pt-[20px] sm:pt-4 md:pt-6 pb-6 sm:pb-16 md:pb-20">
-      <div className="w-full max-w-4xl mx-auto">
+    <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 lg:px-16 pt-[20px] sm:pt-4 md:pt-6 pb-6 sm:pb-16 md:pb-20 relative overflow-hidden">
+      {/* Main large glow effect */}
+      <div 
+        className="absolute top-[35%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background: `
+            radial-gradient(
+              circle at center,
+              rgba(39, 153, 231, 0.08) 0%,
+              rgba(39, 153, 231, 0.05) 30%,
+              rgba(39, 153, 231, 0.02) 60%,
+              transparent 80%
+            )
+          `,
+          filter: 'blur(70px)',
+          zIndex: 0
+        }}
+      />
+      
+      {/* Medium glow circle */}
+      <div 
+        className="absolute top-[35%] left-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background: 'radial-gradient(circle at center, rgba(39, 153, 231, 0.1) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+          zIndex: 0
+        }}
+      />
+      
+      {/* Center concentrated glow */}
+      <div 
+        className="absolute top-[35%] left-1/2 w-[400px] h-[400px] -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background: 'radial-gradient(circle at center, rgba(39, 153, 231, 0.15) 0%, transparent 60%)',
+          filter: 'blur(50px)',
+          zIndex: 0
+        }}
+      />
+      
+      <div className="w-full max-w-4xl mx-auto relative z-10">
         <h2 className="text-blue-300 text-sm sm:text-base md:text-lg mb-1 sm:mb-3 md:mb-4">
           Breaking the norms of Marketing Because
         </h2>

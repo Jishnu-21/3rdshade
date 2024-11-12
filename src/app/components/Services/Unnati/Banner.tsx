@@ -48,24 +48,43 @@ const Banner: React.FC = () => {
 
   return (
     <div className="bg-black text-white min-h-[calc(100vh-73px)] flex flex-col items-center justify-start text-center px-4 relative overflow-hidden pb-0 pt-20" ref={ref}>
-      {/* Background Glow Effects */}
-      {mounted && (
-        <div className="absolute inset-0">
-          <div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-20"
-            style={{
-              background: 'radial-gradient(circle, rgba(170, 255, 0, 0.15) 0%, rgba(0, 51, 0, 0.1) 50%, transparent 70%)',
-            }}
-          />
-          
-          <div 
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[400px] opacity-10"
-            style={{
-              background: 'radial-gradient(ellipse at top, rgba(170, 255, 0, 0.1) 0%, transparent 60%)',
-            }}
-          />
-        </div>
-      )}
+      {/* Yellow Glow Effects - reduced intensity */}
+      <div 
+        className="absolute top-[35%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background: `
+            radial-gradient(
+              circle at center,
+              rgba(170, 255, 0, 0.04) 0%,
+              rgba(170, 255, 0, 0.025) 30%,
+              rgba(170, 255, 0, 0.01) 60%,
+              transparent 80%
+            )
+          `,
+          filter: 'blur(70px)',
+          zIndex: 0
+        }}
+      />
+      
+      {/* Medium glow circle - reduced intensity */}
+      <div 
+        className="absolute top-[35%] left-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background: 'radial-gradient(circle at center, rgba(170, 255, 0, 0.05) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+          zIndex: 0
+        }}
+      />
+      
+      {/* Center concentrated glow - reduced intensity */}
+      <div 
+        className="absolute top-[35%] left-1/2 w-[400px] h-[400px] -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background: 'radial-gradient(circle at center, rgba(170, 255, 0, 0.07) 0%, transparent 60%)',
+          filter: 'blur(50px)',
+          zIndex: 0
+        }}
+      />
 
       {/* Stars */}
       {mounted && (
