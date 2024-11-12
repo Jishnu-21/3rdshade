@@ -29,7 +29,7 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
     if (index === 2) return "/Rectangle 5.svg"
     if (index === 3) return "/Rectangle 41984.svg"
     if (index === 4) return "/Rectangle 5.svg"
-    return "/Rectangle 41984.svg"
+    return "/Rectangle 41984.png"
   }
 
   return (
@@ -91,7 +91,7 @@ export default function Component() {
   const [scrollY, setScrollY] = useState(0)
   const scrollRef = useRef<HTMLDivElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
-  const itemHeight = 180
+  const itemHeight = 260
   const totalItems = 6
 
   useEffect(() => {
