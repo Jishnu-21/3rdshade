@@ -14,7 +14,6 @@ const SpinningStar = () => {
 
   useEffect(() => {
     setIsClient(true);
-    // Check for mobile device
     setIsMobile(window.innerWidth < 768);
     if (!mountRef.current) return;
 
@@ -46,9 +45,9 @@ const SpinningStar = () => {
 
     // Adjust dust particles for mobile
     const particlesGeometry = new THREE.BufferGeometry();
-    const particleCount = isMobile ? 3000 : 10000; // Reduced mobile particle count
+    const particleCount = isMobile ? 2000 : 10000; // Reduced count for better visibility
     const posArray = new Float32Array(particleCount * 3);
-    const spread = isMobile ? 3 : 10; // Reduced mobile spread from 5 to 3
+    const spread = isMobile ? 2 : 10; // Reduced spread to concentrate particles
 
     for (let i = 0; i < particleCount * 3; i++) {
       posArray[i] = (Math.random() - 0.5) * spread;
@@ -57,15 +56,25 @@ const SpinningStar = () => {
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
     const particlesMaterial = new THREE.PointsMaterial({
-      size: isMobile ? 0.003 : 0.01, // Reduced mobile dust particle size
+      size: isMobile ? 0.008 : 0.01, // Increased size for mobile visibility
       color: 0xffffff,
+      transparent: true,
+      opacity: isMobile ? 0.8 : 1, // Increased opacity for mobile
+      sizeAttenuation: true
     });
 
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
-    // Adjust camera position for mobile
-    camera.position.z = isMobile ? 2.5 : 5; // Moved camera closer for mobile
+    // Adjust camera settings for mobile
+    if (isMobile) {
+      camera.fov = 90;
+      camera.position.z = 2;
+    } else {
+      camera.fov = 75;
+      camera.position.z = 5;
+    }
+    camera.updateProjectionMatrix();
 
     // Smoother OrbitControls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -175,17 +184,23 @@ const SpinningStar = () => {
 
     animate();
 
-    // Update resize handler to check for mobile
+    // Update resize handler
     const handleResize = () => {
       const newIsMobile = window.innerWidth < 768;
       setIsMobile(newIsMobile);
       
       camera.aspect = window.innerWidth / window.innerHeight;
+      
+      if (newIsMobile) {
+        camera.fov = 90;
+        camera.position.z = 2;
+      } else {
+        camera.fov = 75;
+        camera.position.z = 5;
+      }
+      
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      
-      // Update camera position on resize
-      camera.position.z = newIsMobile ? 2.5 : 5;
     };
 
     window.addEventListener('resize', handleResize);
@@ -200,8 +215,7 @@ const SpinningStar = () => {
       if (isClient) {
         window.removeEventListener('wheel', handleMouseWheel, { capture: true });
       }
-      if (mountRef.current) {
-        window.removeEventListener('wheel', handleMouseWheel);
+      if (mountRef.current && renderer) {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
@@ -211,7 +225,17 @@ const SpinningStar = () => {
     return <div className="w-full h-screen bg-black" />;
   }
 
-  return <div ref={mountRef} style={{ width: '100%', height: '100vh' }} />;
+  return (
+    <div 
+      ref={mountRef} 
+      style={{ 
+        width: '100%', 
+        height: '100vh',
+        overflow: 'hidden',
+        position: 'relative'
+      }} 
+    />
+  );
 };
 
 export default SpinningStar;
