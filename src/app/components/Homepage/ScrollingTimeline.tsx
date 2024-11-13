@@ -86,11 +86,7 @@ const MobileTimelineItem = ({ index }: { index: number }) => {
 
   return (
     <div className={`flex items-center gap-4 relative ${isRight ? 'flex-row-reverse' : ''}`}>
-      <div 
-        className={`absolute ${isRight ? 'right-[15px]' : 'left-[15px]'} 
-          top-0 w-[2px] h-[120px] bg-white opacity-20`}
-      />
-      <div className="w-8 h-8 bg-white rounded-full z-10 shrink-0" />
+      <div className="w-16 h-16 bg-white rounded-full z-10 shrink-0" />
       
       <div className={`flex-1 ${isRight ? 'mr-4' : 'ml-4'}`}>
         <div className="relative w-full h-[120px] overflow-hidden rounded-lg">
