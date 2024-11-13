@@ -86,13 +86,7 @@ const Banner: React.FC = () => {
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center 
       text-center px-4 sm:px-6 md:px-8 lg:px-16 
-      pt-[50px] sm:pt-[60px] md:pt-[70px] lg:pt-[80px] pb-8 sm:pb-12 md:pb-24 
-      relative overflow-hidden
-      safe-top"
-      style={{ 
-        paddingTop: 'max(50px, env(safe-area-inset-top))',
-        minHeight: '-webkit-fill-available'
-      }}>
+      py-8 sm:py-12 md:py-24 relative overflow-hidden">
       {/* Main large glow effect */}
       <div 
         className="absolute top-[35%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2"
