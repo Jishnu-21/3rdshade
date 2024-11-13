@@ -82,20 +82,18 @@ const getImageSrc = (index: number) => {
 }
 
 const MobileTimelineItem = ({ index }: { index: number }) => {
-  const isRight = index % 2 !== 0;
-
   return (
-    <div className={`flex items-center gap-4 relative ${isRight ? 'flex-row-reverse' : ''}`}>
-      <div className="w-16 h-16 bg-white rounded-full z-10 shrink-0" />
-      
-      <div className={`flex-1 ${isRight ? 'mr-4' : 'ml-4'}`}>
-        <div className="relative w-full h-[120px] overflow-hidden rounded-lg">
+    <div className="w-full px-2">
+      <div className="relative w-full aspect-[3/1] overflow-hidden rounded-[4px]">
+        <div className="absolute left-1/2 -translate-x-1/2 w-[75%] h-full">
+          <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-black/5" />
           <Image
             src={getImageSrc(index)}
             alt={`Timeline item ${index + 1}`}
-            width={200}
-            height={60}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={index === 0}
           />
         </div>
       </div>
@@ -138,13 +136,13 @@ export default function Component() {
 
   return (
     <div ref={componentRef} className="bg-black text-white px-4 md:px-[122px] py-8 flex flex-col relative
-      md:h-screen h-[70vh]">
+      md:h-screen h-[60vh]">
       {/* Title section */}
-      <div className="md:absolute md:top-8 md:left-4 md:left-[122px] w-full md:w-1/3 z-10 mb-8 md:mb-0">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-left">
+      <div className="md:absolute md:top-8 md:left-4 md:left-[122px] w-full md:w-1/3 z-10 mb-4 md:mb-0">
+        <h2 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-left">
           What we do ?
         </h2>
-        <p className="text-blue-400 text-lg md:text-xl text-left">
+        <p className="text-blue-400 text-base md:text-xl text-left">
           It's not just about having a website or social media presence. We understand you and your brand to market in a unique way.
         </p>
       </div>
@@ -184,10 +182,10 @@ export default function Component() {
       </div>
 
       {/* Updated Mobile Timeline View with Swiper */}
-      <div className="md:hidden relative flex-1">
+      <div className="md:hidden relative flex-1 mt-4">
         <Swiper
           modules={[Autoplay, Pagination]}
-          spaceBetween={30}
+          spaceBetween={16}
           slidesPerView={1}
           autoplay={{
             delay: 3000,
@@ -198,10 +196,10 @@ export default function Component() {
             bulletClass: 'swiper-pagination-bullet !bg-white/30',
             bulletActiveClass: 'swiper-pagination-bullet-active !bg-white',
           }}
-          className="h-full"
+          className="h-full !pb-12"
         >
           {[0, 1, 2, 3, 4, 5].map((index) => (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={index} className="pb-2">
               <MobileTimelineItem index={index} />
             </SwiperSlide>
           ))}

@@ -1,45 +1,54 @@
 "use client"
+
 import React, { useEffect, useState, useRef } from 'react';
-import Footer from './DarkFooter';
+import dynamic from 'next/dynamic';
+
+const Footer = dynamic(() => import('./DarkFooter'), { ssr: false });
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
 
-  // Check if device is mobile
   useEffect(() => {
+    setIsMounted(true);
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
     
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    if (typeof window !== 'undefined') {
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+      return () => window.removeEventListener('resize', checkMobile);
+    }
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!isMobile) {
+    if (!isMobile && typeof window !== 'undefined') {
+      const handleScroll = () => {
         setScrollPosition(window.pageYOffset);
-      }
-    };
+      };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isMobile]);
-
-  useEffect(() => {
-    if (footerRef.current && !isMobile) {
-      const footerHeight = footerRef.current.offsetHeight;
-      document.body.style.minHeight = `calc(100vh + ${footerHeight}px)`;
-    } else {
-      document.body.style.minHeight = '100vh';
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => window.removeEventListener('scroll', handleScroll);
     }
   }, [isMobile]);
 
-  // Calculate dimensions and translations only for non-mobile
+  useEffect(() => {
+    if (footerRef.current && !isMobile && typeof document !== 'undefined') {
+      const footerHeight = footerRef.current.offsetHeight;
+      document.body.style.minHeight = `calc(100vh + ${footerHeight}px)`;
+    } else if (typeof document !== 'undefined') {
+      document.body.style.minHeight = '100vh';
+    }
+  }, [isMobile, isMounted]);
+
+  if (!isMounted) {
+    return null;
+  }
+
   const footerHeight = footerRef.current?.offsetHeight || 0;
   const contentHeight = contentRef.current?.offsetHeight || 0;
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
