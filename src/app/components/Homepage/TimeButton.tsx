@@ -9,6 +9,10 @@ interface TimeButtonProps {
 }
 
 const TimeButton: React.FC<TimeButtonProps> = ({ label, time, className }) => {
+  React.useEffect(() => {
+    // Any window-dependent code here
+  }, []);
+
   return (
     <button 
       className={`
@@ -17,10 +21,9 @@ const TimeButton: React.FC<TimeButtonProps> = ({ label, time, className }) => {
         overflow-hidden relative group
         hover:bg-white hover:text-black hover:border-white
         transition-all duration-200 ease-in-out
-        ${className}
+        ${className || ''}
       `}
     >
-      {/* Main text */}
       <div className="relative z-10">
         <span className="block group-hover:opacity-0 transition-opacity duration-200">
           {label}: {time}

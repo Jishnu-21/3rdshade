@@ -5,8 +5,10 @@ import TimeButton from './TimeButton';
 
 const TimeDisplay = () => {
   const [time, setTime] = useState(new Date());
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
@@ -17,6 +19,11 @@ const TimeDisplay = () => {
     hour12: true,
     timeZone: 'Asia/Kolkata'
   });
+
+  // Don't render until component is mounted on client
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="grid grid-cols-2 sm:flex sm:flex-row justify-center items-center 
