@@ -8,25 +8,14 @@ import gsap from 'gsap';
 const SpinningStar = () => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [isClient, setIsClient] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rotationRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const currentMount = mountRef.current;
-    
-    if (currentMount) {
-      // Use currentMount instead of mountRef.current
-    }
-    
-    return () => {
-      if (currentMount) {
-        // Cleanup using currentMount
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     setIsClient(true);
+    // Check for mobile device
+    setIsMobile(window.innerWidth < 768);
     if (!mountRef.current) return;
 
     const scene = new THREE.Scene();
@@ -43,37 +32,40 @@ const SpinningStar = () => {
       mountRef.current.appendChild(renderer.domElement);
     }
 
-    // Create sphere of particles (increased size)
-    const sphereGeometry = new THREE.SphereGeometry(2, 64, 64); // Increased radius and segments
+    // Adjust sphere size based on device
+    const sphereRadius = isMobile ? 0.8 : 2; // Reduced mobile radius from 1.2 to 0.8
+    const sphereGeometry = new THREE.SphereGeometry(sphereRadius, 64, 64);
     const sphereParticles = new THREE.Points(
       sphereGeometry,
       new THREE.PointsMaterial({
         color: 0xffffff,
-        size: 0.04, // Increased particle size
+        size: isMobile ? 0.015 : 0.04, // Reduced mobile particle size
       })
     );
     scene.add(sphereParticles);
 
-    // Create dust particles (increased count and size)
+    // Adjust dust particles for mobile
     const particlesGeometry = new THREE.BufferGeometry();
-    const particleCount = 10000; // Increased particle count
+    const particleCount = isMobile ? 3000 : 10000; // Reduced mobile particle count
     const posArray = new Float32Array(particleCount * 3);
+    const spread = isMobile ? 3 : 10; // Reduced mobile spread from 5 to 3
 
     for (let i = 0; i < particleCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 10; // Increased spread
+      posArray[i] = (Math.random() - 0.5) * spread;
     }
 
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.01, // Increased particle size
+      size: isMobile ? 0.003 : 0.01, // Reduced mobile dust particle size
       color: 0xffffff,
     });
 
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
-    camera.position.z = 5; // Moved camera back to see the larger object
+    // Adjust camera position for mobile
+    camera.position.z = isMobile ? 2.5 : 5; // Moved camera closer for mobile
 
     // Smoother OrbitControls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -183,11 +175,17 @@ const SpinningStar = () => {
 
     animate();
 
-    // Handle window resize
+    // Update resize handler to check for mobile
     const handleResize = () => {
+      const newIsMobile = window.innerWidth < 768;
+      setIsMobile(newIsMobile);
+      
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+      
+      // Update camera position on resize
+      camera.position.z = newIsMobile ? 2.5 : 5;
     };
 
     window.addEventListener('resize', handleResize);
@@ -207,7 +205,7 @@ const SpinningStar = () => {
         mountRef.current.removeChild(renderer.domElement);
       }
     };
-  }, [isClient]);
+  }, [isClient, isMobile]);
 
   if (!isClient) {
     return <div className="w-full h-screen bg-black" />;
