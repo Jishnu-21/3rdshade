@@ -73,8 +73,16 @@ export default function Header() {
   return (
     <header 
       ref={headerRef}
-      className="py-1 sm:py-2 md:py-3 lg:py-4 px-4 sm:px-6 md:px-8 lg:px-[122px] flex items-center justify-between fixed top-0 left-0 right-0 z-50 h-[50px] sm:h-[60px] md:h-[70px] lg:h-[80px]"
-      style={{ backgroundColor: 'black' }}
+      className="py-1 sm:py-2 md:py-3 lg:py-4 
+        px-4 sm:px-6 md:px-8 lg:px-[122px] 
+        flex items-center justify-between 
+        fixed top-0 left-0 right-0 z-50 
+        h-[50px] sm:h-[60px] md:h-[70px] lg:h-[80px]
+        bg-black"
+      style={{ 
+        backgroundColor: 'black',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+      }}
     >
       <div className="flex-shrink-0">
         <Link href="/">
