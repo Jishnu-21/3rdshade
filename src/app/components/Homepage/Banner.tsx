@@ -147,7 +147,7 @@ const Banner: React.FC = () => {
           </span>
           <span className="text-white"> is the</span>
           <br className="hidden sm:block" />
-          <span className="text-white"> New Digital</span>
+          <span className="text-white">New Digital</span>
         </h1>
         <p className="text-blue-300 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 md:mb-12 max-w-3xl mx-auto">
           It&apos;s not just about having a website or social media presence, We understand you and your

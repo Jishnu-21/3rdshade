@@ -3,9 +3,11 @@
 import React, { useState } from 'react'
 import Header from '../components/header'
 import SupportForm from '../components/Contact-us/SupportForm'
-import Layout from '../components/Homepage/Layout'
+import dynamic from 'next/dynamic'
 import FooterLabel from '../components/Contact-us/FooterLabel'
 import CustomAlert from '../components/Alert'
+
+const Layout = dynamic(() => import('../components/Homepage/Layout'), { ssr: false });
 
 const ContactUsPage = () => {
   const [alertInfo, setAlertInfo] = useState({ message: '', type: 'success' as 'success' | 'error', isVisible: false });
@@ -20,8 +22,8 @@ const ContactUsPage = () => {
 
   return (
     <>
+            <Header/>
       <Layout>
-        <Header/>
         <SupportForm onAlertShow={showAlert} />
         <FooterLabel/>
       </Layout>
