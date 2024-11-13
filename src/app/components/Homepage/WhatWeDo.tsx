@@ -23,10 +23,85 @@ export default function Component() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number>();
+  const [initialAnimationComplete, setInitialAnimationComplete] = useState(false);
+
+  // Add ref for mobile container
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '-20% 0px',
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const cardId = entry.target.getAttribute('data-card-id');
+        if (cardId) {
+          if (entry.isIntersecting) {
+            // When card enters viewport
+            setTimeout(() => {
+              setCardStates(prev => ({
+                ...prev,
+                [cardId]: {
+                  ...prev[cardId],
+                  isVisible: true
+                }
+              }));
+
+              // Flip to back
+              setTimeout(() => {
+                setCardStates(prev => ({
+                  ...prev,
+                  [cardId]: {
+                    ...prev[cardId],
+                    showBack: true
+                  }
+                }));
+
+                // Flip back to front
+                setTimeout(() => {
+                  setCardStates(prev => ({
+                    ...prev,
+                    [cardId]: {
+                      ...prev[cardId],
+                      showBack: false
+                    }
+                  }));
+                }, 1000);
+              }, 700);
+            }, 100); // Small delay for smooth entrance
+          } else {
+            // When card leaves viewport
+            setCardStates(prev => ({
+              ...prev,
+              [cardId]: {
+                ...prev[cardId],
+                isVisible: false,
+                showBack: false
+              }
+            }));
+          }
+        }
+      });
+    }, options);
+
+    // Only observe mobile cards
+    if (window.innerWidth < 768) {
+      const mobileCards = document.querySelectorAll('[data-card-id]');
+      mobileCards.forEach(card => observer.observe(card));
+
+      return () => {
+        mobileCards.forEach(card => observer.unobserve(card));
+      };
+    }
+  }, []);
 
   useEffect(() => {
     const ANIMATION_DELAY = 400;
     const FLIP_DURATION = 800;
+    const RESET_DELAY = FLIP_DURATION + (ANIMATION_DELAY * 3);
 
     const updateCardProgress = (scrollY: number) => {
       if (!containerRef.current) return;
@@ -62,32 +137,37 @@ export default function Component() {
         }
       }));
 
-      if (scrollingDown) {
+      if (scrollingDown && !initialAnimationComplete) {
         if (card1Trigger <= triggerOffset) {
           setTimeout(() => {
             setCardStates(prev => ({
               ...prev,
-              card1: { ...prev.card1, showBack: !prev.card1.isHovered }
+              card1: { ...prev.card1, showBack: true }
             }));
           }, FLIP_DURATION);
-        }
 
-        if (card2Trigger <= triggerOffset) {
           setTimeout(() => {
             setCardStates(prev => ({
               ...prev,
-              card2: { ...prev.card2, showBack: !prev.card2.isHovered }
+              card2: { ...prev.card2, showBack: true }
             }));
           }, FLIP_DURATION + ANIMATION_DELAY);
-        }
 
-        if (card3Trigger <= triggerOffset) {
           setTimeout(() => {
             setCardStates(prev => ({
               ...prev,
-              card3: { ...prev.card3, showBack: !prev.card3.isHovered }
+              card3: { ...prev.card3, showBack: true }
             }));
           }, FLIP_DURATION + (ANIMATION_DELAY * 2));
+
+          setTimeout(() => {
+            setCardStates(prev => ({
+              card1: { ...prev.card1, showBack: false },
+              card2: { ...prev.card2, showBack: false },
+              card3: { ...prev.card3, showBack: false }
+            }));
+            setInitialAnimationComplete(true);
+          }, RESET_DELAY);
         }
       }
     };
@@ -111,20 +191,30 @@ export default function Component() {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, initialAnimationComplete]);
 
   const handleMouseEnter = (cardId: string) => {
-    setCardStates(prev => ({
-      ...prev,
-      [cardId]: { ...prev[cardId], isHovered: true, showBack: !prev[cardId].showBack }
-    }));
+    if (initialAnimationComplete) {
+      setCardStates(prev => ({
+        ...prev,
+        [cardId]: { ...prev[cardId], isHovered: true, showBack: !prev[cardId].showBack }
+      }));
+    }
   };
 
   const handleMouseLeave = (cardId: string) => {
-    setCardStates(prev => ({
-      ...prev,
-      [cardId]: { ...prev[cardId], isHovered: false, showBack: !prev[cardId].showBack }
-    }));
+    if (initialAnimationComplete) {
+      setCardStates(prev => ({
+        ...prev,
+        [cardId]: { ...prev[cardId], isHovered: false, showBack: !prev[cardId].showBack }
+      }));
+    }
+  };
+
+  const handleMobileClick = (cardId: string) => {
+    if (initialAnimationComplete) {
+      handleMouseEnter(cardId);
+    }
   };
 
   const cards = [
@@ -185,13 +275,18 @@ export default function Component() {
           What do we do Differently?
         </span>
       </h1>
-      {/* Mobile View */}
-      <div className="md:hidden flex flex-col gap-4 px-2">
+      {/* Updated Mobile View */}
+      <div ref={mobileContainerRef} className="md:hidden flex flex-col gap-16 px-2">
         {cards.map((card) => (
           <div
             key={card.id}
-            className="w-full aspect-square max-w-[280px] mx-auto"
-            onClick={() => handleMouseEnter(card.id)}
+            data-card-id={card.id}
+            className={`w-full aspect-square max-w-[280px] mx-auto
+              transition-all duration-500 ease-out
+              ${cardStates[card.id].isVisible 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-16'}`}
+            onClick={() => handleMobileClick(card.id)}
           >
             <div 
               className={`relative w-full h-full transition-all duration-700 transform-style-3d

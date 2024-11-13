@@ -19,11 +19,21 @@ const TimeDisplay = () => {
   });
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-2 md:space-x-4 lg:space-x-8 px-4 sm:px-0">
-      <TimeButton label="India" time={formattedTime} />
-      <TimeButton label="London" time={formattedTime} />
-      <TimeButton label="Dubai" time={formattedTime} />
-      <TimeButton label="Amsterdam" time={formattedTime} />
+    <div className="grid grid-cols-2 sm:flex sm:flex-row justify-center items-center 
+      gap-4 sm:gap-0 sm:space-x-2 md:space-x-4 lg:space-x-8 
+      px-4 sm:px-0">
+      {[
+        { label: "India", time: formattedTime },
+        { label: "London", time: formattedTime },
+        { label: "Dubai", time: formattedTime },
+        { label: "Amsterdam", time: formattedTime }
+      ].map((item, index) => (
+        <TimeButton 
+          key={item.label}
+          label={item.label} 
+          time={item.time}
+        />
+      ))}
     </div>
   );
 };
