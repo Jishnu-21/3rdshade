@@ -1,10 +1,19 @@
-import dynamic from 'next/dynamic'
-import React from 'react'
+"use client"
 
-const NoSSR = ({ children }: { children: React.ReactNode }) => (
-  <React.Fragment>{children}</React.Fragment>
-)
+import { useEffect, useState } from 'react';
 
-export default dynamic(() => Promise.resolve(NoSSR), {
-  ssr: false
-}) 
+const NoSSR = ({ children }: { children: React.ReactNode }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  return <>{children}</>;
+};
+
+export default NoSSR; 

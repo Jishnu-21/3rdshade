@@ -12,7 +12,7 @@ export default function Header() {
 
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 1024);
     };
     checkIsMobile();
     window.addEventListener('resize', checkIsMobile);
@@ -73,7 +73,7 @@ export default function Header() {
   return (
     <header 
       ref={headerRef}
-      className="py-1 md:py-4 px-4 md:px-[122px] flex items-center justify-between fixed top-0 left-0 right-0 z-50 h-[50px] md:h-auto"
+      className="py-1 sm:py-2 md:py-3 lg:py-4 px-4 sm:px-6 md:px-8 lg:px-[122px] flex items-center justify-between fixed top-0 left-0 right-0 z-50 h-[50px] sm:h-[60px] md:h-[70px] lg:h-[80px]"
       style={{ backgroundColor: 'black' }}
     >
       <div className="flex-shrink-0">
@@ -83,13 +83,13 @@ export default function Header() {
             alt="3RD SHADE" 
             width={180} 
             height={57} 
-            className="w-[120px] h-auto md:w-[180px]"
+            className="w-[100px] sm:w-[120px] md:w-[150px] lg:w-[180px] h-auto"
           />
         </Link>
       </div>
       {!isMobile && (
-        <nav className="hidden md:flex flex-grow justify-center mx-4">
-          <div className="relative w-[654px] h-[57px] rounded-full overflow-hidden border border-white">
+        <nav className="hidden lg:flex flex-grow justify-center mx-4">
+          <div className="relative w-full max-w-[654px] h-[57px] rounded-full overflow-hidden border border-white">
             <span className="absolute inset-0 rounded-full opacity-100" style={{
               background: 'linear-gradient(90deg, rgba(255,255,255,0.47) 0%, rgba(255,255,255,0) 100%)',
               content: "''",
@@ -116,7 +116,7 @@ export default function Header() {
       {isMobile ? (
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-white focus:outline-none"
+          className="text-white focus:outline-none p-2"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
@@ -141,7 +141,7 @@ export default function Header() {
               animate="open"
               exit="closed"
               variants={menuVariants}
-              className="absolute inset-y-0 right-0 max-w-sm w-full shadow-xl overflow-hidden"
+              className="absolute inset-y-0 right-0 max-w-sm w-full sm:w-[320px] md:w-[380px] shadow-xl overflow-hidden"
               style={{
                 background: 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)',
               }}
@@ -160,11 +160,8 @@ export default function Header() {
                     </svg>
                   </button>
                 </div>
-                <div className="px-4 mb-6 flex justify-center">
-                  <ContactButton />
-                </div>
-                <nav className="px-4">
-                  <ul className="space-y-6">
+                <nav className="px-4 sm:px-6">
+                  <ul className="space-y-4 sm:space-y-6">
                     {menuItems.map((item) => (
                       <motion.li
                         key={item}
@@ -174,7 +171,7 @@ export default function Header() {
                       >
                         <Link 
                           href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                          className="text-gray-300 transition-colors text-2xl font-medium flex items-center"
+                          className="text-gray-300 transition-colors text-xl sm:text-2xl font-medium flex items-center"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           {item}
@@ -183,6 +180,9 @@ export default function Header() {
                     ))}
                   </ul>
                 </nav>
+                <div className="mt-[250px] flex justify-center">
+                  <ContactButton />
+                </div>
               </div>
             </motion.div>
           </motion.div>

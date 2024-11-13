@@ -19,7 +19,9 @@ const Page = () => {
           <Header/>
           <Banner/>
           <Videoplayback/>
-          <ScrollingTimeline/>
+          <div className='w-full h-screen'>
+            <ScrollingTimeline/>
+          </div>
           <ServiceLine/>
           <Brands/>
           <WhatWeDo/>

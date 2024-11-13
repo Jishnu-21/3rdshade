@@ -66,33 +66,77 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
   )
 }
 
-// New component for mobile view with scroll-based animation
-const MobileTimelineItem = ({ index }: { index: number }) => {
-  const [ref, inView] = useInView({
-    threshold: 0.2,
-    triggerOnce: true
-  })
+// Shared getImageSrc function
+const getImageSrc = (index: number) => {
+  if (index === 0) return "/Rectangle 5.svg"
+  if (index === 1) return "/Rectangle 41984.svg"
+  if (index === 2) return "/Rectangle 5.svg"
+  if (index === 3) return "/Rectangle 41984.svg"
+  if (index === 4) return "/Rectangle 5.svg"
+  return "/Rectangle 41984.png"
+}
+
+const MobileTimelineItem = ({ index, isVisible }: { index: number; isVisible: boolean }) => {
+  // Determine if this item should be on the right
+  const isRight = index % 2 !== 0;
 
   return (
     <motion.div 
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ 
-        duration: 0.5,
-        delay: 0.1 // Small delay for smoother appearance
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ 
+        opacity: isVisible ? 1 : 0,
+        x: isVisible ? 0 : -20,
+        display: isVisible ? 'flex' : 'none'
       }}
-      className="mb-8 w-full aspect-square bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg shadow-lg"
-    />
-  )
-}
+      transition={{ duration: 0.5 }}
+      className={`flex items-center gap-4 relative ${isRight ? 'flex-row-reverse' : ''}`}
+    >
+      {/* Timeline dot and line */}
+      <div 
+        className={`absolute ${isRight ? 'right-[15px]' : 'left-[15px]'} 
+          top-0 w-[2px] h-[120px] bg-white opacity-20`}
+      />
+      <div className="w-8 h-8 bg-white rounded-full z-10 shrink-0" />
+      
+      {/* Content */}
+      <div className={`flex-1 ${isRight ? 'mr-4' : 'ml-4'}`}>
+        <div className="relative w-full h-[120px] overflow-hidden rounded-lg">
+          <Image
+            src={getImageSrc(index)}
+            alt={`Timeline item ${index + 1}`}
+            width={200}
+            height={60}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 export default function Component() {
   const [scrollY, setScrollY] = useState(0)
+  const [currentMobileIndex, setCurrentMobileIndex] = useState(0)
   const scrollRef = useRef<HTMLDivElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
-  const itemHeight = 260
+  const itemHeight = 240
   const totalItems = 6
+
+  // Handle mobile scroll
+  useEffect(() => {
+    const handleMobileScroll = () => {
+      const scrollPosition = window.scrollY
+      const viewportHeight = window.innerHeight
+      const newIndex = Math.min(
+        Math.floor(scrollPosition / (viewportHeight * 0.3)),
+        totalItems - 1
+      )
+      setCurrentMobileIndex(newIndex)
+    }
+
+    window.addEventListener('scroll', handleMobileScroll)
+    return () => window.removeEventListener('scroll', handleMobileScroll)
+  }, [totalItems])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -121,8 +165,9 @@ export default function Component() {
   }, [])
 
   return (
-    <div ref={componentRef} className="min-h-screen h-auto md:h-screen bg-black text-white px-4 md:px-[122px] py-8 flex flex-col relative">
-      {/* Title section - adjusted for better mobile layout */}
+    <div ref={componentRef} className="bg-black text-white px-4 md:px-[122px] py-8 flex flex-col relative
+      md:h-screen h-[70vh]">
+      {/* Title section */}
       <div className="md:absolute md:top-8 md:left-4 md:left-[122px] w-full md:w-1/3 z-10 mb-8 md:mb-0">
         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-left">
           What we do ?
@@ -166,11 +211,30 @@ export default function Component() {
         </div>
       </div>
 
-      {/* Mobile Stacked View */}
-      <div className="md:hidden mt-8 px-4 grid grid-cols-2 gap-4">
-        {[0, 1, 2, 3, 4, 5].map((index) => (
-          <MobileTimelineItem key={index} index={index} />
-        ))}
+      {/* Updated Mobile Timeline View */}
+      <div className="md:hidden relative flex-1">
+        {/* Single timeline item container */}
+        <div className="w-full px-4">
+          {[0, 1, 2, 3, 4, 5].map((index) => (
+            <MobileTimelineItem 
+              key={index} 
+              index={index}
+              isVisible={index === currentMobileIndex}
+            />
+          ))}
+        </div>
+
+        {/* Mobile scroll indicator */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+          {[...Array(totalItems)].map((_, i) => (
+            <div 
+              key={i}
+              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                i === currentMobileIndex ? 'bg-white' : 'bg-white/30'
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )
