@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useAnimation } from 'framer-motion'
 import Image from 'next/image'
 import { useInView } from 'react-intersection-observer'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/autoplay'
 
 const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY: number }) => {
   const [windowHeight, setWindowHeight] = useState(0);
@@ -76,29 +81,17 @@ const getImageSrc = (index: number) => {
   return "/Rectangle 41984.png"
 }
 
-const MobileTimelineItem = ({ index, isVisible }: { index: number; isVisible: boolean }) => {
-  // Determine if this item should be on the right
+const MobileTimelineItem = ({ index }: { index: number }) => {
   const isRight = index % 2 !== 0;
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ 
-        opacity: isVisible ? 1 : 0,
-        x: isVisible ? 0 : -20,
-        display: isVisible ? 'flex' : 'none'
-      }}
-      transition={{ duration: 0.5 }}
-      className={`flex items-center gap-4 relative ${isRight ? 'flex-row-reverse' : ''}`}
-    >
-      {/* Timeline dot and line */}
+    <div className={`flex items-center gap-4 relative ${isRight ? 'flex-row-reverse' : ''}`}>
       <div 
         className={`absolute ${isRight ? 'right-[15px]' : 'left-[15px]'} 
           top-0 w-[2px] h-[120px] bg-white opacity-20`}
       />
       <div className="w-8 h-8 bg-white rounded-full z-10 shrink-0" />
       
-      {/* Content */}
       <div className={`flex-1 ${isRight ? 'mr-4' : 'ml-4'}`}>
         <div className="relative w-full h-[120px] overflow-hidden rounded-lg">
           <Image
@@ -110,33 +103,16 @@ const MobileTimelineItem = ({ index, isVisible }: { index: number; isVisible: bo
           />
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
 export default function Component() {
   const [scrollY, setScrollY] = useState(0)
-  const [currentMobileIndex, setCurrentMobileIndex] = useState(0)
   const scrollRef = useRef<HTMLDivElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
   const itemHeight = 240
   const totalItems = 6
-
-  // Handle mobile scroll
-  useEffect(() => {
-    const handleMobileScroll = () => {
-      const scrollPosition = window.scrollY
-      const viewportHeight = window.innerHeight
-      const newIndex = Math.min(
-        Math.floor(scrollPosition / (viewportHeight * 0.3)),
-        totalItems - 1
-      )
-      setCurrentMobileIndex(newIndex)
-    }
-
-    window.addEventListener('scroll', handleMobileScroll)
-    return () => window.removeEventListener('scroll', handleMobileScroll)
-  }, [totalItems])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -211,30 +187,29 @@ export default function Component() {
         </div>
       </div>
 
-      {/* Updated Mobile Timeline View */}
+      {/* Updated Mobile Timeline View with Swiper */}
       <div className="md:hidden relative flex-1">
-        {/* Single timeline item container */}
-        <div className="w-full px-4">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          spaceBetween={30}
+          slidesPerView={1}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+            bulletClass: 'swiper-pagination-bullet !bg-white/30',
+            bulletActiveClass: 'swiper-pagination-bullet-active !bg-white',
+          }}
+          className="h-full"
+        >
           {[0, 1, 2, 3, 4, 5].map((index) => (
-            <MobileTimelineItem 
-              key={index} 
-              index={index}
-              isVisible={index === currentMobileIndex}
-            />
+            <SwiperSlide key={index}>
+              <MobileTimelineItem index={index} />
+            </SwiperSlide>
           ))}
-        </div>
-
-        {/* Mobile scroll indicator */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-          {[...Array(totalItems)].map((_, i) => (
-            <div 
-              key={i}
-              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                i === currentMobileIndex ? 'bg-white' : 'bg-white/30'
-              }`}
-            />
-          ))}
-        </div>
+        </Swiper>
       </div>
     </div>
   )
