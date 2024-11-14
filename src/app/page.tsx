@@ -2,9 +2,9 @@
 
 import React from 'react'
 import dynamic from 'next/dynamic'
-import Header from './components/header'
 
 // Dynamically import all components that might use window/document
+const Header = dynamic(() => import('./components/header'), { ssr: false });
 const Banner = dynamic(() => import('./components/Homepage/Banner'), { ssr: false });
 const Videoplayback = dynamic(() => import('./components/Homepage/Videoplayback'), { ssr: false });
 const ScrollingTimeline = dynamic(() => import('./components/Homepage/ScrollingTimeline'), { ssr: false });
@@ -29,25 +29,25 @@ const Page = () => {
   }
 
   return (
-    <div className="relative">
-      <Header />
-      <Layout>
-        <div className='bg-white w-full'>
-          <Banner />
-          <Videoplayback />
-          <ScrollingTimeline />
-          <ServiceLine />
-          <Brands />
-          <WhatWeDo />
-          <ClientsMarquee />
-          <div className="bg-black relative">
-            <Testimonials />
-            <FAQ />
-          </div>
-          <MoreInfoWithTime />
+    <>
+    <Header />
+    <Layout>
+      <div className='bg-white w-full'>
+        <Banner />
+        <Videoplayback />
+        <ScrollingTimeline />
+        <ServiceLine />
+        <Brands />
+        <WhatWeDo />
+        <ClientsMarquee />
+        <div className="bg-black relative">
+          <Testimonials />
+          <FAQ />
         </div>
-      </Layout>
-    </div>
+        <MoreInfoWithTime />
+      </div>
+    </Layout>
+    </>
   );
 };
 

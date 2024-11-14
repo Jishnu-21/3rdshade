@@ -27,11 +27,8 @@ export default function Component() {
   const animationFrameRef = useRef<number>();
   const [initialAnimationComplete, setInitialAnimationComplete] = useState(false);
 
-  // Add ref for mobile container
-  const mobileContainerRef = useRef<HTMLDivElement>(null);
-
-  // Add this near other refs
-  const [mobileRef, mobileInView] = useInView({
+  // Replace the single mobileRef with proper useInView hook
+  const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: false
   });
@@ -254,15 +251,15 @@ export default function Component() {
     {
       id: "card1",
       color: "bg-red-500",
-      position: "lg:left-[5%] md:left-[2%] left-0 lg:top-[5%] md:top-[15%] top-0",
+      position: "lg:left-[5%] md:left-[10%] left-0 lg:top-[5%] md:top-[5%] top-0",
       frontContent: (
-        <div className="flex flex-col items-start p-12">
-          <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
-          <p className="text-2xl font-light text-white mt-auto">Hush Hiven</p>
+        <div className="flex flex-col items-start p-6 sm:p-8 lg:p-12">
+          <div className="mb-auto h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gray-200/20"></div>
+          <p className="text-xl sm:text-2xl font-light text-white mt-auto">Hush Hiven</p>
         </div>
       ),
       backContent: (
-        <div className="text-xl font-light text-white p-12 text-left leading-relaxed">
+        <div className="text-base sm:text-lg lg:text-xl font-light text-white p-6 sm:p-8 lg:p-12 text-left leading-relaxed">
           It&apos;s not just about having a website or social media presence, we understand you and your brand to market in a unique way.
         </div>
       )
@@ -270,7 +267,7 @@ export default function Component() {
     {
       id: "card2",
       color: "bg-purple-500",
-      position: "lg:left-[35%] md:left-[36%] left-0 lg:top-[25%] md:top-[45%] top-0",
+      position: "lg:left-[35%] md:left-[10%] left-0 lg:top-[25%] md:top-[40%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-12">
           <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
@@ -286,7 +283,7 @@ export default function Component() {
     {
       id: "card3",
       color: "bg-blue-600",
-      position: "lg:left-[65%] md:left-[70%] left-0 lg:top-[45%] md:top-[75%] top-0",
+      position: "lg:left-[65%] md:left-[10%] left-0 lg:top-[45%] md:top-[75%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-12">
           <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
@@ -302,19 +299,20 @@ export default function Component() {
   ];
 
   return (
-    <div className="min-h-screen bg-white p-4 md:p-8">
-      <h1 className="mb-8 md:mb-16 text-center text-3xl md:text-5xl font-bold">
+    <div className="bg-white p-4 md:p-8">
+      <h1 className="mb-8 md:mb-12 text-center text-3xl md:text-4xl lg:text-5xl font-bold">
         <span className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
           What do we do Differently?
         </span>
       </h1>
-      {/* Updated Mobile View with Framer Motion */}
+
+      {/* Mobile View - Updated ref implementation */}
       <motion.div 
-        ref={mobileRef}
-        className="md:hidden flex flex-col gap-16 px-2"
+        ref={ref}
+        className="md:hidden flex flex-col gap-8 sm:gap-12 px-2"
         variants={containerVariants}
         initial="hidden"
-        animate={mobileInView ? "visible" : "hidden"}
+        animate={inView ? "visible" : "hidden"}
       >
         {cards.map((card) => (
           <motion.div
@@ -359,13 +357,16 @@ export default function Component() {
 
       {/* Desktop View */}
       <div className="hidden md:block">
-        <div ref={containerRef} className="relative mx-auto h-[400px] md:h-[900px] lg:h-[800px] max-w-[1200px] px-4">
+        <div 
+          ref={containerRef} 
+          className="relative mx-auto h-[1000px] md:h-[1200px] lg:h-[800px] max-w-[1200px] px-4"
+        >
           {cards.map((card) => (
             <div
               key={card.id}
               className={`absolute 
-                w-64 md:w-[260px] lg:w-[300px] 
-                h-64 md:h-[260px] lg:h-[300px] 
+                w-[280px] md:w-[80%] lg:w-[300px] 
+                h-[280px] md:h-[250px] lg:h-[300px] 
                 ${card.position}
                 transition-all duration-1000 ease-out will-change-transform cursor-pointer
                 hover:scale-105 group

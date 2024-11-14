@@ -15,7 +15,7 @@ export default function Header() {
 
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+      setIsMobile(window.innerWidth <= 1024);
     };
     checkIsMobile();
     window.addEventListener('resize', checkIsMobile);
@@ -93,9 +93,9 @@ export default function Header() {
     <>
       <header 
         ref={headerRef}
-        className={`py-4 px-4 sm:px-6 md:px-8 lg:px-[122px] 
+        className={`py-4 px-4 sm:px-6 md:px-8 xl:px-[122px] 
           flex items-center justify-between fixed top-0 left-0 right-0 z-[999] 
-          h-[70px] sm:h-[80px] md:h-[90px] lg:h-[100px]
+          h-[70px] sm:h-[80px] md:h-[90px] xl:h-[100px]
           transition-all duration-300
           ${isVisible ? 'translate-y-0' : '-translate-y-full'}
           ${isScrolled ? 'bg-black/30 backdrop-blur-sm' : 'bg-black'}`}
@@ -107,12 +107,12 @@ export default function Header() {
               alt="3RD SHADE" 
               width={180} 
               height={57} 
-              className="w-[100px] sm:w-[120px] md:w-[150px] lg:w-[180px] h-auto"
+              className="w-[100px] sm:w-[120px] md:w-[150px] xl:w-[180px] h-auto"
             />
           </Link>
         </div>
         {!isMobile && (
-          <nav className="hidden lg:flex flex-grow justify-center mx-4">
+          <nav className="hidden xl:flex flex-grow justify-center mx-4">
             <div className="relative w-full max-w-[654px] h-[57px] rounded-full overflow-hidden border border-white">
               <span className="absolute inset-0 rounded-full opacity-100" style={{
                 background: 'linear-gradient(90deg, rgba(255,255,255,0.47) 0%, rgba(255,255,255,0) 100%)',
@@ -137,10 +137,10 @@ export default function Header() {
             </div>
           </nav>
         )}
-        <div className={`${isMobile ? 'block' : 'hidden'} lg:hidden`}>
+        <div className={`${isMobile ? 'block' : 'hidden'} xl:hidden`}>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`text-white focus:outline-none p-2 z-[1000] ${!isMobile && 'hidden'}`}
+            className="text-white focus:outline-none p-2 z-[1000]"
           >
             {isMenuOpen ? (
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,7 +154,7 @@ export default function Header() {
           </button>
         </div>
         {!isMobile && (
-          <div className="flex-shrink-0">
+          <div className="hidden xl:block flex-shrink-0">
             <ContactButton />
           </div>
         )}
@@ -165,7 +165,7 @@ export default function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-black bg-opacity-90 z-[105] lg:hidden"
+              className="fixed inset-0 bg-black bg-opacity-90 z-[105] xl:hidden"
               style={{ top: '70px' }}
             >
               <motion.div
@@ -173,7 +173,7 @@ export default function Header() {
                 animate="open"
                 exit="closed"
                 variants={menuVariants}
-                className="absolute inset-y-0 right-0 max-w-sm w-full sm:w-[320px] md:w-[380px] shadow-xl overflow-hidden"
+                className="absolute inset-y-0 right-0 max-w-sm w-full sm:w-[320px] md:w-[380px] lg:w-[420px] shadow-xl overflow-hidden"
                 style={{
                   background: 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)',
                 }}

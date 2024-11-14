@@ -9,6 +9,7 @@ import ProductPromoBanner from './components/ProductPromoBanner';
 import Header from '../components/LightHeader';
 import Layout from '../components/Layout';
 import FooterLabel from '../components/Career/FooterLabel';
+
 const ServicesPage = () => {
   return (
     <div className="services-page bg-black w-full">
@@ -23,7 +24,6 @@ const ServicesPage = () => {
       <ProductPromoBanner />
       <FooterLabel />
       </Layout>
-      {/* Other sections of the services page would follow */}
     </div>
   );
 };

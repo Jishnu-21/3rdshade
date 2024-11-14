@@ -135,8 +135,12 @@ export default function Component() {
   }, [])
 
   return (
-    <div ref={componentRef} className="bg-black text-white px-4 md:px-[122px] py-8 flex flex-col relative
-      md:h-screen h-[60vh]">
+    <div 
+      ref={componentRef} 
+      className="bg-black text-white px-4 md:px-[122px] py-8 flex flex-col relative
+        md:h-screen 
+        [@media(width=1024px)_and_(height>=1366px)]:h-[55vh]"
+    >
       {/* Title section */}
       <div className="md:absolute md:top-8 md:left-4 md:left-[122px] w-full md:w-1/3 z-10 mb-4 md:mb-0">
         <h2 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-left">
