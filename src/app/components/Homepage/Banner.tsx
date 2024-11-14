@@ -86,7 +86,7 @@ const Banner: React.FC = () => {
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center 
       text-center px-4 sm:px-6 md:px-8 lg:px-16 
-      py-8 sm:py-12 md:py-24 relative overflow-hidden">
+      py-4 sm:py-12 md:py-24 relative overflow-hidden">
       {/* Main large glow effect */}
       <div 
         className="absolute top-[35%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2"
@@ -147,7 +147,7 @@ const Banner: React.FC = () => {
           </span>
           <span className="text-white"> is the</span>
           <br className="hidden sm:block" />
-          <span className="text-white">New Digital</span>
+          <span className="text-white">&nbsp;New Digital</span>
         </h1>
         <p className="text-blue-300 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 md:mb-12 max-w-3xl mx-auto">
           It&apos;s not just about having a website or social media presence, We understand you and your
