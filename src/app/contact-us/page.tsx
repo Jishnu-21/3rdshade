@@ -6,7 +6,6 @@ import SupportForm from '../components/Contact-us/SupportForm'
 import dynamic from 'next/dynamic'
 import FooterLabel from '../components/Contact-us/FooterLabel'
 import CustomAlert from '../components/Alert'
-
 const Layout = dynamic(() => import('../components/Homepage/Layout'), { ssr: false });
 
 const ContactUsPage = () => {
@@ -21,11 +20,13 @@ const ContactUsPage = () => {
   };
 
   return (
-    <>
-            <Header/>
+    <div className="flex flex-col min-h-screen">
+      <Header/>
       <Layout>
-        <SupportForm onAlertShow={showAlert} />
-        <FooterLabel/>
+        <div className="flex-grow">
+          <SupportForm onAlertShow={showAlert} />
+          <FooterLabel/>
+        </div>
       </Layout>
       <CustomAlert
         message={alertInfo.message}
@@ -33,7 +34,7 @@ const ContactUsPage = () => {
         isVisible={alertInfo.isVisible}
         onClose={closeAlert}
       />
-    </>
+    </div>
   )
 }
 

@@ -36,20 +36,22 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const translateY = Math.max(0, Math.min(scrollPosition / 2, footerHeight / 1.2));
 
   return (
-    <div className="relative min-h-screen">
-      <div 
-        ref={contentRef} 
-        className="relative z-10 transition-transform duration-300 ease-in-out pt-[80px]"
-        style={{ 
-          transform: footerVisible ? `translateY(-${translateY}px)` : 'none'
-        }}
-      >
-        {React.Children.map(children, (child, index) => (
-          <div key={index}>
-            {child}
-          </div>
-        ))}
-      </div>
+    <div className="min-h-screen flex flex-col">
+      <main className="flex-grow">
+        <div 
+          ref={contentRef} 
+          className="relative z-10 transition-transform duration-300 ease-in-out pt-[80px]"
+          style={{ 
+            transform: footerVisible ? `translateY(-${translateY}px)` : 'none'
+          }}
+        >
+          {React.Children.map(children, (child, index) => (
+            <div key={index}>
+              {child}
+            </div>
+          ))}
+        </div>
+      </main>
       <Footer 
         ref={footerRef} 
         isVisible={footerVisible}

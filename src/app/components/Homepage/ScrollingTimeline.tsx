@@ -136,9 +136,10 @@ export default function Component() {
   return (
     <div 
       ref={componentRef} 
-      className="bg-black text-white px-4 md:px-[122px] py-8 flex flex-col relative
-        md:h-screen 
-        [@media(width=1024px)_and_(height>=1366px)]:h-[55vh]"
+      className="bg-black text-white px-4 md:px-[122px] mt-[200px] py-8 flex flex-col relative
+        sm:h-[55vh]    /* Tablet (640px and up) */
+        xl:h-screen    /* Desktop (1280px and up) */
+        "
     >
       {/* Title section */}
       <div className="md:absolute md:top-8 md:left-4 md:left-[122px] w-full md:w-1/3 z-10 mb-4 md:mb-0">
@@ -150,8 +151,8 @@ export default function Component() {
         </p>
       </div>
 
-      {/* Desktop Timeline View */}
-      <div className="hidden md:block relative flex-grow overflow-hidden">
+      {/* Desktop/Tablet Timeline View */}
+      <div className="hidden sm:block relative flex-grow overflow-hidden">
         <div 
           className="absolute left-1/2 transform -translate-x-1/2 h-full"
           style={{
@@ -184,8 +185,8 @@ export default function Component() {
         </div>
       </div>
 
-      {/* Updated Mobile Timeline View with Swiper */}
-      <div className="md:hidden relative flex-1 mt-4">
+      {/* Mobile Timeline View */}
+      <div className="sm:hidden relative flex-1 mt-4">
         <Swiper
           modules={[Autoplay, Pagination]}
           spaceBetween={16}

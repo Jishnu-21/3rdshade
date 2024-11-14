@@ -87,6 +87,7 @@ body::-ms-scrollbar-thumb:hover {
   background: linear-gradient(45deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE);
   background-size: 200% 200%;
   animation: gradient 5s ease infinite;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

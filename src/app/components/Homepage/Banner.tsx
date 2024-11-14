@@ -35,7 +35,7 @@ const translations = [
   },
 ];
 
-const Banner: React.FC = () => {
+const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) => {
   const [currentWord, setCurrentWord] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -84,12 +84,15 @@ const Banner: React.FC = () => {
   });
 
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center 
+    <div className="fixed top-0 left-0 right-0 bg-black text-white h-screen flex flex-col items-center justify-center 
       text-center px-4 sm:px-6 md:px-8 lg:px-16 
-      py-4 sm:py-12 md:py-24 relative overflow-hidden">
-      {/* Main large glow effect */}
+      pt-12 sm:pt-16 md:pt-20 xl:pt-24 
+      pb-4 sm:pb-12 md:pb-24
+      overflow-hidden z-10"
+    >
+      {/* Glow effects with fade */}
       <div 
-        className="absolute top-[35%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-[35%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
         style={{
           background: `
             radial-gradient(
@@ -101,32 +104,41 @@ const Banner: React.FC = () => {
             )
           `,
           filter: 'blur(70px)',
-          zIndex: 0
+          zIndex: 0,
+          opacity: Math.max(0, 1 - (scrollProgress * 2))
         }}
       />
       
-      {/* Medium glow circle */}
+      {/* Other glow effects with same fade */}
       <div 
-        className="absolute top-[35%] left-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-[35%] left-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
         style={{
           background: 'radial-gradient(circle at center, rgba(39, 153, 231, 0.1) 0%, transparent 70%)',
           filter: 'blur(60px)',
-          zIndex: 0
+          zIndex: 0,
+          opacity: Math.max(0, 1 - (scrollProgress * 2))
         }}
       />
       
-      {/* Center concentrated glow */}
       <div 
-        className="absolute top-[35%] left-1/2 w-[400px] h-[400px] -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-[35%] left-1/2 w-[400px] h-[400px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
         style={{
           background: 'radial-gradient(circle at center, rgba(39, 153, 231, 0.15) 0%, transparent 60%)',
           filter: 'blur(50px)',
-          zIndex: 0
+          zIndex: 0,
+          opacity: Math.max(0, 1 - (scrollProgress * 2))
         }}
       />
       
-      <div className="w-full max-w-4xl mx-auto relative z-10" style={{ bottom: '50px' }}>
-      <h2 className="text-blue-300 text-sm sm:text-base md:text-lg mb-1 sm:mb-3 md:mb-4">
+      {/* Content with fade */}
+      <div 
+        className="w-full max-w-4xl mx-auto relative z-10 -mt-16 sm:-mt-20 md:-mt-24 transition-opacity duration-300"
+        style={{ 
+          opacity: Math.max(0, 1 - (scrollProgress * 2)),
+          visibility: scrollProgress >= 0.5 ? 'hidden' : 'visible'
+        }}
+      >
+        <h2 className="text-blue-300 text-sm sm:text-base md:text-lg mb-1 sm:mb-3 md:mb-4">
           Breaking the norms of Marketing Because
         </h2>
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-2 sm:mb-4 leading-tight">

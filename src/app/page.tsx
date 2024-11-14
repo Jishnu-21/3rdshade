@@ -1,9 +1,7 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
-
-// Dynamically import all components that might use window/document
 const Header = dynamic(() => import('./components/header'), { ssr: false });
 const Banner = dynamic(() => import('./components/Homepage/Banner'), { ssr: false });
 const Videoplayback = dynamic(() => import('./components/Homepage/Videoplayback'), { ssr: false });
@@ -19,6 +17,7 @@ const Layout = dynamic(() => import('./components/Homepage/Layout'), { ssr: fals
 
 const Page = () => {
   const [isMounted, setIsMounted] = React.useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   React.useEffect(() => {
     setIsMounted(true);
@@ -32,19 +31,25 @@ const Page = () => {
     <>
     <Header />
     <Layout>
-      <div className='bg-white w-full'>
-        <Banner />
-        <Videoplayback />
-        <ScrollingTimeline />
-        <ServiceLine />
-        <Brands />
-        <WhatWeDo />
-        <ClientsMarquee />
-        <div className="bg-black relative">
-          <Testimonials />
-          <FAQ />
+      <div className='w-full'>
+        <div className="bg-black">
+          <Banner scrollProgress={scrollProgress} />
+          <Videoplayback 
+            onScroll={(progress) => setScrollProgress(progress)}
+          />
+          <ScrollingTimeline />
+          <ServiceLine />
+          <Brands />
+          <WhatWeDo />
+          <ClientsMarquee />
+          <div className="relative">
+            <Testimonials />
+            <FAQ />
+          </div>
         </div>
-        <MoreInfoWithTime />
+        <div className="bg-white">
+          <MoreInfoWithTime />
+        </div>
       </div>
     </Layout>
     </>
