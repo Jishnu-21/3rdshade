@@ -296,17 +296,24 @@ export default function Component() {
                 perspective: '1500px'
               }}
             >
-              <div className={`absolute w-full h-full ${card.color} flex flex-col
-                shadow-lg backface-hidden rounded-sm`}>
-                <div className="flex flex-col items-start p-6">
+              {/* Front of card */}
+              <div className={`absolute w-full h-full ${card.color} 
+                shadow-lg backface-hidden rounded-sm overflow-hidden`}>
+                <div className="flex flex-col items-start p-6 h-full">
                   <div className="mb-auto h-12 w-12 rounded-full bg-gray-200/20"></div>
-                  <p className="text-lg font-light text-white mt-auto">Hush Hiven</p>
+                  <p className="text-lg font-light text-white mt-auto line-clamp-2">Hush Hiven</p>
                 </div>
               </div>
-              <div className={`absolute w-full h-full ${card.color} flex items-start
-                shadow-lg backface-hidden rotate-y-180 rounded-sm`}>
-                <div className="text-base font-light text-white p-6 text-left leading-relaxed">
-                  {card.backContent}
+
+              {/* Back of card */}
+              <div className={`absolute w-full h-full ${card.color}
+                shadow-lg backface-hidden rotate-y-180 rounded-sm overflow-hidden`}>
+                <div className="h-full p-6 flex items-center justify-center">
+                  <p className="text-base font-light text-white leading-relaxed break-words w-full">
+                    {typeof card.backContent === 'string' 
+                      ? card.backContent 
+                      : "It's not just about having a website or social media presence, we understand you and your brand to market in a unique way."}
+                  </p>
                 </div>
               </div>
             </div>

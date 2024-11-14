@@ -8,6 +8,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -20,15 +23,31 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const ensureBlackBackground = () => {
-      if (headerRef.current) {
-        headerRef.current.style.backgroundColor = 'black';
+    const controlHeader = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Show header when scrolling up or at top
+      if (currentScrollY < lastScrollY || currentScrollY < 50) {
+        setIsVisible(true);
+      } 
+      // Hide header when scrolling down and not at top
+      else if (currentScrollY > 50 && currentScrollY > lastScrollY) {
+        setIsVisible(false);
       }
+
+      // Set transparency
+      if (currentScrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+
+      setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener('scroll', ensureBlackBackground);
-    return () => window.removeEventListener('scroll', ensureBlackBackground);
-  }, []);
+    window.addEventListener('scroll', controlHeader);
+    return () => window.removeEventListener('scroll', controlHeader);
+  }, [lastScrollY]);
 
   const menuItems = ['Home', 'Work', 'About Us', 'Careers'];
 
@@ -71,123 +90,124 @@ export default function Header() {
   );
 
   return (
-    <header 
-      ref={headerRef}
-      className="py-1 sm:py-2 md:py-3 lg:py-4 px-4 sm:px-6 md:px-8 lg:px-[122px] flex items-center justify-between fixed top-0 left-0 right-0 z-50 h-[50px] sm:h-[60px] md:h-[70px] lg:h-[80px]"
-      style={{ backgroundColor: 'black' }}
-    >
-      <div className="flex-shrink-0">
-        <Link href="/">
-          <Image 
-            src="/logo png-01 2.png" 
-            alt="3RD SHADE" 
-            width={180} 
-            height={57} 
-            className="w-[100px] sm:w-[120px] md:w-[150px] lg:w-[180px] h-auto"
-          />
-        </Link>
-      </div>
-      {!isMobile && (
-        <nav className="hidden lg:flex flex-grow justify-center mx-4">
-          <div className="relative w-full max-w-[654px] h-[57px] rounded-full overflow-hidden border border-white">
-            <span className="absolute inset-0 rounded-full opacity-100" style={{
-              background: 'linear-gradient(90deg, rgba(255,255,255,0.47) 0%, rgba(255,255,255,0) 100%)',
-              content: "''",
-              zIndex: 0,
-            }}></span>
-            <ul className="flex items-center justify-between h-full rounded-full px-12 relative z-10"
-                style={{
-                  background: 'linear-gradient(90deg, #4A4A4A 0%, #2B2B2B 50%, #1A1A1A 100%)'
-                }}>
-              {menuItems.map((item) => (
-                <li key={item}>
-                  <Link 
-                    href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                    className="text-white hover:text-gray-300 transition-colors text-sm font-medium"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
-      )}
-      {isMobile ? (
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="text-white focus:outline-none p-2"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
-        </button>
-      ) : (
+    <>
+      <header 
+        ref={headerRef}
+        className={`py-4 px-4 sm:px-6 md:px-8 lg:px-[122px] 
+          flex items-center justify-between fixed top-0 left-0 right-0 z-[999] 
+          h-[70px] sm:h-[80px] md:h-[90px] lg:h-[100px]
+          transition-all duration-300
+          ${isVisible ? 'translate-y-0' : '-translate-y-full'}
+          ${isScrolled ? 'bg-black/30 backdrop-blur-sm' : 'bg-black'}`}
+      >
         <div className="flex-shrink-0">
-          <ContactButton />
+          <Link href="/">
+            <Image 
+              src="/logo png-01 2.png" 
+              alt="3RD SHADE" 
+              width={180} 
+              height={57} 
+              className="w-[100px] sm:w-[120px] md:w-[150px] lg:w-[180px] h-auto"
+            />
+          </Link>
         </div>
-      )}
-      <AnimatePresence>
-        {isMobile && isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black bg-opacity-90 z-50"
-          >
-            <motion.div
-              initial="closed"
-              animate="open"
-              exit="closed"
-              variants={menuVariants}
-              className="absolute inset-y-0 right-0 max-w-sm w-full sm:w-[320px] md:w-[380px] shadow-xl overflow-hidden"
-              style={{
-                background: 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)',
-              }}
-            >
-              <div className="absolute inset-0 opacity-50"
-                   style={{
-                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                     backgroundSize: '30px 30px',
-                   }}
-              ></div>
-              <div className="relative z-10">
-                <div className="flex justify-end p-4">
-                  <button onClick={() => setIsMenuOpen(false)} className="text-white">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-                <nav className="px-4 sm:px-6">
-                  <ul className="space-y-4 sm:space-y-6">
-                    {menuItems.map((item) => (
-                      <motion.li
-                        key={item}
-                        variants={itemVariants}
-                        whileHover={{ scale: 1.05, x: 10, color: "#ffffff" }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Link 
-                          href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                          className="text-gray-300 transition-colors text-xl sm:text-2xl font-medium flex items-center"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          {item}
-                        </Link>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </nav>
-                <div className="mt-[250px] flex justify-center">
-                  <ContactButton />
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+        {!isMobile && (
+          <nav className="hidden lg:flex flex-grow justify-center mx-4">
+            <div className="relative w-full max-w-[654px] h-[57px] rounded-full overflow-hidden border border-white">
+              <span className="absolute inset-0 rounded-full opacity-100" style={{
+                background: 'linear-gradient(90deg, rgba(255,255,255,0.47) 0%, rgba(255,255,255,0) 100%)',
+                content: "''",
+                zIndex: 0,
+              }}></span>
+              <ul className="flex items-center justify-between h-full rounded-full px-12 relative z-10"
+                  style={{
+                    background: 'linear-gradient(90deg, #4A4A4A 0%, #2B2B2B 50%, #1A1A1A 100%)'
+                  }}>
+                {menuItems.map((item) => (
+                  <li key={item}>
+                    <Link 
+                      href={`/${item.toLowerCase().replace(' ', '-')}`} 
+                      className="text-white hover:text-gray-300 transition-colors text-sm font-medium"
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </nav>
         )}
-      </AnimatePresence>
-    </header>
+        <div className={`${isMobile ? 'block' : 'hidden'} lg:hidden`}>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className={`text-white focus:outline-none p-2 z-[1000] ${!isMobile && 'hidden'}`}
+          >
+            {isMenuOpen ? (
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            )}
+          </button>
+        </div>
+        {!isMobile && (
+          <div className="flex-shrink-0">
+            <ContactButton />
+          </div>
+        )}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black bg-opacity-90 z-[105] lg:hidden"
+              style={{ top: '70px' }}
+            >
+              <motion.div
+                initial="closed"
+                animate="open"
+                exit="closed"
+                variants={menuVariants}
+                className="absolute inset-y-0 right-0 max-w-sm w-full sm:w-[320px] md:w-[380px] shadow-xl overflow-hidden"
+                style={{
+                  background: 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)',
+                }}
+              >
+                <div className="relative z-10 h-full">
+                  <nav className="px-4 sm:px-6 pt-6">
+                    <ul className="space-y-4 sm:space-y-6">
+                      {menuItems.map((item) => (
+                        <motion.li
+                          key={item}
+                          variants={itemVariants}
+                          whileHover={{ scale: 1.05, x: 10, color: "#ffffff" }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Link 
+                            href={`/${item.toLowerCase().replace(' ', '-')}`} 
+                            className="text-gray-300 transition-colors text-xl sm:text-2xl font-medium flex items-center"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            {item}
+                          </Link>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </nav>
+                  <div className="mt-[250px] flex justify-center">
+                    <ContactButton />
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+    </>
   );
 }
