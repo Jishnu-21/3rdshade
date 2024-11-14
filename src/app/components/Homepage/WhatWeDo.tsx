@@ -254,7 +254,7 @@ export default function Component() {
     {
       id: "card1",
       color: "bg-red-500",
-      position: "left-[5%] md:left-[2%] lg:left-[15%] top-0 md:top-[10%] lg:top-0",
+      position: "lg:left-[5%] md:left-[2%] left-0 lg:top-[5%] md:top-[15%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-12">
           <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
@@ -270,7 +270,7 @@ export default function Component() {
     {
       id: "card2",
       color: "bg-purple-500",
-      position: "left-[5%] md:left-[36%] lg:left-[40%] top-0 md:top-[10%] lg:top-1/4",
+      position: "lg:left-[35%] md:left-[36%] left-0 lg:top-[25%] md:top-[45%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-12">
           <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
@@ -286,7 +286,7 @@ export default function Component() {
     {
       id: "card3",
       color: "bg-blue-600",
-      position: "left-[5%] md:left-[70%] lg:left-[65%] top-0 md:top-[10%] lg:top-2/4",
+      position: "lg:left-[65%] md:left-[70%] left-0 lg:top-[45%] md:top-[75%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-12">
           <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
@@ -359,13 +359,13 @@ export default function Component() {
 
       {/* Desktop View */}
       <div className="hidden md:block">
-        <div ref={containerRef} className="relative mx-auto h-[400px] md:h-[500px] lg:h-[800px] max-w-[1200px]">
+        <div ref={containerRef} className="relative mx-auto h-[400px] md:h-[900px] lg:h-[800px] max-w-[1200px] px-4">
           {cards.map((card) => (
             <div
               key={card.id}
               className={`absolute 
-                w-64 md:w-[280px] lg:w-80 
-                h-64 md:h-[280px] lg:h-80 
+                w-64 md:w-[260px] lg:w-[300px] 
+                h-64 md:h-[260px] lg:h-[300px] 
                 ${card.position}
                 transition-all duration-1000 ease-out will-change-transform cursor-pointer
                 hover:scale-105 group
