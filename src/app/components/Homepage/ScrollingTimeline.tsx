@@ -1,9 +1,8 @@
 "use client"
 
 import { useEffect, useRef, useState } from 'react'
-import { motion, useAnimation } from 'framer-motion'
+import { motion} from 'framer-motion'
 import Image from 'next/image'
-import { useInView } from 'react-intersection-observer'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'

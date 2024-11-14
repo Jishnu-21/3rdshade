@@ -6,10 +6,16 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
+  const [footerVisible, setFooterVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollPosition(window.pageYOffset);
+      if (window.pageYOffset > window.innerHeight * 0.8) {
+        setFooterVisible(true);
+      } else {
+        setFooterVisible(false);
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -30,11 +36,13 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const translateY = Math.max(0, Math.min(scrollPosition / 2, footerHeight / 1.2));
 
   return (
-    <div className="relative">
+    <div className="relative min-h-screen">
       <div 
         ref={contentRef} 
-        className="relative z-10 transition-transform duration-300 ease-in-out pt-[80px] pb-[20px]"
-        style={{ transform: `translateY(-${translateY}px)` }}
+        className="relative z-10 transition-transform duration-300 ease-in-out pt-[80px]"
+        style={{ 
+          transform: footerVisible ? `translateY(-${translateY}px)` : 'none'
+        }}
       >
         {React.Children.map(children, (child, index) => (
           <div key={index}>
@@ -42,7 +50,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </div>
         ))}
       </div>
-      <Footer ref={footerRef} className="fixed bottom-0 left-0 right-0 z-0" />
+      <Footer 
+        ref={footerRef} 
+        isVisible={footerVisible}
+        className={`fixed bottom-0 left-0 right-0 z-0 transition-all duration-500
+          ${footerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'}`} 
+      />
     </div>
   );
 };
