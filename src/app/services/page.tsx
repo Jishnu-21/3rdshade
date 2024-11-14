@@ -11,7 +11,7 @@ import Layout from '../components/Layout';
 import FooterLabel from '../components/Career/FooterLabel';
 const ServicesPage = () => {
   return (
-    <div className="services-page bg-white w-full">
+    <div className="services-page bg-black w-full">
        <Header />
       <Layout>
       <ServicesHeader />

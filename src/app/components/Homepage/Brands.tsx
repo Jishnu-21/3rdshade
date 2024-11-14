@@ -14,7 +14,7 @@ const brands = [
   { name: "Pallid Blue", image: "/path-to-pallid-blue-image.jpg" },
   { name: "Moemm", image: "/path-to-moemm-image.jpg" },
   { name: "Super Hoomans", image: "/path-to-super-hoomans-image.jpg" },
-  { name: "Food Buti", image: "/path-to-food-buti-image.jpg" }
+  { name: "Food Butti", image: "/path-to-food-buti-image.jpg" }
 ];
 
 const ShootingStar: React.FC<{ delay: number, top: number, left: number }> = ({ delay, top, left }) => {

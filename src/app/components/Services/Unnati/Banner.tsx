@@ -91,7 +91,7 @@ const Banner: React.FC = () => {
         <div className="absolute inset-0 overflow-hidden">
           {/* Main large star - Responsive */}
           <div 
-            className="absolute top-[25%] left-[65%] sm:left-[75%] transform transition-all duration-700"
+            className="absolute top-[25%] left-[65%] sm:left-[70%] transform transition-all duration-700"
             style={{ 
               transform: 'translateY(-50%)',
             }}
@@ -125,9 +125,9 @@ const Banner: React.FC = () => {
         </div>
       )}
 
-      {/* Content - Responsive spacing and typography */}
+      {/* Content - Reduced top margin */}
       <motion.div 
-        className="w-full max-w-5xl mx-auto relative z-10 mt-12 sm:mt-16 md:mt-20"
+        className="w-full max-w-5xl mx-auto relative z-10 mt-8 sm:mt-10 md:mt-12"
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
