@@ -11,6 +11,7 @@ export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrollLocked, setIsScrollLocked] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -48,6 +49,27 @@ export default function Header() {
     window.addEventListener('scroll', controlHeader);
     return () => window.removeEventListener('scroll', controlHeader);
   }, [lastScrollY]);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      // Lock scroll
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = 'var(--scrollbar-width)'; // Prevent layout shift
+      setIsScrollLocked(true);
+    } else {
+      // Unlock scroll
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      setIsScrollLocked(false);
+    }
+
+    // Cleanup
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      setIsScrollLocked(false);
+    };
+  }, [isMenuOpen]);
 
   const menuItems = ['Home', 'Work', 'About Us', 'Careers'];
 
@@ -89,18 +111,20 @@ export default function Header() {
     </Link>
   );
 
+
+  
   return (
     <>
       <header 
         ref={headerRef}
         className={`py-4 px-4 sm:px-6 md:px-8 xl:px-[122px] 
-          flex items-center justify-between fixed top-0 left-0 right-0 z-[999] 
+          flex items-center justify-between fixed top-0 left-0 right-0 z-[99] 
           h-[70px] sm:h-[80px] md:h-[90px] xl:h-[100px]
           transition-all duration-300
           ${isVisible ? 'translate-y-0' : '-translate-y-full'}
           ${isScrolled ? 'bg-black/30 backdrop-blur-sm' : 'bg-black'}`}
       >
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 relative z-[100]">
           <Link href="/">
             <Image 
               src="/logo png-01 2.png" 
@@ -112,7 +136,7 @@ export default function Header() {
           </Link>
         </div>
         {!isMobile && (
-          <nav className="hidden xl:flex flex-grow justify-center mx-4">
+          <nav className="hidden xl:flex flex-grow justify-center mx-4 relative z-[100]">
             <div className="relative w-full max-w-[654px] h-[57px] rounded-full overflow-hidden border border-white">
               <span className="absolute inset-0 rounded-full opacity-100" style={{
                 background: 'linear-gradient(90deg, rgba(255,255,255,0.47) 0%, rgba(255,255,255,0) 100%)',
@@ -137,76 +161,101 @@ export default function Header() {
             </div>
           </nav>
         )}
-        <div className={`${isMobile ? 'block' : 'hidden'} xl:hidden`}>
+        <div className="block xl:hidden relative z-[9999]">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-white focus:outline-none p-2 z-[1000]"
+            className="text-white focus:outline-none p-2"
+            aria-label="Toggle menu"
           >
-            {isMenuOpen ? (
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            )}
+            <motion.div
+              animate={isMenuOpen ? "open" : "closed"}
+              className="relative w-8 h-8"
+            >
+              {isMenuOpen ? (
+                <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M6 18L18 6M6 6l12 12" 
+                  />
+                </svg>
+              ) : (
+                <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M4 6h16M4 12h16m-7 6h7" 
+                  />
+                </svg>
+              )}
+            </motion.div>
           </button>
         </div>
         {!isMobile && (
-          <div className="hidden xl:block flex-shrink-0">
+          <div className="hidden xl:block flex-shrink-0 relative z-[100]">
             <ContactButton />
           </div>
         )}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-black bg-opacity-90 z-[105] xl:hidden"
-              style={{ top: '70px' }}
-            >
-              <motion.div
-                initial="closed"
-                animate="open"
-                exit="closed"
-                variants={menuVariants}
-                className="absolute inset-y-0 right-0 max-w-sm w-full sm:w-[320px] md:w-[380px] lg:w-[420px] shadow-xl overflow-hidden"
-                style={{
-                  background: 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)',
-                }}
-              >
-                <div className="relative z-10 h-full">
-                  <nav className="px-4 sm:px-6 pt-6">
-                    <ul className="space-y-4 sm:space-y-6">
-                      {menuItems.map((item) => (
-                        <motion.li
-                          key={item}
-                          variants={itemVariants}
-                          whileHover={{ scale: 1.05, x: 10, color: "#ffffff" }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Link 
-                            href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                            className="text-gray-300 transition-colors text-xl sm:text-2xl font-medium flex items-center"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            {item}
-                          </Link>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </nav>
-                  <div className="mt-[250px] flex justify-center">
-                    <ContactButton />
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+       <AnimatePresence>
+  {isMenuOpen && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 bg-black z-[998] xl:hidden"
+      style={{
+        top: '0',
+        height: '100vh',
+        width: '100vw',
+        overflow: 'hidden',
+      }}
+    >
+      <motion.div
+        initial="closed"
+        animate="open"
+        exit="closed"
+        variants={menuVariants}
+        className="fixed right-0 w-full h-full flex flex-col"
+        style={{
+          background: 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)',
+          paddingTop: '100px',
+          top: 0,
+          zIndex: 999,
+        }}
+      >
+        <div className="relative z-[999] h-full flex flex-col justify-between px-6">
+          <nav className="max-w-md mx-auto w-full">
+            <ul className="space-y-8">
+              {menuItems.map((item) => (
+                <motion.li
+                  key={item}
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.05, x: 10, color: "#ffffff" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-center"
+                >
+                  <Link 
+                    href={`/${item.toLowerCase().replace(' ', '-')}`} 
+                    className="text-white text-3xl font-medium flex items-center justify-center"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item}
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
+          </nav>
+          <div className="pb-20 flex justify-center">
+            <ContactButton />
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
       </header>
     </>
   );
