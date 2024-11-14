@@ -34,23 +34,28 @@ const HowWeWork = () => {
   };
 
   return (
-    <div className="bg-black text-white py-12" ref={ref}>
+    <div className="bg-black text-white py-8 sm:py-10 md:py-12" ref={ref}>
       <motion.div 
-        className="max-w-[1200px] mx-auto px-6 flex justify-between items-start gap-20"
+        className="max-w-[1200px] mx-auto px-4 sm:px-6 
+          flex flex-col md:flex-row justify-between items-start 
+          gap-6 sm:gap-10 md:gap-20"
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
       >
         {/* Left Section */}
-        <div className="flex-1">
+        <div className="w-full md:flex-1">
           <motion.span 
-            className="text-[#0066FF] text-sm font-medium mb-4 block uppercase tracking-wider"
+            className="text-[#0066FF] text-xs sm:text-sm font-medium mb-2 sm:mb-3 md:mb-4 
+              block uppercase tracking-wider"
             variants={textVariants}
           >
             HOW WE WORK
           </motion.span>
           <motion.h2 
-            className="text-[56px] font-bold leading-[1.1] tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] 
+              font-bold leading-[1.2] md:leading-[1.1] tracking-tight
+              mb-6 md:mb-0"
             variants={textVariants}
           >
             Get a dedicated design team at fraction of the cost.
@@ -58,15 +63,22 @@ const HowWeWork = () => {
         </div>
 
         {/* Right Section */}
-        <div className="flex-1">
+        <div className="w-full md:flex-1">
           <motion.p 
-            className="text-gray-400 text-lg mb-8 leading-relaxed"
+            className="text-gray-400 text-base sm:text-lg 
+              mb-6 sm:mb-8 leading-relaxed"
             variants={textVariants}
           >
-            Grow your brand with high-quality design for a flat monthly fee. Work with senior designers. Subscribe and make as many requests as you need - no limits.
+            Grow your brand with high-quality design for a flat monthly fee. 
+            Work with senior designers. Subscribe and make as many requests 
+            as you need - no limits.
           </motion.p>
           <motion.button 
-            className="bg-[#0066FF] text-white px-8 py-3 rounded-md hover:bg-[#0052CC] transition-colors text-base font-medium"
+            className="bg-[#0066FF] text-white 
+              px-6 sm:px-8 py-2.5 sm:py-3 
+              rounded-md hover:bg-[#0052CC] 
+              transition-colors text-sm sm:text-base font-medium
+              w-full sm:w-auto"
             variants={textVariants}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

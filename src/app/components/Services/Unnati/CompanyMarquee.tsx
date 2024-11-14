@@ -23,7 +23,7 @@ const CompanyMarquee = () => {
 
   const containerVariants = {
     hidden: { 
-      y: 100,
+      y: 50,
       opacity: 0 
     },
     visible: {
@@ -38,26 +38,50 @@ const CompanyMarquee = () => {
 
   return (
     <motion.div 
-      className="w-full bg-[#222222] py-10 border-y border-gray-800 mt-24 overflow-hidden"
+      className="w-full bg-[#222222] py-4 sm:py-6 md:py-8 lg:py-10 border-y border-gray-800 mt-8 sm:mt-12 md:mt-16 lg:mt-24 overflow-hidden"
       ref={ref}
       variants={containerVariants}
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
     >
       <div className="relative">
-        <div className="flex animate-marquee whitespace-nowrap">
+        <div className="flex space-x-4 sm:space-x-8 md:space-x-12 animate-marquee whitespace-nowrap">
           {duplicatedCompanies.map((company, index) => (
             <div
               key={index}
-              className="flex items-center gap-4 text-gray-400 mx-12"
+              className="flex items-center gap-2 sm:gap-3 md:gap-4 text-gray-400 mx-4 sm:mx-6 md:mx-8 lg:mx-12"
             >
               <Image 
                 src={company.icon}
                 alt={company.name}
                 width={40}
                 height={40}
+                className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10"
+                priority
               />
-              <span className="text-lg font-medium whitespace-nowrap">
+              <span className="text-xs sm:text-sm md:text-base lg:text-lg font-medium whitespace-nowrap">
+                {company.name}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Second marquee for smooth infinite scroll */}
+        <div className="flex space-x-4 sm:space-x-8 md:space-x-12 animate-marquee2 whitespace-nowrap absolute top-0">
+          {duplicatedCompanies.map((company, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-2 sm:gap-3 md:gap-4 text-gray-400 mx-4 sm:mx-6 md:mx-8 lg:mx-12"
+            >
+              <Image 
+                src={company.icon}
+                alt={company.name}
+                width={40}
+                height={40}
+                className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10"
+                priority
+              />
+              <span className="text-xs sm:text-sm md:text-base lg:text-lg font-medium whitespace-nowrap">
                 {company.name}
               </span>
             </div>
