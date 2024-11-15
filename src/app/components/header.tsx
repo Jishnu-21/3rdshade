@@ -195,6 +195,9 @@ export default function Header() {
           </nav>
         )}
         <div className="flex items-center">
+          <div className="block xl:hidden relative z-[9999] mr-2">
+            <ThemeToggle />
+          </div>
           <div className="block xl:hidden relative z-[9999]">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
