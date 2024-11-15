@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
+import { ThemeProvider } from '@/app/context/ThemeContext';
 
 // Import Swiper styles
 import 'swiper/css';
