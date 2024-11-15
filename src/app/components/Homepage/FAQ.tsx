@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
+import { useTheme } from '@/app/context/ThemeContext';
 
 interface FAQ {
   question: string;
@@ -28,35 +29,59 @@ interface FAQItemProps {
   answer: string;
   isOpen: boolean;
   toggleOpen: () => void;
+  theme: 'dark' | 'light';
 }
 
-const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, toggleOpen }) => (
-  <div className="border-b border-[#1E1E1E] py-4">
+const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, toggleOpen, theme }) => (
+  <div className={`border-b ${theme === 'dark' ? 'border-[#1E1E1E]' : 'border-gray-200'} py-4`}>
     <button
-      className="flex justify-between items-center w-full text-left"
+      className="flex justify-between items-center w-full text-left group"
       onClick={toggleOpen}
     >
-      <span className="text-sm text-[#ABABAB]">{question}</span>
+      <span className={`text-sm ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
+        group-hover:${theme === 'dark' ? 'text-white' : 'text-black'} transition-colors duration-200`}
+      >
+        {question}
+      </span>
       {isOpen ? (
-        <Minus className="w-5 h-5 text-[#ABABAB]" />
+        <Minus className={`w-5 h-5 ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
+          group-hover:${theme === 'dark' ? 'text-white' : 'text-black'} transition-colors duration-200`} 
+        />
       ) : (
-        <Plus className="w-5 h-5 text-[#ABABAB]" />
+        <Plus className={`w-5 h-5 ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
+          group-hover:${theme === 'dark' ? 'text-white' : 'text-black'} transition-colors duration-200`} 
+        />
       )}
     </button>
-    {isOpen && <p className="pt-2 text-sm text-[#ABABAB]">{answer}</p>}
+    {isOpen && (
+      <p className={`pt-2 text-sm ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
+        transition-colors duration-200`}
+      >
+        {answer}
+      </p>
+    )}
   </div>
 );
 
 const FAQ: React.FC = () => {
+  const { theme } = useTheme();
   const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
-    <div className="bg-black text-white pt-16 pb-32 flex flex-col items-center justify-center px-4 -mt-16 relative z-20">
+    <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} 
+      ${theme === 'dark' ? 'text-white' : 'text-black'} 
+      pt-16 pb-32 flex flex-col items-center justify-center px-4 -mt-16 relative z-20`}
+    >
       <div className="max-w-3xl w-full">
-        <h2 className="text-2xl font-normal mb-6 text-center">
+        <h2 className={`text-2xl font-normal mb-6 text-center 
+          ${theme === 'dark' ? 'text-white' : 'text-black'}`}
+        >
           The Most Frequently Asked Questions.
         </h2>
-        <div className="bg-black rounded-lg p-6 border-x border-t border-[#1E1E1E]">
+        <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} rounded-lg p-6 
+          border-x border-t ${theme === 'dark' ? 'border-[#1E1E1E]' : 'border-gray-200'}
+          ${theme === 'dark' ? 'shadow-lg' : 'shadow-md'}`}
+        >
           {faqs.map((faq, index) => (
             <FAQItem
               key={index}
@@ -64,6 +89,7 @@ const FAQ: React.FC = () => {
               answer={faq.answer}
               isOpen={index === openIndex}
               toggleOpen={() => setOpenIndex(index === openIndex ? -1 : index)}
+              theme={theme}
             />
           ))}
         </div>

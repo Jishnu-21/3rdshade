@@ -5,11 +5,13 @@ import { motion} from 'framer-motion'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper/modules'
+import { useTheme } from '@/app/context/ThemeContext'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/autoplay'
 
 const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY: number }) => {
+  const { theme } = useTheme();
   const [windowHeight, setWindowHeight] = useState(0);
 
   useEffect(() => {
@@ -26,14 +28,9 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
   // Calculate opacity for the left side elements (keeping original logic)
   const leftSideOpacity = index % 2 === 0 ? 1 : Math.max(0, 1 - (scrollY - y + 200) / 200)
 
-  // Alternate between images based on index
+  // Simplified getImageSrc function to use same SVG
   const getImageSrc = (index: number) => {
-    if (index === 0) return "/Rectangle 5.svg"
-    if (index === 1) return "/Rectangle 41984.svg"
-    if (index === 2) return "/Rectangle 5.svg"
-    if (index === 3) return "/Rectangle 41984.svg"
-    if (index === 4) return "/Rectangle 5.svg"
-    return "/Rectangle 41984.png"
+    return index % 2 === 0 ? "/Rectangle 5.svg" : "/Rectangle 41984.svg";
   }
 
   return (
@@ -53,16 +50,21 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
         className={`w-[calc(50%-2rem)] ${index % 2 === 0 ? 'pl-4' : 'pr-4'}`}
         style={{ opacity: leftSideOpacity }}
       >
-        <Image
-          src={getImageSrc(index)}
-          alt={`Timeline item ${index + 1}`}
-          width={200}
-          height={60}
-          className="w-full h-auto"
-        />
+        <div className="relative">
+          <Image
+            src={getImageSrc(index)}
+            alt={`Timeline item ${index + 1}`}
+            width={200}
+            height={60}
+            className={`w-full h-auto ${theme === 'light' ? 'invert' : ''}`}
+            style={{
+              opacity: 1,
+            }}
+          />
+        </div>
       </motion.div>
       <motion.div 
-        className={`w-16 h-16 bg-white rounded-full z-10 flex items-center justify-center relative`}
+        className={`w-16 h-16 ${theme === 'dark' ? 'bg-white' : 'bg-black'} rounded-full z-10 flex items-center justify-center relative`}
         style={{ opacity: leftSideOpacity }}
       >
       </motion.div>
@@ -70,27 +72,23 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
   )
 }
 
-// Shared getImageSrc function
+// Simplified shared getImageSrc function
 const getImageSrc = (index: number) => {
-  if (index === 0) return "/Rectangle 5.svg"
-  if (index === 1) return "/Rectangle 41984.svg"
-  if (index === 2) return "/Rectangle 5.svg"
-  if (index === 3) return "/Rectangle 41984.svg"
-  if (index === 4) return "/Rectangle 5.svg"
-  return "/Rectangle 41984.png"
+  return index % 2 === 0 ? "/Rectangle 5.svg" : "/Rectangle 41984.svg";
 }
 
 const MobileTimelineItem = ({ index }: { index: number }) => {
+  const { theme } = useTheme();
+  
   return (
     <div className="w-full px-2">
       <div className="relative w-full aspect-[3/1] overflow-hidden rounded-[4px]">
         <div className="absolute left-1/2 -translate-x-1/2 w-[75%] h-full">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-black/5" />
           <Image
             src={getImageSrc(index)}
             alt={`Timeline item ${index + 1}`}
             fill
-            className="object-cover object-center"
+            className={`object-cover object-center ${theme === 'light' ? 'invert' : ''}`}
             sizes="(max-width: 768px) 100vw, 50vw"
             priority={index === 0}
           />
@@ -101,6 +99,7 @@ const MobileTimelineItem = ({ index }: { index: number }) => {
 };
 
 export default function Component() {
+  const { theme } = useTheme();
   const [scrollY, setScrollY] = useState(0)
   const scrollRef = useRef<HTMLDivElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
@@ -136,17 +135,18 @@ export default function Component() {
   return (
     <div 
       ref={componentRef} 
-      className="bg-black text-white px-4 md:px-[122px] mt-[200px] py-8 flex flex-col relative
+      className={`${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'} 
+        px-4 md:px-[122px] mt-[200px] py-8 flex flex-col relative
         sm:h-[55vh]    /* Tablet (640px and up) */
         xl:h-screen    /* Desktop (1280px and up) */
-        "
+      `}
     >
       {/* Title section */}
       <div className="md:absolute md:top-8 md:left-4 md:left-[122px] w-full md:w-1/3 z-10 mb-4 md:mb-0">
         <h2 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-left">
           What we do ?
         </h2>
-        <p className="text-blue-400 text-base md:text-xl text-left">
+        <p className={`${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'} text-base md:text-xl text-left`}>
           It's not just about having a website or social media presence. We understand you and your brand to market in a unique way.
         </p>
       </div>
@@ -159,7 +159,9 @@ export default function Component() {
             top: '0',
             bottom: '0',
             width: '2px',
-            background: 'repeating-linear-gradient(to bottom, white 0, white 20px, transparent 20px, transparent 40px)',
+            background: theme === 'dark'
+              ? 'repeating-linear-gradient(to bottom, white 0, white 20px, transparent 20px, transparent 40px)'
+              : 'repeating-linear-gradient(to bottom, black 0, black 20px, transparent 20px, transparent 40px)',
             zIndex: 15
           }}
         ></div>
@@ -197,8 +199,8 @@ export default function Component() {
           }}
           pagination={{
             clickable: true,
-            bulletClass: 'swiper-pagination-bullet !bg-white/30',
-            bulletActiveClass: 'swiper-pagination-bullet-active !bg-white',
+            bulletClass: `swiper-pagination-bullet !${theme === 'dark' ? 'bg-white/30' : 'bg-black/30'}`,
+            bulletActiveClass: `swiper-pagination-bullet-active !${theme === 'dark' ? 'bg-white' : 'bg-black'}`,
           }}
           className="h-full !pb-12"
         >

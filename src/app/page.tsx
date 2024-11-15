@@ -14,10 +14,12 @@ const Testimonials = dynamic(() => import('./components/Homepage/Testimonials'),
 const FAQ = dynamic(() => import('./components/Homepage/FAQ'), { ssr: false });
 const MoreInfoWithTime = dynamic(() => import('./components/Homepage/MoreInfoWithTime'), { ssr: false });
 const Layout = dynamic(() => import('./components/Homepage/Layout'), { ssr: false });
+import { useTheme } from '@/app/context/ThemeContext';
 
 const Page = () => {
   const [isMounted, setIsMounted] = React.useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const { theme } = useTheme();
 
   React.useEffect(() => {
     setIsMounted(true);
@@ -31,13 +33,15 @@ const Page = () => {
     <>
     <Header />
     <Layout>
-      <div className='w-full'>
-        <div className="bg-black">
-          <Banner scrollProgress={scrollProgress} />
+      <div className='w-full scroll-smooth'>
+      <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300`}>
+      <Banner scrollProgress={scrollProgress} />
           <Videoplayback 
             onScroll={(progress) => setScrollProgress(progress)}
           />
-          <ScrollingTimeline />
+          <div className="scroll-mt-24">
+            <ScrollingTimeline />
+          </div>
           <ServiceLine />
           <Brands />
           <WhatWeDo />
@@ -47,8 +51,8 @@ const Page = () => {
             <FAQ />
           </div>
         </div>
-        <div className="bg-white">
-          <MoreInfoWithTime />
+        <div className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-1000`}>
+        <MoreInfoWithTime />
         </div>
       </div>
     </Layout>

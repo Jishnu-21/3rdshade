@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useTheme } from '@/app/context/ThemeContext'
 
 type CardState = {
   isVisible: boolean;
@@ -16,6 +17,7 @@ type CardStates = {
 };
 
 export default function Component() {
+  const { theme } = useTheme();
   const [cardStates, setCardStates] = useState<CardStates>({
     card1: { isVisible: false, showBack: false, progress: 0, isHovered: false },
     card2: { isVisible: false, showBack: false, progress: 0, isHovered: false },
@@ -299,7 +301,7 @@ export default function Component() {
   ];
 
   return (
-    <div className="bg-white p-4 md:p-8">
+    <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} p-4 md:p-8`}>
       <h1 className="mb-8 md:mb-12 text-center text-3xl md:text-4xl lg:text-5xl font-bold">
         <span className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
           What do we do Differently?
@@ -332,16 +334,18 @@ export default function Component() {
             >
               {/* Front of card */}
               <div className={`absolute w-full h-full ${card.color} 
-                shadow-lg backface-hidden rounded-sm overflow-hidden`}>
+                shadow-lg backface-hidden rounded-sm overflow-hidden
+                ${theme === 'light' ? 'bg-opacity-90' : ''}`}>
                 <div className="flex flex-col items-start p-6 h-full">
-                  <div className="mb-auto h-12 w-12 rounded-full bg-gray-200/20"></div>
+                  <div className={`mb-auto h-12 w-12 rounded-full ${theme === 'dark' ? 'bg-gray-200/20' : 'bg-gray-200/40'}`}></div>
                   <p className="text-lg font-light text-white mt-auto line-clamp-2">Hush Hiven</p>
                 </div>
               </div>
 
               {/* Back of card */}
               <div className={`absolute w-full h-full ${card.color}
-                shadow-lg backface-hidden rotate-y-180 rounded-sm overflow-hidden`}>
+                shadow-lg backface-hidden rotate-y-180 rounded-sm overflow-hidden
+                ${theme === 'light' ? 'bg-opacity-90' : ''}`}>
                 <div className="h-full p-6 flex items-center justify-center">
                   <p className="text-base font-light text-white leading-relaxed break-words w-full">
                     {typeof card.backContent === 'string' 
@@ -359,7 +363,8 @@ export default function Component() {
       <div className="hidden md:block">
         <div 
           ref={containerRef} 
-          className="relative mx-auto h-[1000px] md:h-[1200px] lg:h-[800px] max-w-[1200px] px-4"
+          className={`relative mx-auto h-[1000px] md:h-[1200px] lg:h-[800px] max-w-[1200px] px-4 
+            ${theme === 'dark' ? 'text-white' : 'text-black'}`}
         >
           {cards.map((card) => (
             <div

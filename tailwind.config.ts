@@ -14,8 +14,18 @@ const config: Config = {
         'geist-mono': ['var(--font-geist-mono)'],
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: {
+          dark: '#000000',
+          light: '#ffffff',
+        },
+        text: {
+          dark: '#ffffff',
+          light: '#000000',
+        },
+        accent: {
+          dark: '#4A9EDE',
+          light: '#2779BD',
+        }
       },
       animation: {
         'gradient-x': 'gradient-x 3s ease infinite',
@@ -43,6 +53,7 @@ const config: Config = {
     },
   },
   plugins: [],
+  darkMode: 'class',
 };
 
 export default config;

@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useTheme } from '@/app/context/ThemeContext'
 
 const testimonials = [
     {
@@ -37,6 +38,7 @@ const testimonials = [
   ]
   
 export default function Component() {
+  const { theme } = useTheme();
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(false)
@@ -88,9 +90,16 @@ export default function Component() {
   }
 
   return (
-    <div className="bg-black text-white py-16 px-4 relative z-10">
+    <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} 
+      ${theme === 'dark' ? 'text-white' : 'text-black'} 
+      py-16 px-4 relative z-10`}
+    >
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-center text-sm mb-2">What Client Say About Us</h2>
+        <h2 className={`text-center text-sm mb-2 
+          ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}
+        >
+          What Client Say About Us
+        </h2>
         <h1 className="text-center text-4xl font-bold mb-12">OUR TESTIMONIALS</h1>
         
         <div className="relative">
@@ -105,14 +114,23 @@ export default function Component() {
           >
             {testimonials.map((testimonial, index) => (
               <div key={index} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 snap-center">
-                <div className="bg-[#111] p-6 rounded-tl-[40px] rounded-br-[40px] relative">
+                <div className={`${theme === 'dark' ? 'bg-[#111]' : 'bg-gray-100'} 
+                  p-6 rounded-tl-[40px] rounded-br-[40px] relative
+                  ${theme === 'dark' ? 'shadow-lg' : 'shadow-md'}`}
+                >
                   <div className="text-yellow-500 text-4xl absolute top-4 left-4">"</div>
-                  <p className="mb-4 mt-8">{testimonial.content}</p>
+                  <p className={`mb-4 mt-8 ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
+                    {testimonial.content}
+                  </p>
                   <div className="flex items-center">
-                    <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                    <div className={`w-12 h-12 ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'} 
+                      rounded-full mr-4`}
+                    ></div>
                     <div>
                       <p className="font-semibold">{testimonial.author}</p>
-                      <p className="text-sm text-gray-400">{testimonial.position}</p>
+                      <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+                        {testimonial.position}
+                      </p>
                     </div>
                   </div>
                   <div className="text-yellow-500 text-4xl absolute bottom-4 right-4">"</div>
@@ -124,25 +142,29 @@ export default function Component() {
           {canScrollLeft && (
             <button 
               onClick={() => scroll('left')} 
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black/50 p-2 rounded-full"
+              className={`absolute left-0 top-1/2 transform -translate-y-1/2 
+                ${theme === 'dark' ? 'bg-black/50' : 'bg-gray-800/50'} 
+                p-2 rounded-full hover:bg-opacity-70 transition-all duration-300`}
               aria-label="Scroll left"
             >
-              <ChevronLeft className="w-6 h-6 text-white" />
+              <ChevronLeft className={`w-6 h-6 ${theme === 'dark' ? 'text-white' : 'text-white'}`} />
             </button>
           )}
           
           {canScrollRight && (
             <button 
               onClick={() => scroll('right')} 
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black/50 p-2 rounded-full"
+              className={`absolute right-0 top-1/2 transform -translate-y-1/2 
+                ${theme === 'dark' ? 'bg-black/50' : 'bg-gray-800/50'} 
+                p-2 rounded-full hover:bg-opacity-70 transition-all duration-300`}
               aria-label="Scroll right"
             >
-              <ChevronRight className="w-6 h-6 text-white" />
+              <ChevronRight className={`w-6 h-6 ${theme === 'dark' ? 'text-white' : 'text-white'}`} />
             </button>
           )}
         </div>
       </div>
-      <div className="h-16 bg-black"></div>
+      <div className={`h-16 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}></div>
     </div>
   )
 }

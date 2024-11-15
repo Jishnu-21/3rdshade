@@ -4,8 +4,11 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '@/app/context/ThemeContext';
+import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
 
 export default function Header() {
+  const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -13,6 +16,11 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isScrollLocked, setIsScrollLocked] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const [logoError, setLogoError] = useState(false);
+
+  const logoSrc = theme === 'dark' 
+    ? "/logo png-01 2.png"  // dark theme logo
+    : "/logo png-02 2.png" ;    // light theme logo
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -111,8 +119,20 @@ export default function Header() {
     </Link>
   );
 
+  const ThemeToggle = () => (
+    <button
+      onClick={toggleTheme}
+      className={`focus:outline-none p-2 ${theme === 'dark' ? 'text-yellow-500' : 'text-gray-800'}`}
+      aria-label="Toggle theme"
+    >
+      {theme === 'dark' ? (
+        <IoSunnyOutline className="h-5 w-5" />
+      ) : (
+        <IoMoonOutline className="h-5 w-5" />
+      )}
+    </button>
+  );
 
-  
   return (
     <>
       <header 
@@ -120,24 +140,35 @@ export default function Header() {
         className={`py-4 px-4 sm:px-6 md:px-8 xl:px-[122px] 
           flex items-center justify-between fixed top-0 left-0 right-0 z-[99] 
           h-[70px] sm:h-[80px] md:h-[90px] xl:h-[100px]
-          transition-all duration-300
+          transition-all duration-300 ease-in-out
           ${isVisible ? 'translate-y-0' : '-translate-y-full'}
-          ${isScrolled ? 'bg-black/30 backdrop-blur-sm' : 'bg-black'}`}
+          ${isScrolled 
+            ? theme === 'dark' 
+              ? 'bg-black/30 backdrop-blur-sm' 
+              : 'bg-white/30 backdrop-blur-sm' 
+            : theme === 'dark'
+              ? 'bg-black'
+              : 'bg-white'
+          }`}
       >
-        <div className="flex-shrink-0 relative z-[100]">
+        <div className="flex-shrink-0 relative z-[100] flex items-center">
           <Link href="/">
             <Image 
-              src="/logo png-01 2.png" 
+              src={logoSrc}
               alt="3RD SHADE" 
               width={180} 
               height={57} 
+              priority  // Add priority to load logo first
               className="w-[100px] sm:w-[120px] md:w-[150px] xl:w-[180px] h-auto"
+              onError={() => setLogoError(true)}  // Handle load error
+              // Add key to force re-render when theme changes
+              key={theme}
             />
           </Link>
         </div>
         {!isMobile && (
           <nav className="hidden xl:flex flex-grow justify-center mx-4 relative z-[100]">
-            <div className="relative w-full max-w-[654px] h-[57px] rounded-full overflow-hidden border border-white">
+            <div className={`relative w-full max-w-[654px] h-[57px] rounded-full overflow-hidden border ${theme === 'dark' ? 'border-white' : 'border-black'}`}>
               <span className="absolute inset-0 rounded-full opacity-100" style={{
                 background: 'linear-gradient(90deg, rgba(255,255,255,0.47) 0%, rgba(255,255,255,0) 100%)',
                 content: "''",
@@ -145,13 +176,15 @@ export default function Header() {
               }}></span>
               <ul className="flex items-center justify-between h-full rounded-full px-12 relative z-10"
                   style={{
-                    background: 'linear-gradient(90deg, #4A4A4A 0%, #2B2B2B 50%, #1A1A1A 100%)'
+                    background: theme === 'dark' 
+                      ? 'linear-gradient(90deg, #4A4A4A 0%, #2B2B2B 50%, #1A1A1A 100%)'
+                      : 'linear-gradient(90deg, #FFFFFF 0%, #F5F5F5 50%, #EEEEEE 100%)'
                   }}>
                 {menuItems.map((item) => (
                   <li key={item}>
                     <Link 
                       href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                      className="text-white hover:text-gray-300 transition-colors text-sm font-medium"
+                      className={`${theme === 'dark' ? 'text-white hover:text-gray-300' : 'text-black hover:text-gray-600'} transition-colors text-sm font-medium`}
                     >
                       {item}
                     </Link>
@@ -161,44 +194,47 @@ export default function Header() {
             </div>
           </nav>
         )}
-        <div className="block xl:hidden relative z-[9999]">
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-white focus:outline-none p-2"
-            aria-label="Toggle menu"
-          >
-            <motion.div
-              animate={isMenuOpen ? "open" : "closed"}
-              className="relative w-8 h-8"
+        <div className="flex items-center">
+          <div className="block xl:hidden relative z-[9999]">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`focus:outline-none p-2 ${theme === 'dark' ? 'text-white' : 'text-black'}`}
+              aria-label="Toggle menu"
             >
-              {isMenuOpen ? (
-                <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M6 18L18 6M6 6l12 12" 
-                  />
-                </svg>
-              ) : (
-                <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M4 6h16M4 12h16m-7 6h7" 
-                  />
-                </svg>
-              )}
-            </motion.div>
-          </button>
-        </div>
-        {!isMobile && (
-          <div className="hidden xl:block flex-shrink-0 relative z-[100]">
-            <ContactButton />
+              <motion.div
+                animate={isMenuOpen ? "open" : "closed"}
+                className="relative w-8 h-8"
+              >
+                {isMenuOpen ? (
+                  <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M6 18L18 6M6 6l12 12" 
+                    />
+                  </svg>
+                ) : (
+                  <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M4 6h16M4 12h16m-7 6h7" 
+                    />
+                  </svg>
+                )}
+              </motion.div>
+            </button>
           </div>
-        )}
-       <AnimatePresence>
+          {!isMobile && (
+            <div className="hidden xl:flex items-center gap-6">
+              <ContactButton />
+              <ThemeToggle />
+            </div>
+          )}
+        </div>
+        <AnimatePresence>
   {isMenuOpen && (
     <motion.div
       initial={{ opacity: 0 }}
@@ -220,7 +256,9 @@ export default function Header() {
         variants={menuVariants}
         className="fixed right-0 w-full h-full flex flex-col"
         style={{
-          background: 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)',
+          background: theme === 'dark'
+            ? 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)'
+            : 'linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%)',
           paddingTop: '100px',
           top: 0,
           zIndex: 999,
