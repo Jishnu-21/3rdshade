@@ -45,12 +45,15 @@ const BrandsWeBuilt: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-gray-700 text-black min-h-screen   py-16 relative overflow-hidden">
+    <div className="bg-gray-700 text-black min-h-screen py-8 sm:py-12 md:py-16 lg:py-20 
+      relative overflow-hidden flex items-center justify-center"
+    >
       <div className="relative z-20">
         {stars.map((star, i) => (
           <ShootingStar key={i} delay={star.delay} top={star.top} left={star.left} />
         ))}
       </div>
+      
       <AnimatePresence mode="wait">
         {hoveredBrand && (
           <motion.div
@@ -73,15 +76,29 @@ const BrandsWeBuilt: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="w-full max-w-lg mx-auto relative z-30 space-y-12 text-center">
-        <div className="bg-white text-black rounded-3xl px-10 py-2.5 inline-block mb-12 min-w-[280px]">
-          <h2 className="text-xl font-bold leading-none">Brand we have build</h2>
+
+      <div className="w-full max-w-[90%] sm:max-w-[80%] md:max-w-lg lg:max-w-xl xl:max-w-2xl 
+        2xl:max-w-3xl 3xl:max-w-4xl 4xl:max-w-5xl mx-auto relative z-30 
+        flex flex-col items-center justify-center"
+      >
+        <div className="bg-white text-black rounded-3xl px-6 sm:px-8 md:px-10 
+          py-2 sm:py-2.5 inline-block mb-8 sm:mb-10 md:mb-12 
+          min-w-[240px] sm:min-w-[260px] md:min-w-[280px]"
+        >
+          <h2 className="text-lg sm:text-xl md:text-2xl 2xl:text-3xl 3xl:text-4xl 4xl:text-5xl 
+            font-bold leading-none text-center"
+          >
+            Brand we have build
+          </h2>
         </div>
-        <div className="space-y-12">
+
+        <div className="space-y-8 sm:space-y-10 md:space-y-12 lg:space-y-14 w-full">
           {brands.map((brand, index) => (
             <motion.div 
               key={index}
-              className={`${montserrat.className} text-[48px] leading-[42px] cursor-pointer
+              className={`${montserrat.className} text-[32px] sm:text-[36px] md:text-[42px] 
+                lg:text-[48px] xl:text-[56px] 2xl:text-[64px] 3xl:text-[72px] 4xl:text-[84px]
+                leading-[1.1] cursor-pointer text-center
                 ${hoveredBrand === brand.name ? 'text-white' : 'text-white/80'}`}
               style={{ letterSpacing: '-2%' }}
               onMouseEnter={() => setHoveredBrand(brand.name)}

@@ -32,10 +32,12 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
             className={`${theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'} 
-              pt-16 sm:pt-24 md:pt-36 pb-8 sm:pb-12 px-4`}
+              pt-12 sm:pt-16 md:pt-20 lg:pt-24 xl:pt-28 2xl:pt-32 3xl:pt-36 4xl:pt-40
+              pb-6 sm:pb-8 md:pb-10 lg:pb-12 xl:pb-14 2xl:pb-16 3xl:pb-18 4xl:pb-20 
+              px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-14 3xl:px-16 4xl:px-20`}
           >
-            <div className="max-w-6xl mx-auto">
-              <div className="mb-16 sm:mb-24 md:mb-32 flex justify-center">
+            <div className="max-w-[1440px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] 4xl:max-w-[2000px] mx-auto">
+              <div className="mb-12 sm:mb-16 md:mb-20 lg:mb-24 xl:mb-28 2xl:mb-32 3xl:mb-36 4xl:mb-40 flex justify-center">
                 <Image 
                   src={theme === 'dark' ? "/footer-logo.png" : "/logo png-03 1.png"}
                   alt="3RD SHADE" 
@@ -45,11 +47,17 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
                   priority={isVisible}
                 />
               </div>
-              <div className="mx-[-1rem] sm:mx-[-2rem] md:mx-[-4rem] mb-10 sm:mb-16 md:mb-20">
+              
+              <div className="mx-[-1rem] sm:mx-[-2rem] md:mx-[-4rem] 
+                mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 2xl:mb-18 3xl:mb-20 4xl:mb-24"
+              >
                 <hr className={`border-t ${theme === 'dark' ? 'border-black' : 'border-white'} w-full`} />
               </div>
+
               <div className="flex flex-col sm:flex-row flex-wrap justify-between items-center sm:items-start">
-                <div className="flex space-x-6 sm:space-x-10 mb-8 sm:mb-10 md:mb-0 order-2 sm:order-1">
+                <div className="flex space-x-4 sm:space-x-6 md:space-x-8 lg:space-x-10 xl:space-x-12 2xl:space-x-14 3xl:space-x-16 4xl:space-x-20 
+                  mb-6 sm:mb-8 md:mb-0 order-2 sm:order-1"
+                >
                   {[
                     { icon: FaLinkedinIn, href: "https://www.linkedin.com" },
                     { icon: FaInstagram, href: "https://www.instagram.com" },
@@ -66,11 +74,18 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
                         : 'text-white hover:text-gray-400'} 
                         transition-colors duration-300`}
                     >
-                      <social.icon className="w-6 h-6 sm:w-7 sm:h-7" />
+                      <social.icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 
+                        xl:w-9 xl:h-9 2xl:w-10 2xl:h-10 3xl:w-11 3xl:h-11 4xl:w-12 4xl:h-12" />
                     </Link>
                   ))}
                 </div>
-                <nav className="flex flex-wrap justify-center sm:justify-start space-x-4 sm:space-x-6 md:space-x-10 mb-8 sm:mb-10 md:mb-0 text-sm sm:text-base order-1 sm:order-2">
+
+                <nav className="flex flex-wrap justify-center sm:justify-start 
+                  space-x-3 sm:space-x-4 md:space-x-6 lg:space-x-8 xl:space-x-10 2xl:space-x-12 3xl:space-x-14 4xl:space-x-16
+                  mb-6 sm:mb-8 md:mb-0 
+                  text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl 3xl:text-3xl 4xl:text-4xl 
+                  order-1 sm:order-2"
+                >
                   {[
                     { href: "/about", label: "About" },
                     { href: "/contact", label: "Contact" },
@@ -90,7 +105,9 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
                     </Link>
                   ))}
                 </nav>
-                <div className={`text-xs sm:text-sm ${theme === 'dark' ? 'text-gray-600' : 'text-gray-400'} 
+
+                <div className={`text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl 3xl:text-3xl 4xl:text-4xl
+                  ${theme === 'dark' ? 'text-gray-600' : 'text-gray-400'} 
                   text-center sm:text-right order-3`}
                 >
                   <p>Proudly created in India.</p>
@@ -104,7 +121,9 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} w-full h-full min-h-[400px]`}
+            className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} w-full h-full 
+              min-h-[300px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-[450px] 
+              xl:min-h-[500px] 2xl:min-h-[550px] 3xl:min-h-[600px] 4xl:min-h-[650px]`}
           />
         )}
       </AnimatePresence>

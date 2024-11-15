@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { useTheme } from '@/app/context/ThemeContext'
+import { useTheme } from '@/app/context/ThemeContext';
 
 type CardState = {
   isVisible: boolean;
@@ -252,11 +252,11 @@ export default function Component() {
   const cards = [
     {
       id: "card1",
-      color: "bg-red-500",
+      color: theme === 'dark' ? 'bg-red-500' : 'bg-red-500/90',
       position: "lg:left-[5%] md:left-[10%] left-0 lg:top-[5%] md:top-[5%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-6 sm:p-8 lg:p-12">
-          <div className="mb-auto h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gray-200/20"></div>
+          <div className={`mb-auto h-16 w-16 sm:h-20 sm:w-20 rounded-full ${theme === 'dark' ? 'bg-gray-200/20' : 'bg-gray-200/30'}`}></div>
           <p className="text-xl sm:text-2xl font-light text-white mt-auto">Hush Hiven</p>
         </div>
       ),
@@ -268,7 +268,7 @@ export default function Component() {
     },
     {
       id: "card2",
-      color: "bg-purple-500",
+      color: theme === 'dark' ? 'bg-purple-500' : 'bg-purple-500/90',
       position: "lg:left-[35%] md:left-[10%] left-0 lg:top-[25%] md:top-[40%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-12">
@@ -284,7 +284,7 @@ export default function Component() {
     },
     {
       id: "card3",
-      color: "bg-blue-600",
+      color: theme === 'dark' ? 'bg-blue-600' : 'bg-blue-600/90',
       position: "lg:left-[65%] md:left-[10%] left-0 lg:top-[45%] md:top-[75%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-12">
@@ -301,8 +301,8 @@ export default function Component() {
   ];
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} p-4 md:p-8`}>
-      <h1 className="mb-8 md:mb-12 text-center text-3xl md:text-4xl lg:text-5xl font-bold">
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'} p-4 md:p-8`}>
+      <h1 className={`mb-8 md:mb-12 text-center text-3xl md:text-4xl lg:text-5xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
         <span className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
           What do we do Differently?
         </span>
@@ -334,18 +334,16 @@ export default function Component() {
             >
               {/* Front of card */}
               <div className={`absolute w-full h-full ${card.color} 
-                shadow-lg backface-hidden rounded-sm overflow-hidden
-                ${theme === 'light' ? 'bg-opacity-90' : ''}`}>
+                shadow-lg backface-hidden rounded-sm overflow-hidden`}>
                 <div className="flex flex-col items-start p-6 h-full">
-                  <div className={`mb-auto h-12 w-12 rounded-full ${theme === 'dark' ? 'bg-gray-200/20' : 'bg-gray-200/40'}`}></div>
+                  <div className="mb-auto h-12 w-12 rounded-full bg-gray-200/20"></div>
                   <p className="text-lg font-light text-white mt-auto line-clamp-2">Hush Hiven</p>
                 </div>
               </div>
 
               {/* Back of card */}
               <div className={`absolute w-full h-full ${card.color}
-                shadow-lg backface-hidden rotate-y-180 rounded-sm overflow-hidden
-                ${theme === 'light' ? 'bg-opacity-90' : ''}`}>
+                shadow-lg backface-hidden rotate-y-180 rounded-sm overflow-hidden`}>
                 <div className="h-full p-6 flex items-center justify-center">
                   <p className="text-base font-light text-white leading-relaxed break-words w-full">
                     {typeof card.backContent === 'string' 
@@ -363,8 +361,7 @@ export default function Component() {
       <div className="hidden md:block">
         <div 
           ref={containerRef} 
-          className={`relative mx-auto h-[1000px] md:h-[1200px] lg:h-[800px] max-w-[1200px] px-4 
-            ${theme === 'dark' ? 'text-white' : 'text-black'}`}
+          className="relative mx-auto h-[1000px] md:h-[1200px] lg:h-[800px] max-w-[1200px] px-4"
         >
           {cards.map((card) => (
             <div
