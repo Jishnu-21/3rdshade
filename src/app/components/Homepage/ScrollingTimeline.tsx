@@ -28,9 +28,12 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
   // Calculate opacity for the left side elements (keeping original logic)
   const leftSideOpacity = index % 2 === 0 ? 1 : Math.max(0, 1 - (scrollY - y + 200) / 200)
 
-  // Simplified getImageSrc function to use same SVG
-  const getImageSrc = (index: number) => {
-    return index % 2 === 0 ? "/Rectangle 5.svg" : "/Rectangle 41984.svg";
+  // Updated getImageSrc function to handle theme-specific images
+  const getImageSrc = (index: number, theme: 'dark' | 'light') => {
+    const baseImage = index % 2 === 0 ? "Rectangle 5" : "Rectangle 41984";
+    return theme === 'dark' 
+      ? `/${baseImage}.svg`
+      : `/${baseImage}-light.svg`; // Add light theme versions of SVGs
   }
 
   return (
@@ -52,13 +55,14 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
       >
         <div className="relative">
           <Image
-            src={getImageSrc(index)}
+            src={getImageSrc(index, theme)}
             alt={`Timeline item ${index + 1}`}
             width={200}
             height={60}
-            className={`w-full h-auto ${theme === 'light' ? 'invert' : ''}`}
+            className="w-full h-auto"
             style={{
               opacity: 1,
+              filter: 'none' // Remove the invert filter
             }}
           />
         </div>
@@ -72,13 +76,16 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
   )
 }
 
-// Simplified shared getImageSrc function
+// Update the shared getImageSrc function as well
 const getImageSrc = (index: number) => {
-  return index % 2 === 0 ? "/Rectangle 5.svg" : "/Rectangle 41984.svg";
+  const { theme } = useTheme();
+  const baseImage = index % 2 === 0 ? "Rectangle 5" : "Rectangle 41984";
+  return theme === 'dark' 
+    ? `/${baseImage}.svg`
+    : `/${baseImage}-.svg`; // Add light theme versions of SVGs
 }
 
 const MobileTimelineItem = ({ index }: { index: number }) => {
-  const { theme } = useTheme();
   
   return (
     <div className="w-full px-2">
@@ -88,9 +95,10 @@ const MobileTimelineItem = ({ index }: { index: number }) => {
             src={getImageSrc(index)}
             alt={`Timeline item ${index + 1}`}
             fill
-            className={`object-cover object-center ${theme === 'light' ? 'invert' : ''}`}
+            className="object-cover object-center"
             sizes="(max-width: 768px) 100vw, 50vw"
             priority={index === 0}
+            style={{ filter: 'none' }} // Remove any filters
           />
         </div>
       </div>

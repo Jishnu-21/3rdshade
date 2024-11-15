@@ -23,7 +23,7 @@ const ContactUsPage = () => {
     <div className="flex flex-col min-h-screen">
       <Header/>
       <Layout>
-        <div className="flex-grow">
+        <div className="flex-grow pb-10">
           <SupportForm onAlertShow={showAlert} />
           <FooterLabel/>
         </div>

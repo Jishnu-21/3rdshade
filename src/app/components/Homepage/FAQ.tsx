@@ -70,7 +70,7 @@ const FAQ: React.FC = () => {
   return (
     <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} 
       ${theme === 'dark' ? 'text-white' : 'text-black'} 
-      pt-16 pb-32 flex flex-col items-center justify-center px-4 -mt-16 relative z-20`}
+      pt-16 pb-10 sm:pb-24 flex flex-col items-center justify-center px-4 -mt-16 relative z-20`}
     >
       <div className="max-w-3xl w-full">
         <h2 className={`text-2xl font-normal mb-6 text-center 

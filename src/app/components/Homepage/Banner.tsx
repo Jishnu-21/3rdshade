@@ -101,7 +101,7 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
     >
       {/* Glow effects with fade - only show in dark theme */}
       <div 
-        className="absolute top-[30%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
+        className="absolute top-[40%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
         style={{
           background: theme === 'dark' 
             ? `radial-gradient(
@@ -119,7 +119,7 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
       />
       
       <div 
-        className="absolute top-[30%] left-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
+        className="absolute top-[40%] left-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
         style={{
           background: theme === 'dark'
             ? 'radial-gradient(circle at center, rgba(39, 153, 231, 0.1) 0%, transparent 70%)'
@@ -131,7 +131,7 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
       />
       
       <div 
-        className="absolute top-[30%] left-1/2 w-[400px] h-[400px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
+        className="absolute top-[40%] left-1/2 w-[400px] h-[400px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
         style={{
           background: theme === 'dark'
             ? 'radial-gradient(circle at center, rgba(39, 153, 231, 0.15) 0%, transparent 60%)'

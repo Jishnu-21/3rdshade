@@ -274,13 +274,14 @@ export default function Header() {
                 <motion.li
                   key={item}
                   variants={itemVariants}
-                  whileHover={{ scale: 1.05, x: 10, color: "#ffffff" }}
+                  whileHover={{ scale: 1.05, x: 10, color: theme === 'dark' ? "#ffffff" : "#000000" }}
                   whileTap={{ scale: 0.95 }}
                   className="text-center"
                 >
                   <Link 
                     href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                    className="text-white text-3xl font-medium flex items-center justify-center"
+                    className={`${theme === 'dark' ? 'text-white' : 'text-black'} 
+                      text-3xl font-medium flex items-center justify-center`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item}

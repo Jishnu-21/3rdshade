@@ -53,6 +53,7 @@ const Page = () => {
         </div>
         <div className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-1000`}>
         <MoreInfoWithTime />
+        <div className="mt-10" />
         </div>
       </div>
     </Layout>

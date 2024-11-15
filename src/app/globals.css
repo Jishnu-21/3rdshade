@@ -260,14 +260,7 @@ html, body {
   overflow-x: hidden;
   position: relative;
   width: 100%;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
   touch-action: pan-y pinch-zoom;
-}
-
-/* Optional: Hide scrollbars */
-body::-webkit-scrollbar {
-  display: none;
 }
 
 @keyframes marquee {
