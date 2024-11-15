@@ -99,7 +99,7 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
       text-center px-4 sm:px-6 md:px-8 xl:px-[122px] 2xl:px-[150px] 3xl:px-[180px] 4xl:px-[200px]
       overflow-hidden z-10 ${montserrat.className}`}
     >
-      {/* Glow effects with fade - adjusted for light theme */}
+      {/* Glow effects with fade - only show in dark theme */}
       <div 
         className="absolute top-[30%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
         style={{
@@ -111,29 +111,22 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
                 rgba(39, 153, 231, 0.02) 60%,
                 transparent 80%
               )`
-            : `radial-gradient(
-                circle at center,
-                rgba(39, 153, 231, 0.15) 0%,
-                rgba(39, 153, 231, 0.1) 30%,
-                rgba(39, 153, 231, 0.05) 60%,
-                transparent 80%
-              )`,
-          filter: 'blur(70px)',
+            : 'none',
+          filter: theme === 'dark' ? 'blur(70px)' : 'none',
           zIndex: 0,
-          opacity: Math.max(0, 1 - (scrollProgress * 2))
+          opacity: theme === 'dark' ? Math.max(0, 1 - (scrollProgress * 2)) : 0
         }}
       />
       
-      {/* Other glow effects adjusted for light theme */}
       <div 
         className="absolute top-[30%] left-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
         style={{
           background: theme === 'dark'
             ? 'radial-gradient(circle at center, rgba(39, 153, 231, 0.1) 0%, transparent 70%)'
-            : 'radial-gradient(circle at center, rgba(39, 153, 231, 0.2) 0%, transparent 70%)',
-          filter: 'blur(60px)',
+            : 'none',
+          filter: theme === 'dark' ? 'blur(60px)' : 'none',
           zIndex: 0,
-          opacity: Math.max(0, 1 - (scrollProgress * 2))
+          opacity: theme === 'dark' ? Math.max(0, 1 - (scrollProgress * 2)) : 0
         }}
       />
       
@@ -142,10 +135,10 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
         style={{
           background: theme === 'dark'
             ? 'radial-gradient(circle at center, rgba(39, 153, 231, 0.15) 0%, transparent 60%)'
-            : 'radial-gradient(circle at center, rgba(39, 153, 231, 0.25) 0%, transparent 60%)',
-          filter: 'blur(50px)',
+            : 'none',
+          filter: theme === 'dark' ? 'blur(50px)' : 'none',
           zIndex: 0,
-          opacity: Math.max(0, 1 - (scrollProgress * 2))
+          opacity: theme === 'dark' ? Math.max(0, 1 - (scrollProgress * 2)) : 0
         }}
       />
       
