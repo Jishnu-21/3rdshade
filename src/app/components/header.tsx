@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/app/context/ThemeContext';
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
@@ -17,6 +18,7 @@ export default function Header() {
   const [isScrollLocked, setIsScrollLocked] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const [logoError, setLogoError] = useState(false);
+  const router = useRouter();
 
   const logoSrc = theme === 'dark' 
     ? "/logo png-01 2.png"  // dark theme logo
@@ -79,7 +81,7 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
-  const menuItems = ['Home', 'Work', 'About Us', 'Careers'];
+  const menuItems = ['Services', 'Work', 'About Us', 'Careers'];
 
   const menuVariants = {
     closed: { opacity: 0, x: "100%" },
@@ -133,6 +135,16 @@ export default function Header() {
     </button>
   );
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Close menu if it's open
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+    // Force a hard navigation to home
+    window.location.href = '/';
+  };
+
   return (
     <>
       <header 
@@ -152,17 +164,20 @@ export default function Header() {
           }`}
       >
         <div className="flex-shrink-0 relative z-[100] flex items-center">
-          <Link href="/">
+          <Link 
+            href="/" 
+            onClick={handleLogoClick}
+            className="cursor-pointer"
+          >
             <Image 
               src={logoSrc}
               alt="3RD SHADE" 
               width={180} 
               height={57} 
-              priority  // Add priority to load logo first
+              priority
               className="w-[100px] sm:w-[120px] md:w-[150px] xl:w-[180px] h-auto"
-              onError={() => setLogoError(true)}  // Handle load error
-              // Add key to force re-render when theme changes
-              key={theme}
+              onError={() => setLogoError(true)}
+              key={`logo-${theme}`}
             />
           </Link>
         </div>

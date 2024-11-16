@@ -1,100 +1,15 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
-import { useInView } from 'react-intersection-observer';
 
 const BenefitsSection = () => {
   const { theme } = useTheme();
-  const [gradientWidth, setGradientWidth] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const [visibleBenefits, setVisibleBenefits] = useState<number[]>([]);
-
-  // Create refs for each benefit item with triggerOnce: false to allow reverse animation
-  const [ref1, inView1] = useInView({ threshold: 0.3, triggerOnce: false });
-  const [ref2, inView2] = useInView({ threshold: 0.3, triggerOnce: false });
-  const [ref3, inView3] = useInView({ threshold: 0.3, triggerOnce: false });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        
-        // Calculate scroll direction
-        const scrollDirection = rect.top > (window as any).lastScrollTop ? 'up' : 'down';
-        (window as any).lastScrollTop = rect.top;
-        
-        // Calculate visibility percentage
-        const visiblePercentage = Math.max(
-          0,
-          Math.min(
-            100,
-            ((windowHeight - rect.top) / (windowHeight * 1.5)) * 100
-          )
-        );
-        
-        setGradientWidth(visiblePercentage);
-
-        // Show/hide benefits based on scroll direction
-        const newVisibleBenefits = [];
-        const threshold = visiblePercentage / 35;
-
-        if (scrollDirection === 'down') {
-          if (threshold >= 1) newVisibleBenefits.push(0);
-          if (threshold >= 2.5) newVisibleBenefits.push(1);
-          if (threshold >= 4) newVisibleBenefits.push(2);
-        } else {
-          // Reverse order for scrolling up
-          if (threshold >= 4) newVisibleBenefits.push(2);
-          if (threshold >= 2.5) newVisibleBenefits.push(1);
-          if (threshold >= 1) newVisibleBenefits.push(0);
-        }
-
-        setVisibleBenefits(newVisibleBenefits);
-      }
-    };
-
-    // Throttle scroll handler for smoother animations
-    let ticking = false;
-    const scrollListener = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', scrollListener);
-    handleScroll(); // Initial check
-
-    return () => window.removeEventListener('scroll', scrollListener);
-  }, []);
-
-  const scrollToOpenings = () => {
-    const openingsSection = document.getElementById('current-openings');
-    if (openingsSection) {
-      openingsSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  };
-
-  const benefits = [
-    { title: 'Health Insurance', ref: ref1, inView: inView1 },
-    { title: 'Hybrid culture', ref: ref2, inView: inView2 },
-    { title: 'Upskill Programs', ref: ref3, inView: inView3 }
-  ];
 
   return (
-    <section 
-      ref={sectionRef}
-      className={`benefits-section ${theme === 'light' ? 'bg-black' : 'bg-white'} 
-        ${theme === 'dark' ? 'text-black' : 'text-white'} 
-        py-12 sm:py-16 md:py-20 lg:py-24`}
+    <section className={`benefits-section ${theme === 'light' ? 'bg-black' : 'bg-white'} 
+      ${theme === 'dark' ? 'text-black' : 'text-white'} 
+      py-12 sm:py-16 md:py-20 lg:py-24`}
     >
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-[122px]">
         {/* Header Section */}
@@ -102,50 +17,34 @@ const BenefitsSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-[600px]">
             We put you first.<br />Always.
           </h2>
-          <button onClick={scrollToOpenings} className="relative inline-flex items-center justify-center p-0.5 overflow-hidden 
+          <button className="relative inline-flex items-center justify-center p-0.5 overflow-hidden 
             text-base sm:text-lg font-semibold rounded-full group 
             bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 
             hover:from-pink-500 hover:via-purple-500 hover:to-blue-500 
             hover:text-white focus:ring-4 focus:outline-none 
             focus:ring-purple-200 dark:focus:ring-purple-800
-            w-full lg:w-auto cursor-pointer">
+            w-full lg:w-auto"
+          >
             <span className={`relative px-6 sm:px-8 py-2.5 sm:py-3 transition-all ease-in duration-75 
               ${theme === 'dark' ? 'bg-white' : 'bg-black'} rounded-full 
-              group-hover:bg-opacity-0 w-full lg:w-auto text-center`}>
+              group-hover:bg-opacity-0 w-full lg:w-auto text-center`}
+            >
               Explore our jobs
             </span>
           </button>
         </div>
 
-        {/* Gradient Divider with slower transition */}
-        <div className="h-1 sm:h-1.5 md:h-2 w-full bg-gray-200 relative overflow-hidden mb-8 sm:mb-12 md:mb-16">
-          <div 
-            className="absolute top-0 left-0 h-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 transition-all duration-1000"
-            style={{ width: `${gradientWidth}%` }}
-          />
-        </div>
+        {/* Gradient Divider */}
+        <div className="h-1 sm:h-1.5 md:h-2 w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 
+          mb-8 sm:mb-12 md:mb-16"
+        ></div>
 
-        {/* Benefits Grid with reverse animation support */}
+        {/* Benefits Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 lg:gap-12">
-          {benefits.map((benefit, index) => (
-            <div
-              key={index}
-              ref={benefit.ref}
-              className={`benefit-item p-4 sm:p-6 md:p-8 transform transition-all duration-800
-                ${visibleBenefits.includes(index)
-                  ? 'translate-y-0 opacity-100' 
-                  : index === 0 
-                    ? '-translate-y-20 opacity-0'  // First item slides up
-                    : 'translate-y-20 opacity-0'   // Others slide down
-                }`}
-              style={{
-                transitionDelay: visibleBenefits.includes(index) 
-                  ? `${index * 500}ms`  // Delay for appearing
-                  : `${(benefits.length - 1 - index) * 500}ms`  // Reverse delay for disappearing
-              }}
-            >
+          {['Health Insurance', 'Hybrid culture', 'Upskill Programs'].map((benefit, index) => (
+            <div key={index} className="benefit-item p-4 sm:p-6 md:p-8">
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">
-                {benefit.title}
+                {benefit}
               </h3>
               <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} 
                 text-sm sm:text-base md:text-lg leading-relaxed`}
