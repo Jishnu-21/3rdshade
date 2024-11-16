@@ -7,7 +7,7 @@ import BenefitsSection from '../components/Career/BenefitsSection';
 import LifeAtShade from '../components/Career/LifeAtShade';
 import CurrentOpenings from '../components/Career/CurrentOpenings';
 import FooterLabel from '../components/Career/FooterLabel';
-import Layout from '../components/Layout';
+import Layout from '../components/Homepage/Layout';
 import Header from '../components/header';
 
 const CareerPage = () => {

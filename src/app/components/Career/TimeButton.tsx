@@ -1,27 +1,46 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useTheme } from '@/app/context/ThemeContext';
 
 interface TimeButtonProps {
   label: string;
   time: string;
+  className?: string;
 }
 
-const TimeButton: React.FC<TimeButtonProps> = ({ label, time }) => {
-  const [isHovered, setIsHovered] = useState(false);
+const TimeButton: React.FC<TimeButtonProps> = ({ label, time, className }) => {
+  const { theme } = useTheme();
 
   return (
     <button 
-      className={`bg-white text-black border border-gray-300 rounded-full px-4 sm:px-6 md:px-8 py-2 sm:py-3 text-sm sm:text-base transition-all duration-300 overflow-hidden relative w-full sm:w-auto ${isHovered ? 'bg-black text-white border-gray-700' : ''}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className={`
+        ${theme === 'dark' 
+          ? 'bg-black text-white border-gray-700 hover:bg-white hover:text-black hover:border-white' 
+          : 'bg-white text-black border-gray-300 hover:bg-black hover:text-white hover:border-black'
+        }
+        border rounded-full 
+        px-8 py-3 text-base
+        overflow-hidden relative group
+        transition-all duration-200 ease-in-out
+        ${className || ''}
+      `}
     >
-      <span className={`block transition-all duration-300 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
-        {label}: {time}
-      </span>
-      <span className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-        Contact us
-      </span>
+      <div className="relative z-10">
+        <span className={`
+          block group-hover:opacity-0 transition-opacity duration-200
+          ${theme === 'dark' ? 'text-white' : 'text-black'}
+        `}>
+          {label}: {time}
+        </span>
+        <span className={`
+          font-bold absolute inset-0 flex items-center justify-center 
+          opacity-0 group-hover:opacity-100 transition-opacity duration-200
+          ${theme === 'dark' ? 'text-black' : 'text-white'}
+        `}>
+          Contact us
+        </span>
+      </div>
     </button>
   );
 };
