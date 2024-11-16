@@ -1,13 +1,13 @@
 import React from 'react'
 import LatestWork from './components/LatestWork'
-import LightHeader from '../components/LightHeader'
-import Layout from '../components/Layout'
+import Layout from '../components/Homepage/Layout'
 import FooterLabel from '../components/Career/FooterLabel'
+import Header from '../components/header'
 
 const page = () => {
   return (
     <div>
-      <LightHeader />
+      <Header />
       <Layout>
         <LatestWork />
         <FooterLabel />

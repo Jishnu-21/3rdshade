@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+import { useTheme } from '@/app/context/ThemeContext';
 
 config.autoAddCss = false;
 
@@ -35,45 +36,71 @@ const faqItems: FAQItem[] = [
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const { theme } = useTheme();
 
   const toggleQuestion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section className="bg-black text-white py-16 px-4">
+    <section className={`${
+      theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'
+    } py-16 px-4 transition-colors duration-300`}>
       <div className="max-w-6xl mx-auto">
-        
-        
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-1/2">
-            <h2 className="text-5xl font-bold mb-4">Frequently Asked<br />Questions</h2>
-            <p className="mb-12">If you have questions that are not listed here send them to us via email.</p>
+            <h2 className={`text-5xl font-bold mb-4 ${
+              theme === 'dark' ? 'text-white' : 'text-black'
+            }`}>
+              Frequently Asked<br />Questions
+            </h2>
+            <p className={`mb-12 ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
+              If you have questions that are not listed here send them to us via email.
+            </p>
             <div className="relative aspect-[4/3]">
               <Image
                 src="/faq.jpg"
                 alt="FAQ illustration"
                 fill
                 style={{ objectFit: 'cover' }}
+                className={`rounded-lg transition-opacity duration-300 ${
+                  theme === 'dark' ? 'opacity-90' : 'opacity-100'
+                }`}
               />
             </div>
           </div>
           <div className="md:w-1/2 pt-40">
             {faqItems.map((item, index) => (
-              <div key={index} className="mb-4">
+              <div key={index} className={`mb-4 border-b ${
+                theme === 'dark' ? 'border-gray-800' : 'border-gray-200'
+              }`}>
                 <button
                   className="flex justify-between items-center w-full text-left py-4 cursor-pointer"
                   onClick={() => toggleQuestion(index)}
                 >
-                  <span className="text-xl">{item.question}</span>
+                  <span className={`text-xl ${
+                    theme === 'dark' ? 'text-white' : 'text-black'
+                  }`}>
+                    {item.question}
+                  </span>
                   <FontAwesomeIcon
                     icon={faChevronDown}
-                    className={`w-6 h-6 transition-transform ${openIndex === index ? 'rotate-180' : ''}`}
+                    className={`w-6 h-6 transition-transform ${
+                      openIndex === index ? 'rotate-180' : ''
+                    } ${
+                      theme === 'dark' ? 'text-white' : 'text-black'
+                    }`}
                   />
                 </button>
                 {openIndex === index && (
                   <div className="py-4">
-                    <p>{item.answer}</p>
+                    <p className={`${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
+                      {item.answer}
+                    </p>
                   </div>
                 )}
               </div>

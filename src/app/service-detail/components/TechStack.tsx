@@ -1,12 +1,23 @@
+"use client"
+
 import React from 'react';
 import TechnologyCard from './TechnologyCard';
+import { useTheme } from '@/app/context/ThemeContext';
 
 const TechStack: React.FC = () => {
+  const { theme } = useTheme();
+
   return (
-    <div className="bg-white py-16 px-8">
+    <div className={`${
+      theme === 'dark' ? 'bg-black' : 'bg-white'
+    } py-16 px-8 transition-colors duration-300`}>
       <div className="max-w-7xl mx-auto">
         <h2 className="text-[#7071E9] text-lg font-semibold mb-2">OUR TECH STACK</h2>
-        <h3 className="text-5xl font-bold mb-12 text-black">Technologies we work on</h3>
+        <h3 className={`text-5xl font-bold mb-12 ${
+          theme === 'dark' ? 'text-white' : 'text-black'
+        }`}>
+          Technologies we work on
+        </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <TechnologyCard

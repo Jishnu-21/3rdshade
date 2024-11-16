@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import WorkItem from './WorkItem';
+import { useTheme } from '@/app/context/ThemeContext';
 
 const categories = ['Daily Creative', 'AD Copy', 'Website'];
 
 const LatestWork: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('Daily Creative');
+  const { theme } = useTheme();
 
   const renderWorkItems = () => {
     switch (activeCategory) {
@@ -69,28 +71,44 @@ const LatestWork: React.FC = () => {
   };
 
   return (
-    <section className="py-24 px-24 bg-white">
-      <h2 className="text-5xl font-bold mb-8 pb-16 border-b-2 text-black border-black">Explore Our Latest Work</h2>
+    <section className={`py-24 px-24 ${
+      theme === 'dark' ? 'bg-black' : 'bg-white'
+    }`}>
+      <h2 className={`text-5xl font-bold mb-8 pb-16 border-b-2 ${
+        theme === 'dark' 
+          ? 'text-white border-white' 
+          : 'text-black border-black'
+      }`}>
+        Explore Our Latest Work
+      </h2>
       <div className="flex justify-end mb-8">
         {categories.map((category, index) => (
           <div key={category} className="flex items-center">
             <button
               onClick={() => setActiveCategory(category)}
-              className={`px-4 py-2 rounded-full ${
+              className={`px-4 py-2 rounded-full transition-colors duration-200 ${
                 activeCategory === category
-                  ? 'bg-gray-200 text-gray-800'
-                  : 'bg-white text-gray-600'
+                  ? theme === 'dark'
+                    ? 'bg-gray-800 text-white'
+                    : 'bg-gray-200 text-gray-800'
+                  : theme === 'dark'
+                    ? 'bg-black text-gray-400 hover:text-white'
+                    : 'bg-white text-gray-600 hover:text-gray-800'
               }`}
             >
               {category}
             </button>
             {index < categories.length - 1 && (
-              <div className="h-6 border-r border-black mx-2"></div>
+              <div className={`h-6 border-r mx-2 ${
+                theme === 'dark' ? 'border-white' : 'border-black'
+              }`}></div>
             )}
           </div>
         ))}
       </div>
-      <div className={`grid gap-y-24 gap-x-4 ${activeCategory === 'Website' ? 'grid-cols-2 auto-rows-fr' : 'grid-cols-3'}`}>
+      <div className={`grid gap-y-24 gap-x-4 ${
+        activeCategory === 'Website' ? 'grid-cols-2 auto-rows-fr' : 'grid-cols-3'
+      }`}>
         {renderWorkItems()}
       </div>
     </section>

@@ -1,30 +1,30 @@
+"use client"
+
 import React from 'react'
 import WebDevelopmentServices from './components/WebDevelopmentServices'
 import ValueProposition from './components/ValueProposition'
 import TechStack from './components/TechStack'
 import FAQSection from './components/FAQSection'
-import LightHeader from '../components/LightHeader'
-import Layout from '../components/Layout'
+import Layout from '../components/Homepage/Layout'
 import FooterLabel from '../components/Career/FooterLabel'
+import Header from '../components/header'
+import { useTheme } from '@/app/context/ThemeContext'
 
-const page = () => {
+const Page = () => {
+  const { theme } = useTheme();
+
   return (
-    <div>
-      <LightHeader />
+    <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300`}>
+      <Header />
       <Layout>
-        <div className="relative">
-          <div className="absolute inset-0 bg-white" style={{ height: '200vh' }}></div>
-          <div className="relative">
-            <WebDevelopmentServices />
-            <ValueProposition />
-            <TechStack />
-            <FAQSection />
-          </div>
-        </div>
+        <WebDevelopmentServices />
+        <ValueProposition />
+        <TechStack />
+        <FAQSection />
         <FooterLabel />
       </Layout>
     </div>
   )
 }
 
-export default page
+export default Page
