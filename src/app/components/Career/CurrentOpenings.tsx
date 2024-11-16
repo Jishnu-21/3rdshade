@@ -26,7 +26,7 @@ const CurrentOpenings: React.FC = () => {
         
         <div className={`job-listings ${theme === 'dark' ? 'text-white' : 'text-black'} space-y-4`}>
           {openings.map((job, index) => (
-            <JobListing key={index} title={job} theme={theme} />
+            <JobListing key={index} title={job} />
           ))}
         </div>
         
