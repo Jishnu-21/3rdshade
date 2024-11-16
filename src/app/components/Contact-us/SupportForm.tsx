@@ -1,12 +1,14 @@
 "use client"
 
 import React, { useState } from 'react';
+import { useTheme } from '@/app/context/ThemeContext';
 
 interface SupportFormProps {
   onAlertShow: (message: string, type: 'success' | 'error') => void;
 }
 
 const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
+  const { theme } = useTheme();
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -90,12 +92,11 @@ const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
         textarea:-webkit-autofill,
         textarea:-webkit-autofill:hover,
         textarea:-webkit-autofill:focus {
-          -webkit-box-shadow: 0 0 0px 1000px transparent inset;
-          transition: background-color 5000s ease-in-out 0s;
-          -webkit-text-fill-color: white;
+          -webkit-box-shadow: 0 0 0px 1000px ${theme === 'dark' ? 'black' : 'white'} inset;
+          -webkit-text-fill-color: ${theme === 'dark' ? 'white' : 'black'};
         }
       `}</style>
-      <div className="bg-black text-white pt-16 sm:pt-24 md:pt-36 pb-16 px-4 sm:px-8 md:px-16 lg:px-[122px]">
+      <div className={`${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-gray-900'} pt-16 sm:pt-24 md:pt-36 pb-16 px-4 sm:px-8 md:px-16 lg:px-[122px]`}>
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-1">We're Here To</h1>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
@@ -115,7 +116,7 @@ const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder="Your Name"
-                className="w-full bg-transparent border-b border-gray-700 py-2 text-sm focus:outline-none text-white placeholder-gray-500"
+                className={`w-full bg-transparent border-b ${theme === 'dark' ? 'border-gray-700 text-white placeholder-gray-500' : 'border-gray-300 text-gray-900 placeholder-gray-400'} py-2 text-sm focus:outline-none`}
                 required
               />
               <input
@@ -124,7 +125,7 @@ const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
                 value={formData.organization}
                 onChange={handleInputChange}
                 placeholder="Your Organization Name"
-                className="w-full bg-transparent border-b border-gray-700 py-2 text-sm focus:outline-none text-white placeholder-gray-500"
+                className={`w-full bg-transparent border-b ${theme === 'dark' ? 'border-gray-700 text-white placeholder-gray-500' : 'border-gray-300 text-gray-900 placeholder-gray-400'} py-2 text-sm focus:outline-none`}
                 required
               />
               <input
@@ -133,7 +134,7 @@ const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="Your Email"
-                className="w-full bg-transparent border-b border-gray-700 py-2 text-sm focus:outline-none text-white placeholder-gray-500"
+                className={`w-full bg-transparent border-b ${theme === 'dark' ? 'border-gray-700 text-white placeholder-gray-500' : 'border-gray-300 text-gray-900 placeholder-gray-400'} py-2 text-sm focus:outline-none`}
                 required
               />
               <input
@@ -142,7 +143,7 @@ const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
                 value={formData.website}
                 onChange={handleInputChange}
                 placeholder="Website/Social Media link"
-                className="w-full bg-transparent border-b border-gray-700 py-2 text-sm focus:outline-none text-white placeholder-gray-500"
+                className={`w-full bg-transparent border-b ${theme === 'dark' ? 'border-gray-700 text-white placeholder-gray-500' : 'border-gray-300 text-gray-900 placeholder-gray-400'} py-2 text-sm focus:outline-none`}
               />
               <div>
                 <p className="mb-4 text-sm">Which services are you interested in?</p>
@@ -167,7 +168,7 @@ const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
                 value={formData.message}
                 onChange={handleInputChange}
                 placeholder="What&apos;s on your mind?"
-                className="w-full bg-transparent border-b border-gray-700 py-2 text-sm focus:outline-none text-white placeholder-gray-500"
+                className={`w-full bg-transparent border-b ${theme === 'dark' ? 'border-gray-700 text-white placeholder-gray-500' : 'border-gray-300 text-gray-900 placeholder-gray-400'} py-2 text-sm focus:outline-none`}
                 rows={2}
                 required
               ></textarea>

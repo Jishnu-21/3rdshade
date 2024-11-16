@@ -30,10 +30,8 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
 
   // Updated getImageSrc function to handle theme-specific images
   const getImageSrc = (index: number, theme: 'dark' | 'light') => {
-    const baseImage = index % 2 === 0 ? "Rectangle 5" : "Rectangle 41984";
-    return theme === 'dark' 
-      ? `/${baseImage}.svg`
-      : `/${baseImage}-light.svg`; // Add light theme versions of SVGs
+    const baseImage = index % 2 === 0 ? "Rectangle 5" : "Rectangle 41984"
+    return `/${baseImage}.svg`
   }
 
   return (
@@ -62,7 +60,7 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
             className="w-full h-auto"
             style={{
               opacity: 1,
-              filter: 'none' // Remove the invert filter
+              filter: theme === 'light' ? 'invert(1)' : 'none'
             }}
           />
         </div>
@@ -78,14 +76,12 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
 
 // Update the shared getImageSrc function as well
 const getImageSrc = (index: number) => {
-  const { theme } = useTheme();
-  const baseImage = index % 2 === 0 ? "Rectangle 5" : "Rectangle 41984";
-  return theme === 'dark' 
-    ? `/${baseImage}.svg`
-    : `/${baseImage}-.svg`; // Add light theme versions of SVGs
+  const baseImage = index % 2 === 0 ? "Rectangle 5" : "Rectangle 41984"
+  return `/${baseImage}.svg`
 }
 
 const MobileTimelineItem = ({ index }: { index: number }) => {
+  const { theme } = useTheme();
   
   return (
     <div className="w-full px-2">
@@ -98,7 +94,9 @@ const MobileTimelineItem = ({ index }: { index: number }) => {
             className="object-cover object-center"
             sizes="(max-width: 768px) 100vw, 50vw"
             priority={index === 0}
-            style={{ filter: 'none' }} // Remove any filters
+            style={{ 
+              filter: theme === 'light' ? 'invert(1)' : 'none'
+            }}
           />
         </div>
       </div>
