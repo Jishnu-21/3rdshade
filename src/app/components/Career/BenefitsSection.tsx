@@ -21,24 +21,35 @@ const BenefitsSection = () => {
         const rect = sectionRef.current.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         
-        // Adjusted calculation to show all benefits within the section
+        // Calculate scroll direction
+        const scrollDirection = rect.top > (window as any).lastScrollTop ? 'up' : 'down';
+        (window as any).lastScrollTop = rect.top;
+        
+        // Calculate visibility percentage
         const visiblePercentage = Math.max(
           0,
           Math.min(
             100,
-            ((windowHeight - rect.top) / (windowHeight * 0.8)) * 100 // Reduced scroll area
+            ((windowHeight - rect.top) / (windowHeight * 1.5)) * 100
           )
         );
         
         setGradientWidth(visiblePercentage);
 
-        // Show benefits more quickly
+        // Show/hide benefits based on scroll direction
         const newVisibleBenefits = [];
-        const threshold = visiblePercentage / 20; // Reduced from 33.33 to show benefits faster
+        const threshold = visiblePercentage / 35;
 
-        if (threshold >= 1) newVisibleBenefits.push(0);
-        if (threshold >= 1.5) newVisibleBenefits.push(1);
-        if (threshold >= 2) newVisibleBenefits.push(2);
+        if (scrollDirection === 'down') {
+          if (threshold >= 1) newVisibleBenefits.push(0);
+          if (threshold >= 2.5) newVisibleBenefits.push(1);
+          if (threshold >= 4) newVisibleBenefits.push(2);
+        } else {
+          // Reverse order for scrolling up
+          if (threshold >= 4) newVisibleBenefits.push(2);
+          if (threshold >= 2.5) newVisibleBenefits.push(1);
+          if (threshold >= 1) newVisibleBenefits.push(0);
+        }
 
         setVisibleBenefits(newVisibleBenefits);
       }
@@ -106,26 +117,31 @@ const BenefitsSection = () => {
           </button>
         </div>
 
-        {/* Gradient Divider with faster transition */}
+        {/* Gradient Divider with slower transition */}
         <div className="h-1 sm:h-1.5 md:h-2 w-full bg-gray-200 relative overflow-hidden mb-8 sm:mb-12 md:mb-16">
           <div 
-            className="absolute top-0 left-0 h-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 transition-all duration-300"
+            className="absolute top-0 left-0 h-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 transition-all duration-1000"
             style={{ width: `${gradientWidth}%` }}
           />
         </div>
 
-        {/* Benefits Grid with adjusted timing */}
+        {/* Benefits Grid with reverse animation support */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 lg:gap-12">
           {benefits.map((benefit, index) => (
             <div
               key={index}
               ref={benefit.ref}
-              className={`benefit-item p-4 sm:p-6 md:p-8 transform transition-all duration-500
+              className={`benefit-item p-4 sm:p-6 md:p-8 transform transition-all duration-800
                 ${visibleBenefits.includes(index)
                   ? 'translate-y-0 opacity-100' 
-                  : 'translate-y-20 opacity-0'}`}
+                  : index === 0 
+                    ? '-translate-y-20 opacity-0'  // First item slides up
+                    : 'translate-y-20 opacity-0'   // Others slide down
+                }`}
               style={{
-                transitionDelay: `${index * 150}ms` // Reduced delay between items
+                transitionDelay: visibleBenefits.includes(index) 
+                  ? `${index * 500}ms`  // Delay for appearing
+                  : `${(benefits.length - 1 - index) * 500}ms`  // Reverse delay for disappearing
               }}
             >
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">

@@ -6,8 +6,8 @@ import DesignProcess from './components/DesignProcess';
 import IndustryProblems from './components/IndustryProblems';
 import TopClients from './components/TopClients';
 import ProductPromoBanner from './components/ProductPromoBanner';
-import Header from '../components/LightHeader';
-import Layout from '../components/Layout';
+import Header from '../components/header';
+import Layout from '../components/Homepage/Layout';
 import FooterLabel from '../components/Career/FooterLabel';
 
 const ServicesPage = () => {
