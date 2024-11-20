@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: number) => {} }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [isMuted, setIsMuted] = useState(muted);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -20,6 +21,17 @@ const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: nu
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [onScroll]);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, []);
+
+  const handleVideoError = () => {
+    setHasError(true);
+    setIsLoading(false);
+  };
 
   const handleMuteToggle = () => {
     if (videoRef.current) {
@@ -41,7 +53,7 @@ const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: nu
           transition: 'transform 0.1s ease-out',
         }}
       >
-        {isLoading && (
+        {isLoading && !hasError && (
           <div className="absolute inset-0 bg-black flex items-center justify-center">
             <div className="relative z-10 text-center">
               <span className="text-white text-2xl font-medium tracking-wider">
@@ -53,15 +65,23 @@ const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: nu
             </div>
           </div>
         )}
+        {hasError && (
+          <div className="absolute inset-0 bg-black flex items-center justify-center">
+            <div className="text-white text-xl">
+              Error loading video. Please refresh the page.
+            </div>
+          </div>
+        )}
         <video
           ref={videoRef}
-          src='Video Editor Showreel _ Portfolio _ 2023 _ video editor showreel portfolio.mp4'
+          src="/Video Editor Showreel _ Portfolio _ 2023 _ video editor showreel portfolio.mp4"
           autoPlay={autoPlay}
           muted={isMuted}
           loop
           playsInline
-          className={`w-full h-full object-cover ${isLoading ? 'hidden' : 'block'}`}
+          className={`w-full h-full object-cover ${isLoading || hasError ? 'hidden' : 'block'}`}
           onLoadedData={() => setIsLoading(false)}
+          onError={handleVideoError}
           preload="auto"
         >
           Your browser does not support the video tag.

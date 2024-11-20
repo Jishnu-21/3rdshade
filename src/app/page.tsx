@@ -23,7 +23,11 @@ const Banner = dynamic(() => import('./components/Homepage/Banner'), {
 });
 const Videoplayback = dynamic(() => import('./components/Homepage/Videoplayback'), { 
   ssr: false,
-  loading: () => <div className="min-h-[50vh]" />
+  loading: () => (
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="text-white">Loading video component...</div>
+    </div>
+  )
 });
 const ScrollingTimeline = dynamic(() => import('./components/Homepage/ScrollingTimeline'), { 
   ssr: false,
