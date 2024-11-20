@@ -3,7 +3,9 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: number) => {} }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const videoRef = useRef<HTMLDivElement>(null);
+  const [isMuted, setIsMuted] = useState(muted);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -19,9 +21,16 @@ const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: nu
     return () => window.removeEventListener('scroll', handleScroll);
   }, [onScroll]);
 
+  const handleMuteToggle = () => {
+    if (videoRef.current) {
+      setIsMuted(!isMuted);
+      videoRef.current.muted = !isMuted;
+    }
+  };
+
   return (
     <div 
-      ref={videoRef}
+      ref={containerRef}
       className="relative h-screen bg-black"
     >
       <div 
@@ -45,9 +54,10 @@ const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: nu
           </div>
         )}
         <video
+          ref={videoRef}
           src='Video Editor Showreel _ Portfolio _ 2023 _ video editor showreel portfolio.mp4'
           autoPlay={autoPlay}
-          muted={muted}
+          muted={isMuted}
           loop
           playsInline
           className={`w-full h-full object-cover ${isLoading ? 'hidden' : 'block'}`}
@@ -56,6 +66,22 @@ const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: nu
         >
           Your browser does not support the video tag.
         </video>
+        
+        <button
+          onClick={handleMuteToggle}
+          className="absolute bottom-4 right-4 z-50 p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
+        >
+          {isMuted ? (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+            </svg>
+          )}
+        </button>
       </div>
     </div>
   );
