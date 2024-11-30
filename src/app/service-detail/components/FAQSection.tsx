@@ -37,26 +37,21 @@ const faqItems: FAQItem[] = [
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const toggleQuestion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section className={`${
-      theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'
-    } py-16 px-4 transition-colors duration-300`}>
+    <section className={`${isDark ? 'bg-black' : 'bg-white'} py-16 px-4 relative z-10`}>
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-1/2">
-            <h2 className={`text-5xl font-bold mb-4 ${
-              theme === 'dark' ? 'text-white' : 'text-black'
-            }`}>
+            <h2 className={`text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-black'}`}>
               Frequently Asked<br />Questions
             </h2>
-            <p className={`mb-12 ${
-              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-            }`}>
+            <p className={`mb-12 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
               If you have questions that are not listed here send them to us via email.
             </p>
             <div className="relative aspect-[4/3]">
@@ -65,40 +60,30 @@ const FAQSection = () => {
                 alt="FAQ illustration"
                 fill
                 style={{ objectFit: 'cover' }}
-                className={`rounded-lg transition-opacity duration-300 ${
-                  theme === 'dark' ? 'opacity-90' : 'opacity-100'
-                }`}
+                className="rounded-lg"
               />
             </div>
           </div>
           <div className="md:w-1/2 pt-40">
             {faqItems.map((item, index) => (
-              <div key={index} className={`mb-4 border-b ${
-                theme === 'dark' ? 'border-gray-800' : 'border-gray-200'
-              }`}>
+              <div key={index} className="mb-6 border-b border-gray-700">
                 <button
-                  className="flex justify-between items-center w-full text-left py-4 cursor-pointer"
+                  className={`
+                    flex justify-between items-center w-full text-left py-4 cursor-pointer
+                    ${isDark ? 'text-white hover:text-gray-300' : 'text-black hover:text-gray-700'}
+                  `}
                   onClick={() => toggleQuestion(index)}
                 >
-                  <span className={`text-xl ${
-                    theme === 'dark' ? 'text-white' : 'text-black'
-                  }`}>
-                    {item.question}
-                  </span>
+                  <span className="text-xl font-medium">{item.question}</span>
                   <FontAwesomeIcon
                     icon={faChevronDown}
-                    className={`w-6 h-6 transition-transform ${
-                      openIndex === index ? 'rotate-180' : ''
-                    } ${
-                      theme === 'dark' ? 'text-white' : 'text-black'
-                    }`}
+                    className={`w-5 h-5 transition-transform ${openIndex === index ? 'rotate-180' : ''} 
+                    ${isDark ? 'text-white' : 'text-black'}`}
                   />
                 </button>
                 {openIndex === index && (
                   <div className="py-4">
-                    <p className={`${
-                      theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-                    }`}>
+                    <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
                       {item.answer}
                     </p>
                   </div>

@@ -17,14 +17,14 @@ interface ImageProps {
 }
 
 const images: ImageProps[] = [
-  { url: '/work/1.jpg', width: 250, height: 250, description: "A retro-styled Game Boy console with a glowing screen", mobileWidth: 120, mobileHeight: 120 },
-  { url: '/work/2.jpg', width: 300, height: 220, description: "Another interesting image description", mobileWidth: 140, mobileHeight: 100 },
-  { url: '/work/3.jpg', width: 230, height: 230, description: "Third image description", mobileWidth: 110, mobileHeight: 110 },
-  { url: '/work/4.jpg', width: 270, height: 270, description: "Fourth image description", mobileWidth: 130, mobileHeight: 130 },
-  { url: '/work/5.jpg', width: 280, height: 280, description: "Fifth image description", mobileWidth: 135, mobileHeight: 135 },
-  { url: '/work/6.jpg', width: 250, height: 250, description: "Sixth image description", mobileWidth: 120, mobileHeight: 120 },
-  { url: '/work/7.jpg', width: 300, height: 220, description: "Seventh image description", mobileWidth: 140, mobileHeight: 100 },
-  { url: '/work/8.jpg', width: 230, height: 230, description: "Eighth image description", mobileWidth: 110, mobileHeight: 110 },
+  { url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80', width: 300, height: 300, description: "Minimalist workspace design", mobileWidth: 140, mobileHeight: 140 },
+  { url: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=800&q=80', width: 320, height: 240, description: "Creative studio setup", mobileWidth: 150, mobileHeight: 110 },
+  { url: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80', width: 280, height: 280, description: "Modern design workspace", mobileWidth: 130, mobileHeight: 130 },
+  { url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80', width: 290, height: 290, description: "Clean desk setup", mobileWidth: 135, mobileHeight: 135 },
+  { url: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=800&q=80', width: 310, height: 310, description: "Professional workspace", mobileWidth: 145, mobileHeight: 145 },
+  { url: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80', width: 300, height: 250, description: "Team collaboration", mobileWidth: 140, mobileHeight: 115 },
+  { url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80', width: 280, height: 260, description: "Creative brainstorming", mobileWidth: 130, mobileHeight: 120 },
+  { url: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80', width: 270, height: 270, description: "Modern office space", mobileWidth: 125, mobileHeight: 125 },
 ];
 
 const ImageGallery: React.FC = () => {
@@ -62,41 +62,42 @@ const ImageGallery: React.FC = () => {
           whileHover={{ 
             scale: isMobile ? 1.02 : 1.05,
             zIndex: 10,
+            rotate: [-1, 1],
+            transition: {
+              rotate: {
+                repeat: Infinity,
+                duration: 1,
+                repeatType: "reverse"
+              }
+            }
           }}
           animate={{
-            x: mousePositionRef.current.x * (isMobile ? 0.01 : 0.02),
-            y: mousePositionRef.current.y * (isMobile ? 0.01 : 0.02),
-            scale: [1, 1.01, 1],
+            y: [0, -10, 0],
+            rotate: [-0.5, 0.5, -0.5],
             transition: {
-              x: {
-                type: "spring",
-                stiffness: 50,
-                damping: 20,
-                mass: 0.5
-              },
               y: {
-                type: "spring",
-                stiffness: 50,
-                damping: 20,
-                mass: 0.5
-              },
-              scale: {
-                duration: 2,
                 repeat: Infinity,
+                duration: 3 + Math.random() * 2,
+                ease: "easeInOut"
+              },
+              rotate: {
+                repeat: Infinity,
+                duration: 4 + Math.random() * 2,
                 ease: "easeInOut"
               }
             }
           }}
           drag={!isMobile}
           dragConstraints={!isMobile ? {
-            left: -100,
-            right: 100,
-            top: -100,
-            bottom: 100
+            left: -50,
+            right: 50,
+            top: -50,
+            bottom: 50
           } : undefined}
-          dragElastic={0.1}
+          dragElastic={0.05}
           onClick={(e) => handleImageClick(image, e)}
         >
+          {/* Glow effect */}
           <motion.div
             className="absolute inset-0 bg-white/10"
             animate={{
@@ -110,20 +111,44 @@ const ImageGallery: React.FC = () => {
               delay: index * 0.2,
             }}
           />
+          
+          {/* Floating particles */}
+          <motion.div
+            className="absolute inset-0 overflow-hidden"
+            initial={false}
+          >
+            {[...Array(3)].map((_, i) => (
+              <motion.div
+                key={`particle-${i}`}
+                className="absolute w-1 h-1 bg-white/20 rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [-20, 20],
+                  opacity: [0, 1, 0],
+                  scale: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 2 + Math.random() * 2,
+                  repeat: Infinity,
+                  delay: i * 0.5,
+                  ease: "easeInOut",
+                }}
+              />
+            ))}
+          </motion.div>
+
           <Image
             src={image.url}
             alt={image.description}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={true}
-            className="object-cover rounded-lg"
-            style={{
-              opacity: 0.9,
-              transition: 'opacity 0.3s ease-in-out'
-            }}
-            onLoad={(e) => {
-              (e.target as HTMLImageElement).style.opacity = '1';
-            }}
+            width={isMobile ? image.mobileWidth : image.width}
+            height={isMobile ? image.mobileHeight : image.height}
+            className="w-full h-full object-cover rounded-lg"
+            priority={index < 4}
+            quality={85}
+            sizes={`(max-width: 768px) ${image.mobileWidth}px, ${image.width}px`}
           />
         </motion.div>
       );
@@ -137,8 +162,8 @@ const ImageGallery: React.FC = () => {
       const viewportHeight = window.innerHeight;
       
       if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollLeft = containerSize.width / 4;
-        scrollContainerRef.current.scrollTop = containerSize.height / 4;
+        scrollContainerRef.current.scrollLeft = containerSize.width * 0.5;
+        scrollContainerRef.current.scrollTop = containerSize.height * 0.5;
       }
 
       const positions = calculateImagePositions(viewportWidth, viewportHeight);
@@ -190,16 +215,16 @@ const ImageGallery: React.FC = () => {
     const containerWidth = containerSize.width;
     const containerHeight = containerSize.height;
 
-    if (scrollLeft > containerWidth * 0.75) {
-      scrollContainerRef.current.scrollLeft = containerWidth * 0.25;
-    } else if (scrollLeft < containerWidth * 0.25) {
-      scrollContainerRef.current.scrollLeft = containerWidth * 0.75;
+    if (scrollLeft >= containerWidth * 0.9) {
+      scrollContainerRef.current.scrollLeft = containerWidth * 0.1;
+    } else if (scrollLeft <= containerWidth * 0.1) {
+      scrollContainerRef.current.scrollLeft = containerWidth * 0.9;
     }
 
-    if (scrollTop > containerHeight * 0.75) {
-      scrollContainerRef.current.scrollTop = containerHeight * 0.25;
-    } else if (scrollTop < containerHeight * 0.25) {
-      scrollContainerRef.current.scrollTop = containerHeight * 0.75;
+    if (scrollTop >= containerHeight * 0.9) {
+      scrollContainerRef.current.scrollTop = containerHeight * 0.1;
+    } else if (scrollTop <= containerHeight * 0.1) {
+      scrollContainerRef.current.scrollTop = containerHeight * 0.9;
     }
   };
 
@@ -215,12 +240,8 @@ const ImageGallery: React.FC = () => {
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     mousePositionRef.current = { x: e.clientX, y: e.clientY };
     
-    requestAnimationFrame(() => {
-      setMousePosition(mousePositionRef.current);
-    });
-    
     if (isDragging && scrollContainerRef.current) {
-      const sensitivity = 1.5;
+      const sensitivity = 1.2;
       const deltaX = e.movementX * sensitivity;
       const deltaY = e.movementY * sensitivity;
 
@@ -251,12 +272,14 @@ const ImageGallery: React.FC = () => {
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       if (scrollContainerRef.current) {
-        const sensitivity = 1.2;
+        const sensitivity = 0.8;
+        
         scrollContainerRef.current.scrollBy({
           left: e.deltaX * sensitivity,
           top: e.deltaY * sensitivity,
           behavior: 'auto'
         });
+        
         handleInfiniteScroll();
       }
     };
@@ -284,7 +307,7 @@ const ImageGallery: React.FC = () => {
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (scrollContainerRef.current && e.touches[0]) {
       const touch = e.touches[0];
-      const sensitivity = isMobile ? 2 : 1.5;
+      const sensitivity = isMobile ? 1.5 : 1.2;
       const deltaX = (mousePositionRef.current.x - touch.clientX) * sensitivity;
       const deltaY = (mousePositionRef.current.y - touch.clientY) * sensitivity;
 
@@ -367,56 +390,72 @@ const ImageGallery: React.FC = () => {
       <AnimatePresence>
         {selectedImage && windowSize.width > 0 && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 p-4"
             onClick={closeModal}
           >
             <motion.div
               initial={{
-                x: clickPosition.x - windowSize.width / 2,
-                y: clickPosition.y - windowSize.height / 2,
-                width: isMobile ? selectedImage.mobileWidth : selectedImage.width,
-                height: isMobile ? selectedImage.mobileHeight : selectedImage.height,
+                scale: 0.5,
                 opacity: 0,
+                y: 50
               }}
               animate={{
-                x: 0,
-                y: 0,
-                width: isMobile ? '90vw' : '80vw',
-                height: isMobile ? '60vh' : '80vh',
+                scale: 1,
                 opacity: 1,
+                y: 0
               }}
               exit={{
-                x: clickPosition.x - windowSize.width / 2,
-                y: clickPosition.y - windowSize.height / 2,
-                width: isMobile ? selectedImage.mobileWidth : selectedImage.width,
-                height: isMobile ? selectedImage.mobileHeight : selectedImage.height,
+                scale: 0.5,
                 opacity: 0,
+                y: 50
               }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="relative"
+              transition={{ 
+                type: "spring",
+                duration: 0.5,
+                bounce: 0.3
+              }}
+              className="relative w-[90vw] h-[80vh] max-w-7xl rounded-xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Add overlay gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
+              
               <Image
                 src={selectedImage.url}
-                alt="Selected image"
+                alt={selectedImage.description}
                 layout="fill"
                 objectFit="contain"
-                className="rounded-md"
+                className="rounded-xl"
+                quality={100}
               />
+
               <motion.div
-                initial={{ y: -20, opacity: 0 }}
+                initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black to-transparent"
+                className="absolute bottom-0 left-0 right-0 p-6 z-20"
               >
-                <h2 className="text-white text-2xl font-bold">{selectedImage.description}</h2>
+                <h2 className="text-white text-3xl font-bold mb-2">
+                  {selectedImage.description}
+                </h2>
               </motion.div>
-              <button
-                className="absolute top-4 right-4 text-white text-xl font-bold"
+
+              {/* Close button */}
+              <motion.button
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="absolute top-4 right-4 w-10 h-10 bg-white/10 backdrop-blur-md 
+                           rounded-full flex items-center justify-center z-30
+                           hover:bg-white/20 transition-colors"
                 onClick={closeModal}
               >
-                ×
-              </button>
+                <span className="text-white text-xl">×</span>
+              </motion.button>
             </motion.div>
           </motion.div>
         )}
@@ -435,7 +474,7 @@ const ImageGallery: React.FC = () => {
       </header>
 
       <footer className="fixed bottom-4 right-4 text-white text-sm z-10">
-        ©2024
+        2024
       </footer>
     </div>
   );

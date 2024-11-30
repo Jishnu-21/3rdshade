@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import GradientButton from '../GradientButton';
 import { Noto_Sans, Noto_Sans_Arabic, Montserrat } from 'next/font/google';
 import { useTheme } from '@/app/context/ThemeContext';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 // Load fonts
 const notoSans = Noto_Sans({
@@ -49,6 +51,32 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
+  
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: false
+  });
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 }
+    }
+  };
 
   useEffect(() => {
     const cursorInterval = setInterval(() => {
@@ -93,11 +121,16 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
   });
 
   return (
-    <div className={`fixed top-0 left-0 right-0 ${theme === 'dark' ? 'bg-black' : 'bg-white'} 
-      ${theme === 'dark' ? 'text-white' : 'text-black'} h-screen 
-      flex flex-col items-center justify-center 
-      text-center px-4 sm:px-6 md:px-8 xl:px-[122px] 2xl:px-[150px] 3xl:px-[180px] 4xl:px-[200px]
-      overflow-hidden z-10 ${montserrat.className}`}
+    <motion.div
+      ref={ref}
+      variants={containerVariants}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      className={`fixed top-0 left-0 right-0 ${theme === 'dark' ? 'bg-black' : 'bg-white'} 
+        ${theme === 'dark' ? 'text-white' : 'text-black'} h-screen 
+        flex flex-col items-center justify-center 
+        text-center px-4 sm:px-6 md:px-8 xl:px-[122px] 2xl:px-[150px] 3xl:px-[180px] 4xl:px-[200px]
+        overflow-hidden z-10 ${montserrat.className}`}
     >
       {/* Glow effects with fade - only show in dark theme */}
       <div 
@@ -143,8 +176,7 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
       />
       
       {/* Content with fade */}
-      <div 
-        className="w-full relative z-10 max-w-[1440px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] 4xl:max-w-[2000px] mx-auto"
+      <motion.div variants={itemVariants} className="w-full relative z-10 max-w-[1440px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] 4xl:max-w-[2000px] mx-auto"
         style={{ 
           opacity: Math.max(0, 1 - (scrollProgress * 2)),
           visibility: scrollProgress >= 0.5 ? 'hidden' : 'visible'
@@ -191,8 +223,8 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
           brand to market in a unique way.
         </p>
         <GradientButton text="Let's Try Different" />
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

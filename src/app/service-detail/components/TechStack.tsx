@@ -6,20 +6,30 @@ import { useTheme } from '@/app/context/ThemeContext';
 
 const TechStack: React.FC = () => {
   const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
-    <div className={`${
-      theme === 'dark' ? 'bg-black' : 'bg-white'
-    } py-16 px-8 transition-colors duration-300`}>
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-[#7071E9] text-lg font-semibold mb-2">OUR TECH STACK</h2>
-        <h3 className={`text-5xl font-bold mb-12 ${
-          theme === 'dark' ? 'text-white' : 'text-black'
-        }`}>
-          Technologies we work on
-        </h3>
+    <section className={`
+      relative
+      ${isDark ? 'bg-black' : 'bg-white'}
+      py-16
+      mt-16
+      px-8
+    `}>
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="mb-8">
+          <p className="text-[#7071E9]  text-sm font-medium mb-5">
+            OUR TECH STACK
+          </p>
+          <h2 className={`
+            text-2xl md:text-5xl font-bold
+            ${isDark ? 'text-white' : 'text-black'}
+          `}>
+            Technologies we work on
+          </h2>
+        </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <TechnologyCard
             name="Node.js"
             description="Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine."
@@ -62,7 +72,7 @@ const TechStack: React.FC = () => {
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

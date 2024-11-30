@@ -9,6 +9,7 @@ import ProductPromoBanner from './components/ProductPromoBanner';
 import Header from '../components/header';
 import Layout from '../components/Homepage/Layout';
 import FooterLabel from '../components/Career/FooterLabel';
+import OurServices from './components/OurServices';
 
 const ServicesPage = () => {
   return (
@@ -18,6 +19,7 @@ const ServicesPage = () => {
       <ServicesHeader />
       <FullWidthImage />
       <ServicesList />
+      <OurServices />
       <DesignProcess />
       <IndustryProblems />
       <TopClients />

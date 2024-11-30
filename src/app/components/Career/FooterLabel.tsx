@@ -8,8 +8,11 @@ const FooterLabel = () => {
   const { theme } = useTheme();
   
   return (
-    <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} pt-16 px-4 pb-32 rounded-b-[40px]`}>
-        <TimeDisplay />
+    <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} 
+      pt-16 px-4 pb-32 rounded-b-[40px] 
+      transition-colors duration-300 ease-in-out`}
+    >
+      <TimeDisplay />
     </div>
   );
 };

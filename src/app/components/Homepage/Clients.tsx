@@ -4,7 +4,18 @@ import React from 'react';
 import Image from 'next/image';
 import { useTheme } from '@/app/context/ThemeContext';
 
-const clients = Array(20).fill({ src: '/path/to/client-logo.png', alt: 'Client Logo' });
+const clients = [
+  { src: '/clients.png', alt: 'Client Logo 1' },
+  { src: '/clients.png', alt: 'Client Logo 2' },
+  { src: '/clients.png', alt: 'Client Logo 3' },
+  { src: '/clients.png', alt: 'Client Logo 4' },
+  { src: '/clients.png', alt: 'Client Logo 5' },
+  { src: '/clients.png', alt: 'Client Logo 6' },
+  { src: '/clients.png', alt: 'Client Logo 7' },
+  { src: '/clients.png', alt: 'Client Logo 8' },
+  { src: '/clients.png', alt: 'Client Logo 9' },
+  { src: '/clients.png', alt: 'Client Logo 10' },
+];
 
 const ClientsMarquee = () => {
   const { theme } = useTheme();
@@ -22,15 +33,39 @@ const ClientsMarquee = () => {
             <div key={row} className="marquee-row">
               <div className="marquee-content">
                 {clients.map((client, index) => (
-                  <div key={index} className={`client-logo ${theme === 'dark' ? 'opacity-100' : 'opacity-90'}`}>
-                    <Image src={client.src} alt={client.alt} width={80} height={40} />
+                  <div 
+                    key={index} 
+                    className={`client-logo ${theme === 'dark' ? 'opacity-100' : 'opacity-90'} 
+                      mx-8 flex items-center justify-center`}
+                  >
+                    <div className="relative w-[140px] h-[70px]">
+                      <Image 
+                        src={client.src} 
+                        alt={client.alt} 
+                        fill
+                        style={{ objectFit: 'contain' }}
+                        className="rounded-lg"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
-              <div className="marquee-content" aria-hidden="true">
+              <div className="marquee-content">
                 {clients.map((client, index) => (
-                  <div key={index} className={`client-logo ${theme === 'dark' ? 'opacity-100' : 'opacity-90'}`}>
-                    <Image src={client.src} alt={client.alt} width={80} height={40} />
+                  <div 
+                    key={index} 
+                    className={`client-logo ${theme === 'dark' ? 'opacity-100' : 'opacity-90'} 
+                      mx-8 flex items-center justify-center`}
+                  >
+                    <div className="relative w-[140px] h-[70px]">
+                      <Image 
+                        src={client.src} 
+                        alt={client.alt} 
+                        fill
+                        style={{ objectFit: 'contain' }}
+                        className="rounded-lg"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -38,6 +73,39 @@ const ClientsMarquee = () => {
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        .marquee-container {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+          overflow: hidden;
+        }
+
+        .marquee-row {
+          display: flex;
+          position: relative;
+        }
+
+        .marquee-content {
+          display: flex;
+          animation: marquee 30s linear infinite;
+          padding-left: 0;
+        }
+
+        .marquee-row:nth-child(2) .marquee-content {
+          animation-direction: reverse;
+        }
+
+        @keyframes marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
+      `}</style>
     </div>
   );
 };

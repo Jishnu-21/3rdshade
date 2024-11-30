@@ -14,14 +14,16 @@ const Page = () => {
   const { theme } = useTheme();
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300`}>
+    <div className={`service-detail-page ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-100'} transition-colors duration-300 ease-in-out`}>
       <Header />
       <Layout>
         <WebDevelopmentServices />
         <ValueProposition />
         <TechStack />
         <FAQSection />
-        <FooterLabel />
+        <div className={`relative ${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-300 ease-in-out`}>
+          <FooterLabel />
+        </div>
       </Layout>
     </div>
   )

@@ -48,9 +48,9 @@ const Banner: React.FC = () => {
 
   return (
     <div className="bg-black text-white min-h-[calc(100vh-73px)] flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 relative overflow-hidden pb-0" ref={ref}>
-      {/* Yellow Glow Effects - Responsive sizes */}
+      {/* Yellow Glow Effects - Adjusted positioning */}
       <div 
-        className="absolute top-[35%] left-1/2 w-[300px] sm:w-[600px] md:w-[900px] h-[300px] sm:h-[600px] md:h-[900px] -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-[45%] left-1/2 w-[300px] sm:w-[600px] md:w-[900px] h-[300px] sm:h-[600px] md:h-[900px] -translate-x-1/2 -translate-y-1/2"
         style={{
           background: `
             radial-gradient(
@@ -66,9 +66,9 @@ const Banner: React.FC = () => {
         }}
       />
       
-      {/* Medium glow circle - Responsive sizes */}
+      {/* Medium glow circle - Adjusted positioning */}
       <div 
-        className="absolute top-[35%] left-1/2 w-[200px] sm:w-[400px] md:w-[600px] h-[200px] sm:h-[400px] md:h-[600px] -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-[45%] left-1/2 w-[200px] sm:w-[400px] md:w-[600px] h-[200px] sm:h-[400px] md:h-[600px] -translate-x-1/2 -translate-y-1/2"
         style={{
           background: 'radial-gradient(circle at center, rgba(170, 255, 0, 0.04) 0%, transparent 70%)',
           filter: 'blur(30px) sm:blur(60px)',
@@ -76,9 +76,9 @@ const Banner: React.FC = () => {
         }}
       />
       
-      {/* Center concentrated glow - Responsive sizes */}
+      {/* Center concentrated glow - Adjusted positioning */}
       <div 
-        className="absolute top-[35%] left-1/2 w-[150px] sm:w-[300px] md:w-[400px] h-[150px] sm:h-[300px] md:h-[400px] -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-[45%] left-1/2 w-[150px] sm:w-[300px] md:w-[400px] h-[150px] sm:h-[300px] md:h-[400px] -translate-x-1/2 -translate-y-1/2"
         style={{
           background: 'radial-gradient(circle at center, rgba(170, 255, 0, 0.05) 0%, transparent 60%)',
           filter: 'blur(20px) sm:blur(50px)',
@@ -125,9 +125,9 @@ const Banner: React.FC = () => {
         </div>
       )}
 
-      {/* Content - Reduced top margin */}
+      {/* Content - Moved up */}
       <motion.div 
-        className="w-full max-w-5xl mx-auto relative z-10 mt-8 sm:mt-10 md:mt-12"
+        className="w-full max-w-5xl mx-auto relative z-10 -mt-20 sm:-mt-24 md:-mt-32"
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
