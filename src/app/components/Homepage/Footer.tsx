@@ -32,8 +32,7 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
             className={`${theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'} 
-              pt-12 sm:pt-16 md:pt-20 lg:pt-24 xl:pt-28 2xl:pt-32 3xl:pt-36 4xl:pt-40
-              pb-6 sm:pb-8 md:pb-10 lg:pb-12 xl:pb-14 2xl:pb-16 3xl:pb-18 4xl:pb-20 
+              pt-16 pb-8
               px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-14 3xl:px-16 4xl:px-20`}
           >
             <div className="max-w-[1440px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] 4xl:max-w-[2000px] mx-auto">
@@ -58,7 +57,7 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
                 <div className="flex space-x-4 sm:space-x-6 md:space-x-8 lg:space-x-10 xl:space-x-12 2xl:space-x-14 3xl:space-x-16 4xl:space-x-20 
                   mb-6 sm:mb-8 md:mb-0 order-2 sm:order-1"
                 >
-                  {[
+                  {[/* eslint-disable @typescript-eslint/no-unused-vars */
                     { icon: FaLinkedinIn, href: "https://www.linkedin.com" },
                     { icon: FaInstagram, href: "https://www.instagram.com" },
                     { icon: FaYoutube, href: "https://www.youtube.com" },
@@ -86,7 +85,7 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
                   text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl 3xl:text-3xl 4xl:text-4xl 
                   order-1 sm:order-2"
                 >
-                  {[
+                  {[/* eslint-disable @typescript-eslint/no-unused-vars */
                     { href: "/about", label: "About" },
                     { href: "/contact", label: "Contact" },
                     { href: "/case-studies", label: "Case Studies" },

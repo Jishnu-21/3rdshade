@@ -92,7 +92,7 @@ export default function Component() {
   return (
     <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} 
       ${theme === 'dark' ? 'text-white' : 'text-black'} 
-      py-16 px-4 relative z-10`}
+      pt-16 pb-8 px-4 relative z-10`}
     >
       <div className="max-w-6xl mx-auto">
         <h2 className={`text-center text-sm mb-2 
@@ -164,7 +164,7 @@ export default function Component() {
           )}
         </div>
       </div>
-      <div className={`h-16 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}></div>
+      <div className={`h-8 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}></div>
     </div>
   )
 }

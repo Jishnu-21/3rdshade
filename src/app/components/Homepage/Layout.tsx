@@ -11,7 +11,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   useEffect(() => {
     const handleScroll = () => {
       setScrollPosition(window.pageYOffset);
-      if (window.pageYOffset > window.innerHeight * 0.8) {
+      if (window.pageYOffset > window.innerHeight * 0.6) {
         setFooterVisible(true);
       } else {
         setFooterVisible(false);
@@ -25,7 +25,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   useEffect(() => {
     if (footerRef.current) {
       const footerHeight = footerRef.current.offsetHeight;
-      document.body.style.minHeight = `calc(100vh + ${footerHeight / 2}px)`;
+      document.body.style.minHeight = `calc(100vh + ${footerHeight}px)`;
     }
   }, []);
 
@@ -33,7 +33,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const contentHeight = contentRef.current?.offsetHeight || 0;
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
 
-  const translateY = Math.max(0, Math.min(scrollPosition / 2, footerHeight / 1.2));
+  const translateY = Math.max(0, Math.min(scrollPosition / 1.5, footerHeight));
 
   return (
     <div className="min-h-screen flex flex-col">

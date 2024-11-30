@@ -56,10 +56,7 @@ const Page = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    // Reset mount state on pathname change
     setIsMounted(false);
-    
-    // Set mounted after a short delay
     const timer = setTimeout(() => {
       setIsMounted(true);
     }, 100);
@@ -90,12 +87,13 @@ const Page = () => {
             <ClientsMarquee />
             <div className="relative">
               <Testimonials />
-              <FAQ />
+              <div className="mt-16">
+                <FAQ />
+              </div>
             </div>
           </div>
           <div className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-1000`}>
             <MoreInfoWithTime />
-            <div className="mt-10" />
           </div>
         </div>
       </Layout>

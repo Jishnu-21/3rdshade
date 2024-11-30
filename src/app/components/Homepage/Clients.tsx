@@ -21,13 +21,13 @@ const ClientsMarquee = () => {
   const { theme } = useTheme();
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} py-16 px-4 -mt-1`}>
+    <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} py-16 px-4 -mt-1 relative z-10`}>
       <h2 className="text-center text-4xl font-bold mb-12">
         <span className="bg-gradient-to-r from-red-400 via-purple-500 to-blue-500 bg-clip-text text-transparent">
           Clients we have worked with
         </span>
       </h2>
-      <div className="overflow-hidden">
+      <div className="overflow-hidden relative">
         <div className="marquee-container">
           {[0, 1].map((row) => (
             <div key={row} className="marquee-row">
@@ -80,11 +80,14 @@ const ClientsMarquee = () => {
           flex-direction: column;
           gap: 2rem;
           overflow: hidden;
+          position: relative;
+          background: ${theme === 'dark' ? 'black' : 'white'};
         }
 
         .marquee-row {
           display: flex;
           position: relative;
+          background: ${theme === 'dark' ? 'black' : 'white'};
         }
 
         .marquee-content {

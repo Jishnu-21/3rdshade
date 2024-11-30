@@ -14,10 +14,18 @@ const faqs: FAQ[] = [
     question: "Where does Char Befikar provide property management services?",
     answer: "We manage property within Pune and parts of PCMC. Our endeavor is to expand our reach to serve you better. Currently, we manage properties in Wakad, Hinjewadi, Pimple Saudagar, Pimple Gurav, Pundit, Baner, Balewadi, Mahalunge, SusGaon, Bavdhan, Bhugaon, Sakal Nagar, Katraj, Ambegaon, NIBM, Kondhwa, Wagnoli, Bhugaon, Sinhagad Road, Kothrud, Hadapsar, Kharadi, Kalyani Nagar, and Keshav Nagar, etc. Please check with us if the area of your interest is not covered above."
   },
-  { question: "How can I start the service?", answer: "" },
-  { question: "What is the enrolment process?", answer: "" },
-  { question: "How do I hand over the keys to Char Befikar?", answer: "" },
-  { question: "What is a 'First Time Inspection Report'?", answer: "" },
+  { question: "How can I start the service?", 
+    answer: "We manage property within Pune and parts of PCMC. Our endeavor is to expand our reach to serve you better. Currently, we manage properties in Wakad, Hinjewadi, Pimple Saudagar, Pimple Gurav, Pundit, Baner, Balewadi, Mahalunge, SusGaon, Bavdhan, Bhugaon, Sakal Nagar, Katraj, Ambegaon, NIBM, Kondhwa, Wagnoli, Bhugaon, Sinhagad Road, Kothrud, Hadapsar, Kharadi, Kalyani Nagar, and Keshav Nagar, etc. Please check with us if the area of your interest is not covered above."
+  },
+  { question: "What is the enrolment process?", 
+    answer: "" 
+  },
+  { question: "How do I hand over the keys to Char Befikar?",
+     answer: "" 
+    },
+  { question: "What is a 'First Time Inspection Report'?",
+     answer: "" 
+    },
   { question: "How soon will you be able to rent out my property ?", answer: "" },
   { question: "What happens if my tenant leaves in the middle of the agreement?", answer: "" },
   { question: "Who will be the point of contact in case my tenant needs any help?", answer: "" },
@@ -70,9 +78,9 @@ const FAQ: React.FC = () => {
   return (
     <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} 
       ${theme === 'dark' ? 'text-white' : 'text-black'} 
-      pt-16 pb-10 sm:pb-24 flex flex-col items-center justify-center px-4 -mt-16 relative z-20`}
+      py-16 flex flex-col items-center justify-center px-4 relative z-20`}
     >
-      <div className="max-w-3xl w-full">
+      <div className="max-w-5xl w-full">
         <h2 className={`text-2xl font-normal mb-6 text-center 
           ${theme === 'dark' ? 'text-white' : 'text-black'}`}
         >
