@@ -301,7 +301,7 @@ export default function Component() {
   ];
 
   return (
-    <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'} p-4 md:p-8`}>
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'} p-4 md:p-8 mt-8`}>
       <h1 className={`mb-8 md:mb-12 text-center text-3xl md:text-4xl lg:text-5xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
         <span className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
           What do we do Differently?
