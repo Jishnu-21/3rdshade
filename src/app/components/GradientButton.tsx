@@ -2,7 +2,7 @@ import React from 'react';
 
 interface GradientButtonProps {
   text: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
 }
 
