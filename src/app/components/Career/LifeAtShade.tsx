@@ -39,11 +39,16 @@ const LifeAtShade = () => {
           >
             Life at
           </h3>
-          <h2 className={`text-8xl font-bold mt-8
-            ${theme === 'dark' ? 'text-gray-800' : 'text-gray-200'}`}
-          >
-            3RD SHADE
-          </h2>
+          <div className="mt-8 relative w-full max-w-2xl mx-auto">
+            <Image 
+              src="/logo png-03 1.png"
+              alt="3RD SHADE"
+              width={600}
+              height={200}
+              className={`w-full h-auto 
+                ${theme === 'dark' ? 'opacity-10' : 'opacity-100'}`}
+            />
+          </div>
         </div>
         
         <div className="grid grid-cols-6 gap-1">

@@ -36,9 +36,9 @@ const ClientsMarquee = () => {
                   <div 
                     key={index} 
                     className={`client-logo ${theme === 'dark' ? 'opacity-100' : 'opacity-90'} 
-                      mx-8 flex items-center justify-center`}
+                      mx-4 sm:mx-6 md:mx-8 flex items-center justify-center`}
                   >
-                    <div className="relative w-[140px] h-[70px]">
+                    <div className="relative w-[100px] h-[50px] sm:w-[120px] sm:h-[60px] md:w-[140px] md:h-[70px]">
                       <Image 
                         src={client.src} 
                         alt={client.alt} 
@@ -55,9 +55,9 @@ const ClientsMarquee = () => {
                   <div 
                     key={index} 
                     className={`client-logo ${theme === 'dark' ? 'opacity-100' : 'opacity-90'} 
-                      mx-8 flex items-center justify-center`}
+                      mx-4 sm:mx-6 md:mx-8 flex items-center justify-center`}
                   >
-                    <div className="relative w-[140px] h-[70px]">
+                    <div className="relative w-[100px] h-[50px] sm:w-[120px] sm:h-[60px] md:w-[140px] md:h-[70px]">
                       <Image 
                         src={client.src} 
                         alt={client.alt} 
