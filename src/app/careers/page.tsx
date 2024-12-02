@@ -1,4 +1,6 @@
+"use client"
 import React from 'react';
+import { useTheme } from '@/app/context/ThemeContext';
 import CareerHero from '../components/Career/CareerHero';
 import CareerDifference from '../components/Career/CareerDifference';
 import FamilyNotCompany from '../components/Career/FamilyNotCompany';
@@ -11,18 +13,26 @@ import Layout from '../components/Homepage/Layout';
 import Header from '../components/header';
 
 const CareerPage = () => {
+  const { theme } = useTheme();
+
   return (
-    <div className="career-page bg-black"> {/* Added bg-black class */}
+    <div className="career-page">
       <Header />
       <Layout>
-        <CareerHero />
-        <CareerDifference />
-        <FamilyNotCompany />
-        <WorkCulture />
-        <BenefitsSection />
-        <LifeAtShade />
-        <CurrentOpenings />
-        <FooterLabel/>
+        <div className='w-full scroll-smooth'>
+          <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300`}>
+            <CareerHero />
+            <CareerDifference />
+            <FamilyNotCompany />
+            <WorkCulture />
+            <BenefitsSection />
+            <LifeAtShade />
+            <CurrentOpenings />
+          </div>
+          <div className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-1000`}>
+            <FooterLabel />
+          </div>
+        </div>
       </Layout>
     </div>
   );
