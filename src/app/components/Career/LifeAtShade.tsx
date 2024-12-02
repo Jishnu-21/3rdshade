@@ -3,6 +3,13 @@
 import React from 'react';
 import Image from 'next/image';
 import { useTheme } from '@/app/context/ThemeContext';
+import { Parisienne } from 'next/font/google';
+
+// Add Parisienne font configuration
+const parisienne = Parisienne({
+  subsets: ['latin'],
+  weight: ['400'],
+});
 
 const LifeAtShade = () => {
   const { theme } = useTheme();
@@ -26,7 +33,7 @@ const LifeAtShade = () => {
     >
       <div className="container mx-auto px-4">
         <div className="relative text-center pb-16">
-          <h3 className={`text-4xl font-cursive absolute top-0 left-1/2 transform 
+          <h3 className={`${parisienne.className} text-5xl sm:text-6xl md:text-7xl absolute top-0 left-1/2 transform 
             -translate-x-1/2 -translate-y-full mb-4
             ${theme === 'dark' ? 'text-white' : 'text-black'}`}
           >

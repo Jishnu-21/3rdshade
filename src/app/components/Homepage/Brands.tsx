@@ -2,12 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Montserrat } from 'next/font/google';
+import { Montserrat, Parisienne } from 'next/font/google';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
   weight: ['600'], // 600 is SemiBold
+});
+
+const parisienne = Parisienne({
+  subsets: ['latin'],
+  weight: ['400'],
 });
 
 const brands = [
@@ -87,7 +92,7 @@ const BrandsWeBuilt: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-gray-700 text-black min-h-screen py-8 sm:py-12 md:py-16 lg:py-20 
+    <div className="bg-gray-700 text-black min-h-screen py-8 sm:py-12 md:py-16 lg:py-20
       relative overflow-hidden flex items-center justify-center"
     >
       <div className="absolute inset-0 z-20">
@@ -129,7 +134,7 @@ const BrandsWeBuilt: React.FC = () => {
         2xl:max-w-3xl 3xl:max-w-4xl 4xl:max-w-5xl mx-auto relative z-30 
         flex flex-col items-center justify-center"
       >
-        <div className="bg-white text-black rounded-3xl px-6 sm:px-8 md:px-10 
+        <div className="bg-white/20 text-black rounded-3xl px-6 sm:px-8 md:px-10 border border-black
           py-2 sm:py-2.5 inline-block mb-8 sm:mb-10 md:mb-12 
           min-w-[240px] sm:min-w-[260px] md:min-w-[280px]"
         >
@@ -144,7 +149,7 @@ const BrandsWeBuilt: React.FC = () => {
           {brands.map((brand, index) => (
             <motion.div 
               key={index}
-              className={`${montserrat.className} text-[32px] sm:text-[36px] md:text-[42px] 
+              className={`${parisienne.className} text-[32px] sm:text-[36px] md:text-[42px] 
                 lg:text-[48px] xl:text-[56px] 2xl:text-[64px] 3xl:text-[72px] 4xl:text-[84px]
                 leading-[1.1] cursor-pointer text-center
                 ${hoveredBrand === brand.name ? 'text-white' : 'text-white/80'}`}
