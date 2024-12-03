@@ -17,10 +17,10 @@ const parisienne = Parisienne({
 
 const brands = [
   { name: "Hush Hiven", image: "/brand1.jpg" },
-  { name: "Pallid Blue", image: "/brand2.jpg" },
-  { name: "Moemm", image: "/brand3.jpg" },
-  { name: "Super Hoomans", image: "/brand1.jpg" },
-  { name: "Food Butti", image: "/brand2.jpg" }
+  { name: "Pallid Blue Studio", image: "/brand2.jpg" },
+  { name: "A Dash of me", image: "/brand3.jpg" },
+  { name: "Poochyx", image: "/brand1.jpg" },
+  { name: "Elite Pack", image: "/brand2.jpg" }
 ];
 
 const ShootingStar: React.FC<{ 

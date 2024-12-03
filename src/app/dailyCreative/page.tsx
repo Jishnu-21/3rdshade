@@ -6,6 +6,7 @@ import FooterLabel from '../components/Career/FooterLabel'
 import Header from '../components/header'
 import { useTheme } from '@/app/context/ThemeContext';
 
+
 const page = () => {
   const { theme } = useTheme();
   return (

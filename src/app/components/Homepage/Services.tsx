@@ -15,22 +15,22 @@ const ServiceLine: React.FC = () => {
   // Define services for each row
   const serviceRows = [
     [
-      "Web Development", "Mobile Apps", "UI/UX Design", 
-      "Cloud Solutions", "DevOps", "E-commerce",
-      "Web Development", "Mobile Apps", "UI/UX Design", 
-      "Cloud Solutions", "DevOps", "E-commerce"
+      "Website Development", "Social Media Management", "Advertising", 
+      "Performance Marketing", "App Development", "Influencer Marketing",
+      "Website Development", "Social Media Management", "Advertising", 
+      "Performance Marketing", "App Development", "Influencer Marketing"
     ],
     [
-      "Digital Marketing", "SEO Services", "Content Strategy", 
-      "Social Media", "Email Marketing", "Brand Strategy",
-      "Digital Marketing", "SEO Services", "Content Strategy", 
-      "Social Media", "Email Marketing", "Brand Strategy"
+      "E-Commerce Listing", "SEO", "Branding", 
+      "Content Creation", "Whatsapp Marketing", "Consulting",
+      "E-Commerce Listing", "SEO", "Branding", 
+      "Content Creation", "Whatsapp Marketing", "Consulting"
     ],
     [
-      "Ad Campaigns", "Performance Marketing", "Analytics", 
-      "Lead Generation", "Market Research", "CRM Solutions",
-      "Ad Campaigns", "Performance Marketing", "Analytics", 
-      "Lead Generation", "Market Research", "CRM Solutions"
+      "Video Creation", "Email Marketing", "Website Development", 
+      "Social Media Management", "Advertising", "Performance Marketing",
+      "Video Creation", "Email Marketing", "Website Development", 
+      "Social Media Management", "Advertising", "Performance Marketing"
     ]
   ];
 

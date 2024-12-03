@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useTheme } from '@/app/context/ThemeContext';
+import { ChatBubbleLeftRightIcon, SparklesIcon, CubeTransparentIcon } from '@heroicons/react/24/outline';
 
 type CardState = {
   isVisible: boolean;
@@ -75,6 +76,7 @@ export default function Component() {
             // When card enters viewport
             setTimeout(() => {
               setCardStates(prev => ({
+
                 ...prev,
                 [cardId]: {
                   ...prev[cardId],
@@ -85,6 +87,7 @@ export default function Component() {
               // Flip to back
               setTimeout(() => {
                 setCardStates(prev => ({
+
                   ...prev,
                   [cardId]: {
                     ...prev[cardId],
@@ -95,6 +98,7 @@ export default function Component() {
                 // Flip back to front
                 setTimeout(() => {
                   setCardStates(prev => ({
+
                     ...prev,
                     [cardId]: {
                       ...prev[cardId],
@@ -107,6 +111,7 @@ export default function Component() {
           } else {
             // When card leaves viewport
             setCardStates(prev => ({
+
               ...prev,
               [cardId]: {
                 ...prev[cardId],
@@ -152,6 +157,7 @@ export default function Component() {
       const card3Trigger = containerRect.top + 400;
 
       setCardStates(prev => ({
+
         card1: {
           ...prev.card1,
           isVisible: card1Trigger <= triggerOffset,
@@ -173,6 +179,7 @@ export default function Component() {
         if (card1Trigger <= triggerOffset) {
           setTimeout(() => {
             setCardStates(prev => ({
+
               ...prev,
               card1: { ...prev.card1, showBack: true }
             }));
@@ -180,6 +187,7 @@ export default function Component() {
 
           setTimeout(() => {
             setCardStates(prev => ({
+
               ...prev,
               card2: { ...prev.card2, showBack: true }
             }));
@@ -187,6 +195,7 @@ export default function Component() {
 
           setTimeout(() => {
             setCardStates(prev => ({
+
               ...prev,
               card3: { ...prev.card3, showBack: true }
             }));
@@ -194,6 +203,7 @@ export default function Component() {
 
           setTimeout(() => {
             setCardStates(prev => ({
+
               card1: { ...prev.card1, showBack: false },
               card2: { ...prev.card2, showBack: false },
               card3: { ...prev.card3, showBack: false }
@@ -228,6 +238,7 @@ export default function Component() {
   const handleMouseEnter = (cardId: string) => {
     if (initialAnimationComplete) {
       setCardStates(prev => ({
+
         ...prev,
         [cardId]: { ...prev[cardId], isHovered: true, showBack: !prev[cardId].showBack }
       }));
@@ -237,6 +248,7 @@ export default function Component() {
   const handleMouseLeave = (cardId: string) => {
     if (initialAnimationComplete) {
       setCardStates(prev => ({
+
         ...prev,
         [cardId]: { ...prev[cardId], isHovered: false, showBack: !prev[cardId].showBack }
       }));
@@ -256,13 +268,13 @@ export default function Component() {
       position: "lg:left-[5%] md:left-[10%] left-0 lg:top-[5%] md:top-[5%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-6 sm:p-8 lg:p-12">
-          <div className={`mb-auto h-16 w-16 sm:h-20 sm:w-20 rounded-full ${theme === 'dark' ? 'bg-gray-200/20' : 'bg-gray-200/30'}`}></div>
-          <p className="text-xl sm:text-2xl font-light text-white mt-auto">Hush Hiven</p>
+          <ChatBubbleLeftRightIcon className="h-16 w-16 sm:h-20 sm:w-20 text-white/80" />
+          <p className="text-xl sm:text-2xl font-light text-white mt-auto">Consulting</p>
         </div>
       ),
       backContent: (
-        <div className="text-base sm:text-lg lg:text-xl font-light text-white p-6 sm:p-8 lg:p-12 text-left leading-relaxed">
-          It&apos;s not just about having a website or social media presence, we understand you and your brand to market in a unique way.
+        <div className="text-sm sm:text-base lg:text-lg font-light text-white p-6 sm:p-8 lg:p-12 text-left leading-relaxed">
+          We listen first, act second. Understanding your business challenges, we create tailored solutions that drive real results.
         </div>
       )
     },
@@ -272,13 +284,13 @@ export default function Component() {
       position: "lg:left-[35%] md:left-[10%] left-0 lg:top-[25%] md:top-[40%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-12">
-          <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
-          <p className="text-2xl font-light text-white mt-auto">Hush Hiven</p>
+          <SparklesIcon className="h-20 w-20 text-white/80" />
+          <p className="text-2xl font-light text-white mt-auto">Creativity</p>
         </div>
       ),
       backContent: (
-        <div className="text-xl font-light text-white p-12 text-left leading-relaxed">
-          It&apos;s not just about having a website or social media presence, we understand you and your brand to market in a unique way.
+        <div className="text-sm sm:text-base lg:text-lg font-light text-white p-12 text-left leading-relaxed">
+          Fresh ideas are our specialty. We turn your business story into something unique and memorable with thoughtful, creative solutions.
         </div>
       )
     },
@@ -288,13 +300,13 @@ export default function Component() {
       position: "lg:left-[65%] md:left-[10%] left-0 lg:top-[45%] md:top-[75%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-12">
-          <div className="mb-auto h-20 w-20 rounded-full bg-gray-200/20"></div>
-          <p className="text-2xl font-light text-white mt-auto">Hush Hiven</p>
+          <CubeTransparentIcon className="h-20 w-20 text-white/80" />
+          <p className="text-2xl font-light text-white mt-auto">End-to-End Solutions</p>
         </div>
       ),
       backContent: (
-        <div className="text-xl font-light text-white p-12 text-left leading-relaxed">
-          We leverage cutting-edge technology to bring your vision to life.
+        <div className="text-sm sm:text-base lg:text-lg font-light text-white p-12 text-left leading-relaxed">
+          Your one-stop marketing powerhouse. From strategy to execution, we deliver comprehensive 360-degree marketing solutions.
         </div>
       )
     },
@@ -304,8 +316,8 @@ export default function Component() {
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'} p-4 md:p-8 mt-8`}>
       <h1 className={`mb-8 md:mb-12 text-center text-3xl md:text-4xl lg:text-5xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
         <span className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-          What do we do Differently?
-        </span>
+        Not your Regular Digital Marketing Firm. WHY?        
+       </span>
       </h1>
 
       {/* Mobile View - Updated ref implementation */}

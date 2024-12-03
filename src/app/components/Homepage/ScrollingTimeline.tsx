@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper/modules'
 import { useTheme } from '@/app/context/ThemeContext'
-import { BsBrush, BsCode, BsMegaphone, BsLayers, BsCamera, BsGraphUp } from 'react-icons/bs'
+import { BsBookHalf, BsPalette, BsBuilding, BsTrophy, BsGear, BsLightbulb } from 'react-icons/bs'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/autoplay'
@@ -29,34 +29,34 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
 
   const timelineContent = [
     { 
-      title: "Brand Strategy", 
-      description: "Crafting unique brand identities",
-      icon: BsBrush
+      title: "Narrate Compelling Stories", 
+      description: "Crafting stories that resonate and inspire",
+      icon: BsBookHalf
     },
     { 
-      title: "Web Development", 
-      description: "Building modern web experiences",
-      icon: BsCode
+      title: "Craft Visual Narratives", 
+      description: "Creating impactful visual experiences",
+      icon: BsPalette
     },
     { 
-      title: "Digital Marketing", 
-      description: "Reaching your target audience",
-      icon: BsMegaphone
+      title: "Build Brands that Make a Difference", 
+      description: "Developing meaningful brand identities",
+      icon: BsBuilding
     },
     { 
-      title: "UI/UX Design", 
-      description: "Creating intuitive interfaces",
-      icon: BsLayers
+      title: "Create Success Stories", 
+      description: "Turning visions into achievements",
+      icon: BsTrophy
     },
     { 
-      title: "Content Creation", 
-      description: "Engaging your audience",
-      icon: BsCamera
+      title: "Serve End-to-End Solutions", 
+      description: "Comprehensive business solutions",
+      icon: BsGear
     },
     { 
-      title: "Analytics", 
-      description: "Data-driven decisions",
-      icon: BsGraphUp
+      title: "Strategic Business Consulting", 
+      description: "Expert guidance for growth",
+      icon: BsLightbulb
     }
   ];
 
@@ -123,34 +123,34 @@ const MobileTimelineItem = ({ index }: { index: number }) => {
   const { theme } = useTheme();
   const timelineContent = [
     { 
-      title: "Brand Strategy", 
-      description: "Crafting unique brand identities",
-      icon: BsBrush
+      title: "Narrate Compelling Stories", 
+      description: "Crafting stories that resonate and inspire",
+      icon: BsBookHalf
     },
     { 
-      title: "Web Development", 
-      description: "Building modern web experiences",
-      icon: BsCode
+      title: "Craft Visual Narratives", 
+      description: "Creating impactful visual experiences",
+      icon: BsPalette
     },
     { 
-      title: "Digital Marketing", 
-      description: "Reaching your target audience",
-      icon: BsMegaphone
+      title: "Build Brands that Make a Difference", 
+      description: "Developing meaningful brand identities",
+      icon: BsBuilding
     },
     { 
-      title: "UI/UX Design", 
-      description: "Creating intuitive interfaces",
-      icon: BsLayers
+      title: "Create Success Stories", 
+      description: "Turning visions into achievements",
+      icon: BsTrophy
     },
     { 
-      title: "Content Creation", 
-      description: "Engaging your audience",
-      icon: BsCamera
+      title: "Serve End-to-End Solutions", 
+      description: "Comprehensive business solutions",
+      icon: BsGear
     },
     { 
-      title: "Analytics", 
-      description: "Data-driven decisions",
-      icon: BsGraphUp
+      title: "Strategic Business Consulting", 
+      description: "Expert guidance for growth",
+      icon: BsLightbulb
     }
   ];
 
@@ -298,7 +298,7 @@ export default function Component() {
         {/* Title section */}
         <div className="md:absolute md:top-8 w-full md:w-1/3 z-10 mb-4 md:mb-0">
           <h2 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-left">
-            What we do ?
+          Beyond the Ordinary. What Do We Do?
           </h2>
           <p className={`${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'} text-base md:text-xl text-left`}>
             It's not just about having a website or social media presence. We understand you and your brand to market in a unique way.

@@ -26,23 +26,16 @@ const montserrat = Montserrat({
 });
 
 const translations = [
-  { language: 'English', word: 'Different', font: '' },
-  { 
-    language: 'Hindi', 
-    word: 'अलग', 
-    font: notoSans.className 
-  },
-  { 
-    language: 'Marathi', 
-    word: 'वेगळे', 
-    font: notoSans.className 
-  },
-  { 
-    language: 'Arabic', 
-    word: 'مختلف', 
-    font: notoSansArabic.className,
-    direction: 'rtl'
-  },
+  { language: 'Marketing', word: 'Marketing', font: '' },
+  { language: 'Marketing', word: 'Consulting', font: '' },
+  { language: 'Marketing', word: 'Designing', font: '' },
+  { language: 'Marketing', word: 'Storytelling', font: '' },
+  { language: 'Marketing', word: 'Likes', font: '' },
+  { language: 'Marketing', word: 'Reach', font: '' },
+  { language: 'Marketing', word: 'Engagement', font: '' },
+  { language: 'Marketing', word: 'Campaigns', font: '' },
+  { language: 'Marketing', word: 'Social Media Strategies', font: '' },
+  { language: 'Marketing', word: 'Influencer Marketing', font: '' }
 ];
 
 const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) => {
@@ -333,12 +326,15 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
           ${theme === 'dark' ? 'text-[#4A9EDE]' : 'text-[#2779BD]'} 
           tracking-[0.15em] mb-3 2xl:mb-4 3xl:mb-5 4xl:mb-6 font-normal`}
         >
-          Breaking the norms of Marketing Because
+        Welcome to the Digital Universe of 3rd Shade
         </h2>
-        <h1 className="text-[56px] sm:text-[72px] md:text-[86px] lg:text-[96px] xl:text-[110px] 
-          2xl:text-[130px] 3xl:text-[160px] 4xl:text-[200px]
+        <h1 className="text-[26px] sm:text-[32px] md:text-[46px] lg:text-[56px] xl:text-[70px] 
+          2xl:text-[90px] 3xl:text-[110px] 4xl:text-[130px]
           font-bold leading-[1.1] mb-4 2xl:mb-6 3xl:mb-8 4xl:mb-10"
         >
+          <span className={theme === 'dark' ? 'text-white' : 'text-black'}>You have landed</span>
+          <br />
+          <span className={theme === 'dark' ? 'text-white' : 'text-black'}>in the realm of </span>
           <span 
             className={`bg-gradient-to-r from-[#F1967D] via-[#C93F80] to-[#1CB0CE] text-transparent bg-clip-text inline-block transition-all duration-300 ease-in-out ${translations[currentIndex].font}`}
             style={{
@@ -357,17 +353,16 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
               }}
             />
           </span>
-          <span className={theme === 'dark' ? 'text-white' : 'text-black'}> is the</span>
-          <br />
-          <span className={theme === 'dark' ? 'text-white' : 'text-black'}>New Digital</span>
         </h1>
         <p className={`text-[15px] 2xl:text-[18px] 3xl:text-[22px] 4xl:text-[26px]
-          leading-[1.6] ${theme === 'dark' ? 'text-[#4A9EDE]' : 'text-[#2779BD]'} 
+          leading-[2] ${theme === 'dark' ? 'text-[#4A9EDE]' : 'text-[#2779BD]'} 
           mx-auto mb-6 2xl:mb-8 3xl:mb-10 4xl:mb-12
-          max-w-[600px] 2xl:max-w-[700px] 3xl:max-w-[800px] 4xl:max-w-[1000px] font-normal`}
+          max-w-[800px] 2xl:max-w-[900px] 3xl:max-w-[1000px] 4xl:max-w-[1200px] font-normal
+          tracking-wide`}
         >
-          It&apos;s not just about having a website or social media presence. We understand you and your
-          brand to market in a unique way.
+          &apos;Beauty lies in the eyes of the Be-holder&apos;
+          The success of your Business lies in how your audience perceives it, not how you do it.
+          &apos;It all lies in the Perspective&apos;. We stand for &apos;Where Marketing Meets Perspective&apos;.
         </p>
         <motion.div
           initial="initial"

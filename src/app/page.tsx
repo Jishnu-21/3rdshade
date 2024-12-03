@@ -16,8 +16,6 @@ const Layout = dynamic(() => import('./components/Homepage/Layout'), {
   loading: () => null
 });
 
-
-
 // Other dynamic imports with loading states
 const Banner = dynamic(() => import('./components/Homepage/Banner'), { 
   ssr: false,

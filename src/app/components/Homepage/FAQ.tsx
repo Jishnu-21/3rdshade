@@ -6,35 +6,77 @@ import { useTheme } from '@/app/context/ThemeContext';
 
 interface FAQ {
   question: string;
-  answer: string;
+  answer: string | JSX.Element;
 }
 
 const faqs: FAQ[] = [
   {
-    question: "Where does Char Befikar provide property management services?",
-    answer: "We manage property within Pune and parts of PCMC. Our endeavor is to expand our reach to serve you better. Currently, we manage properties in Wakad, Hinjewadi, Pimple Saudagar, Pimple Gurav, Pundit, Baner, Balewadi, Mahalunge, SusGaon, Bavdhan, Bhugaon, Sakal Nagar, Katraj, Ambegaon, NIBM, Kondhwa, Wagnoli, Bhugaon, Sinhagad Road, Kothrud, Hadapsar, Kharadi, Kalyani Nagar, and Keshav Nagar, etc. Please check with us if the area of your interest is not covered above."
+    question: "What are the Digital Marketing services you cater to?",
+    answer: <>
+      We cover 360-degree marketing services that include:<br/><br/>
+      • Branding<br/>
+      • Social Media Management<br/>
+      • Performance marketing<br/>
+      • Website Development<br/>
+      • App Development<br/>
+      • Influencer Marketing<br/>
+      • E-Commerce Listing<br/>
+      • SEO
+    </>
   },
-  { question: "How can I start the service?", 
-    answer: "We manage property within Pune and parts of PCMC. Our endeavor is to expand our reach to serve you better. Currently, we manage properties in Wakad, Hinjewadi, Pimple Saudagar, Pimple Gurav, Pundit, Baner, Balewadi, Mahalunge, SusGaon, Bavdhan, Bhugaon, Sakal Nagar, Katraj, Ambegaon, NIBM, Kondhwa, Wagnoli, Bhugaon, Sinhagad Road, Kothrud, Hadapsar, Kharadi, Kalyani Nagar, and Keshav Nagar, etc. Please check with us if the area of your interest is not covered above."
+  {
+    question: "Why Do We Need Digital Marketing?",
+    answer: <>
+      In the fast-growing technological world, business has gone all digital, in fact, our lives too. It has become the fastest means to reach your customer. Not having a digital presence in the 21st century, is losing on the main hook point of your business.
+    </>
   },
-  { question: "What is the enrolment process?", 
-    answer: "" 
+  {
+    question: "Why should I opt for your services?",
+    answer: <>
+      At 3rd Shade, our results speak for us. We have a track record of driving enormous sales and growth for our clients. We serve customized solutions to every brand and provide them with the necessary guidance at every step. In addition, our all-in-one digital marketing services cater to every sector of digital platforms, helping you create your niche in the industry.
+    </>
   },
-  { question: "How do I hand over the keys to Char Befikar?",
-     answer: "" 
-    },
-  { question: "What is a 'First Time Inspection Report'?",
-     answer: "" 
-    },
-  { question: "How soon will you be able to rent out my property ?", answer: "" },
-  { question: "What happens if my tenant leaves in the middle of the agreement?", answer: "" },
-  { question: "Who will be the point of contact in case my tenant needs any help?", answer: "" },
-  { question: "What kind of inspections do you perform as part of the full property management service?", answer: "" },
+  {
+    question: "I have a well-established offline business, so why must I go digital?",
+    answer: <>
+      Having a successful business running in an offline market is great, but today, the scenario has completely changed. Day by Day, the world is getting digitalized, and people prefer shopping online. Not having your business online, is like staying behind the trend, and not reaching a new audience, which in a result means losing your business.
+    </>
+  },
+  {
+    question: "What kind of Industries do you work with?",
+    answer: <>
+      We work with all kinds of Businesses spread across various industries. From Clothing, Lifestyle, Furniture, Culinary, we have an experience with businesses from all sectors.
+    </>
+  },
+  {
+    question: "Are your services only limited to India?",
+    answer: <>
+      No, our work travels all around the world. We have collaborated with clients from Dubai, Canada, the USA, and many others.
+    </>
+  },
+  {
+    question: "What are your Prices for different services?",
+    answer: <>
+      We have customized packages for brands at different stages of their businesses. Our products Shuruwaat and Unnati cover all the services that your brand might need with different price models aligned for you. To learn more about the product click on the page (Shuruwaat and Unnati)
+    </>
+  },
+  {
+    question: "Do you help Offline businesses too?",
+    answer: <>
+      Absolutely! Once you join us, our years of experience will help you strategize your Business offline and online.
+    </>
+  },
+  {
+    question: "I am a retail store owner. How can you help me?",
+    answer: <>
+      We can help you expand your Business by helping you reach a larger audience, increasing your brand awareness, measuring ROI, and driving sales.
+    </>
+  }
 ];
 
 interface FAQItemProps {
   question: string;
-  answer: string;
+  answer: string | JSX.Element;
   isOpen: boolean;
   toggleOpen: () => void;
   theme: 'dark' | 'light';
@@ -46,7 +88,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, toggleOpen,
       className="flex justify-between items-center w-full text-left group"
       onClick={toggleOpen}
     >
-      <span className={`text-sm ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
+      <span className={`text-lg md:text-xl font-medium ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
         group-hover:${theme === 'dark' ? 'text-white' : 'text-black'} transition-colors duration-200`}
       >
         {question}
@@ -62,11 +104,11 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, toggleOpen,
       )}
     </button>
     {isOpen && (
-      <p className={`pt-2 text-sm ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
+      <div className={`pt-2 text-sm ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
         transition-colors duration-200`}
       >
         {answer}
-      </p>
+      </div>
     )}
   </div>
 );
@@ -84,7 +126,7 @@ const FAQ: React.FC = () => {
         <h2 className={`text-2xl font-normal mb-6 text-center 
           ${theme === 'dark' ? 'text-white' : 'text-black'}`}
         >
-          The Most Frequently Asked Questions.
+        Frequently Asked Questions
         </h2>
         <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} rounded-lg p-6 
           border-x border-t ${theme === 'dark' ? 'border-[#1E1E1E]' : 'border-gray-200'}
