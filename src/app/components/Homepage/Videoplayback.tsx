@@ -75,22 +75,18 @@ const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: nu
         <div className="relative w-full h-full flex items-center justify-center">
           <video
             ref={videoRef}
-            src="/Video Editor Showreel _ Portfolio _ 2023 _ video editor showreel portfolio.mp4"
             autoPlay={autoPlay}
-            muted={isMuted}
             loop
+            muted={isMuted}
             playsInline
-            className={`
-              w-full h-full object-cover
-              sm:w-full sm:h-full
-              ${isLoading || hasError ? 'hidden' : 'block'}
-              max-sm:w-[90%] max-sm:h-auto max-sm:max-h-[80vh] max-sm:rounded-lg max-sm:my-auto
-            `}
+            className={`w-full h-full object-cover transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
             onLoadedData={() => setIsLoading(false)}
             onError={handleVideoError}
-            preload="auto"
           >
-            Your browser does not support the video tag.
+            <source 
+              src="https://res.cloudinary.com/dkgjl08a5/video/upload/f_auto:video,q_auto/wvz3zbnqxu2tgworqmvg" 
+              type="video/mp4" 
+            />
           </video>
         </div>
         

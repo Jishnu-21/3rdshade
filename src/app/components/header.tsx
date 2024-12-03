@@ -82,7 +82,6 @@ export default function Header() {
   }, [isMenuOpen]);
 
   const menuItems = ['Services', 'Work', 'About Us', 'Careers'];
-
   const menuVariants = {
     closed: { opacity: 0, x: "100%" },
     open: { opacity: 1, x: 0, transition: { staggerChildren: 0.07, delayChildren: 0.2 } }
@@ -96,11 +95,11 @@ export default function Header() {
   const ContactButton = () => (
     <Link href="/contact-us" className="group">
       <div 
-        className="relative w-[160px] h-[57px] rounded-full text-sm font-medium text-white overflow-hidden inline-block"
+        className="relative w-[160px] h-[57px] rounded-[21px] text-sm font-medium text-white overflow-hidden inline-block"
       >
         <span className="relative z-10 flex items-center justify-center w-full h-full">Contact us</span>
         <span 
-          className="absolute inset-0 rounded-full opacity-100"
+          className="absolute inset-0 rounded-[21px] opacity-100"
           style={{
             background: 'linear-gradient(90deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE)',
             padding: '1px',
@@ -108,9 +107,9 @@ export default function Header() {
             zIndex: 0,
           }}
         ></span>
-        <span className="absolute inset-[1px] bg-[#282B2C] rounded-full z-[1]"></span>
+        <span className="absolute inset-[1px] bg-[#282B2C] rounded-[21px] z-[1]"></span>
         <span 
-          className="absolute inset-0 rounded-full opacity-75 blur-[2px]"
+          className="absolute inset-0 rounded-[21px] opacity-75 blur-[2px]"
           style={{
             background: 'linear-gradient(90deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE)',
             content: "''",
@@ -183,17 +182,18 @@ export default function Header() {
         </div>
         {!isMobile && (
           <nav className="hidden xl:flex flex-grow justify-center mx-4 relative z-[100]">
-            <div className={`relative w-full max-w-[654px] h-[57px] rounded-full overflow-hidden border ${theme === 'dark' ? 'border-white' : 'border-black'}`}>
-              <span className="absolute inset-0 rounded-full opacity-100" style={{
+            <div className={`relative w-full max-w-[654px] h-[57px] rounded-[21px] overflow-hidden border ${theme === 'dark' ? 'border-white' : 'border-black'}`}>
+              <span className="absolute inset-0 rounded-[21px] opacity-100" style={{
                 background: 'linear-gradient(90deg, rgba(255,255,255,0.47) 0%, rgba(255,255,255,0) 100%)',
                 content: "''",
                 zIndex: 0,
               }}></span>
-              <ul className="flex items-center justify-between h-full rounded-full px-12 relative z-10"
+              <ul className="flex items-center justify-between h-full rounded-[21px] px-12 relative z-10"
                   style={{
                     background: theme === 'dark' 
                       ? 'linear-gradient(90deg, #4A4A4A 0%, #2B2B2B 50%, #1A1A1A 100%)'
-                      : 'linear-gradient(90deg, #FFFFFF 0%, #F5F5F5 50%, #EEEEEE 100%)'
+                      : 'linear-gradient(90deg, #FFFFFF 0%, #F5F5F5 50%, #EEEEEE 100%)',
+                    borderRadius: '21px',
                   }}>
                 {menuItems.map((item) => (
                   <li key={item}>
@@ -315,5 +315,6 @@ export default function Header() {
 </AnimatePresence>
       </header>
     </>
+
   );
 }

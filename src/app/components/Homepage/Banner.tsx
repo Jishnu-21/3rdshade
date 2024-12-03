@@ -131,7 +131,7 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
     const createRipple = (delay: number, scale: number) => {
       setTimeout(() => {
         const ripple = document.createElement('div');
-        ripple.style.position = 'fixed';
+        ripple.style.position = 'absolute';
         ripple.style.left = `${x}px`;
         ripple.style.top = `${y}px`;
         ripple.style.width = '100px';
@@ -144,7 +144,10 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
         ripple.style.zIndex = '100';
         ripple.style.mixBlendMode = 'overlay';
         ripple.style.pointerEvents = 'none';
-        document.body.appendChild(ripple);
+        const bannerElement = document.querySelector('.banner-container');
+        if (bannerElement) {
+          bannerElement.appendChild(ripple);
+        }
 
         setTimeout(() => ripple.remove(), 1500);
       }, delay);
@@ -213,11 +216,11 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
         ${theme === 'dark' ? 'text-white' : 'text-black'} h-screen 
         flex flex-col items-center justify-center 
         text-center px-4 sm:px-6 md:px-8 xl:px-[122px] 2xl:px-[150px] 3xl:px-[180px] 4xl:px-[200px]
-        overflow-hidden z-10 ${montserrat.className}`}
+        overflow-hidden z-10 ${montserrat.className} banner-container`}
     >
       {/* Glow effects with fade - only show in dark theme */}
       <div 
-        className="absolute top-[40%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
+        className="absolute top-[40%] left-1/2 w-[900px] h-[900px] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-500"
         style={{
           background: theme === 'dark' 
             ? `radial-gradient(

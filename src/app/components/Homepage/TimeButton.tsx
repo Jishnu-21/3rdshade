@@ -14,12 +14,13 @@ const TimeButton: React.FC<TimeButtonProps> = ({ label, time, className }) => {
 
   return (
     <button 
+      onClick={() => window.location.href = '/contact-us'}
       className={`
         ${theme === 'dark' 
           ? 'bg-black text-white border-gray-700 hover:bg-white hover:text-black hover:border-white' 
           : 'bg-white text-black border-gray-300 hover:bg-black hover:text-white hover:border-black'
         }
-        border rounded-full 
+        border rounded-[21px] 
         px-8 py-3 text-base
         overflow-hidden relative group
         transition-all duration-200 ease-in-out

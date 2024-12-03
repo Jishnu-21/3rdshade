@@ -16,11 +16,11 @@ const CareerPage = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="career-page">
+    <div className="career-page min-h-screen flex flex-col">
       <Header />
       <Layout>
-        <div className='w-full scroll-smooth'>
-          <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300`}>
+        <div className='w-full scroll-smooth flex-grow'>
+          <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300 flex flex-col`}>
             <CareerHero />
             <CareerDifference />
             <FamilyNotCompany />

@@ -17,9 +17,9 @@ interface ImageProps {
 }
 
 const images: ImageProps[] = [
-  { url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80', width: 300, height: 300, description: "Minimalist workspace design", mobileWidth: 140, mobileHeight: 140 },
-  { url: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=800&q=80', width: 320, height: 240, description: "Creative studio setup", mobileWidth: 150, mobileHeight: 110 },
-  { url: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80', width: 280, height: 280, description: "Modern design workspace", mobileWidth: 130, mobileHeight: 130 },
+  { url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80', width: 300, height: 300, description: "Minimalist workspace design", mobileWidth: 160, mobileHeight: 160 },
+  { url: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=800&q=80', width: 320, height: 240, description: "Creative studio setup", mobileWidth: 160, mobileHeight: 120 },
+  { url: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80', width: 280, height: 280, description: "Modern design workspace", mobileWidth: 160, mobileHeight: 160 },
   { url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80', width: 290, height: 290, description: "Clean desk setup", mobileWidth: 135, mobileHeight: 135 },
   { url: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=800&q=80', width: 310, height: 310, description: "Professional workspace", mobileWidth: 145, mobileHeight: 145 },
   { url: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80', width: 300, height: 250, description: "Team collaboration", mobileWidth: 140, mobileHeight: 115 },
@@ -43,7 +43,7 @@ const ImageGallery: React.FC = () => {
   const isMobile = windowSize.width <= 768;
   const isTablet = windowSize.width <= 1024 && windowSize.width > 768;
 
-  const GRID_GAP = isMobile ? 60 : isTablet ? 150 : 200;
+  const GRID_GAP = isMobile ? 10 : isTablet ? 150 : 200;
 
   const createImageElements = useCallback((positions: { x: number; y: number }[]) => {
     return images.map((image, index) => {
@@ -60,13 +60,13 @@ const ImageGallery: React.FC = () => {
             height: `${isMobile ? image.mobileHeight : image.height}px`,
           }}
           whileHover={{ 
-            scale: isMobile ? 1.02 : 1.05,
+            scale: isMobile ? 1.01 : 1.05,
             zIndex: 10,
-            rotate: [-1, 1],
+            rotate: isMobile ? [-0.5, 0.5] : [-1, 1],
             transition: {
               rotate: {
                 repeat: Infinity,
-                duration: 1,
+                duration: isMobile ? 1.5 : 1,
                 repeatType: "reverse"
               }
             }
@@ -139,7 +139,6 @@ const ImageGallery: React.FC = () => {
               />
             ))}
           </motion.div>
-
           <Image
             src={image.url}
             alt={image.description}
@@ -182,10 +181,10 @@ const ImageGallery: React.FC = () => {
     const gridRows = Math.ceil(images.length / gridColumns);
     
     const cellWidth = isMobile ? 
-      Math.max(width / gridColumns, 150) :
+      Math.min(width / gridColumns - GRID_GAP, 140) :
       Math.max(width / gridColumns, 400);
     const cellHeight = isMobile ? 
-      Math.max(height / gridRows, 150) :
+      Math.min(height / gridRows - GRID_GAP, 140) :
       Math.max(height / gridRows, 400);
 
     for (let i = 0; i < images.length; i++) {
@@ -195,7 +194,7 @@ const ImageGallery: React.FC = () => {
       const x = col * (cellWidth + GRID_GAP);
       const y = row * (cellHeight + GRID_GAP);
       
-      const randomOffset = isMobile ? 10 : 20;
+      const randomOffset = isMobile ? 2 : 20;
       const randomX = Math.random() * randomOffset - randomOffset/2;
       const randomY = Math.random() * randomOffset - randomOffset/2;
       

@@ -88,8 +88,8 @@ const ServiceLine: React.FC = () => {
       <div className={`absolute top-0 left-0 w-full h-20 bg-gradient-to-b ${theme === 'dark' ? 'from-gray-950 to-black' : 'from-gray-50 to-white'} opacity-50`}></div>
       
       <div className="flex flex-col items-center relative">
-        <div className={`w-3/4 sm:w-1/2 md:w-1/3 h-8 sm:h-10 md:h-18 border ${theme === 'dark' ? 'border-gray-300' : 'border-gray-400'} rounded-full flex items-center justify-center mb-3 sm:mb-4 md:mb-8 mt-4 sm:mt-0`}>
-          <h2 className="text-sm sm:text-base md:text-xl font-bold whitespace-nowrap">
+        <div className={`w-3/4 sm:w-1/2 md:w-1/3 h-10 sm:h-12 md:h-16 border-2 ${theme === 'dark' ? 'border-gray-300' : 'border-gray-400'} rounded-[24px] flex items-center justify-center mb-3 sm:mb-4 md:mb-8 mt-4 sm:mt-0`}>
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold whitespace-nowrap">
             <span className="text-pink-500">Our </span>
             <span className="text-purple-500">services </span>
             <span className="text-blue-500">line</span>
@@ -111,7 +111,7 @@ const ServiceLine: React.FC = () => {
                   key={index} 
                   className={`h-6 sm:h-8 md:h-12 border ${
                     theme === 'dark' ? 'border-gray-300' : 'border-gray-400'
-                  } rounded-full flex-shrink-0 mx-1 sm:mx-1.5 md:mx-2 flex items-center justify-center px-4 ${
+                  } rounded-[21px] flex-shrink-0 mx-1 sm:mx-1.5 md:mx-2 flex items-center justify-center px-4 ${
                     rowIndex === 0 ? 'w-[30vw] sm:w-[25vw] md:w-[15%]' : ''
                   } ${rowIndex === 1 ? 'w-[35vw] sm:w-[30vw] md:w-[18%]' : ''} ${
                     rowIndex === 2 ? 'w-[40vw] sm:w-[35vw] md:w-[20%]' : ''

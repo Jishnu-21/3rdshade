@@ -14,7 +14,7 @@ const ContactCard = ({ iconSrc, lightIconSrc, title }: { iconSrc: string; lightI
   const { theme } = useTheme();
   
   return (
-    <div className={`border ${theme === 'dark' ? 'border-gray-800 bg-black' : 'border-gray-200 bg-white'} rounded-xl p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center space-y-4 sm:space-y-6 w-full max-w-[494px] h-[250px] sm:h-[300px] md:h-[350px] lg:h-[403px]`}>
+    <div className={`border ${theme === 'dark' ? 'border-gray-800 bg-black' : 'border-gray-200 bg-white'} rounded-xl p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center space-y-4 sm:space-y-6 w-full max-w-[494px] h-[250px] sm:h-[300px] md:h-[350px] lg:h-[403px] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl ${theme === 'dark' ? 'hover:shadow-blue-500/20' : 'hover:shadow-gray-400/30'}`}>
       <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 relative">
         <Image
           src={theme === 'dark' ? iconSrc : lightIconSrc}

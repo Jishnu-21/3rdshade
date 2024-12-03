@@ -29,7 +29,7 @@ const MoreInfo = () => {
       `}>
         For more information
       </h2>
-      <Link href="/contact" className="inline-block">
+      <Link href="/contact-us" className="inline-block">
         <button className={`
           ${theme === 'dark' 
             ? 'bg-black text-white hover:shadow-[0_0_10px_3px_rgba(0,255,255,0.6)]' 
@@ -38,7 +38,7 @@ const MoreInfo = () => {
           text-base sm:text-lg 
           px-8 sm:px-12 md:px-16 lg:px-24 
           py-2 sm:py-2.5 md:py-3 
-          rounded-full font-medium 
+          rounded-[21px] font-medium 
           transition-all duration-300 
           focus:outline-none focus:ring-2 focus:ring-offset-2
           ${theme === 'dark' 

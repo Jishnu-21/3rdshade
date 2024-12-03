@@ -16,6 +16,8 @@ const Layout = dynamic(() => import('./components/Homepage/Layout'), {
   loading: () => null
 });
 
+
+
 // Other dynamic imports with loading states
 const Banner = dynamic(() => import('./components/Homepage/Banner'), { 
   ssr: false,
@@ -92,7 +94,7 @@ const Page = () => {
               </div>
             </div>
           </div>
-          <div className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-1000`}>
+          <div className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-500`}>
             <MoreInfoWithTime />
           </div>
         </div>

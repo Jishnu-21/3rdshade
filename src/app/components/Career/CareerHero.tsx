@@ -18,22 +18,24 @@ const CareerHero = () => {
   };
 
   return (
-    <section className={`relative ${theme === 'dark' ? 'bg-black' : 'bg-white'} pt-4`}>
-      <div className="container mx-auto px-4 md:px-[122px] py-16 md:py-24">
-        <div className="text-start pb-12">
+    <section className={`relative ${theme === 'dark' ? 'bg-black' : 'bg-white'} mt-[80px]`}>
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-[122px] py-8 sm:py-12 md:py-16 lg:py-20">
+        <div className="text-start pb-8 sm:pb-12">
           <h1 className={`${theme === 'dark' ? 'text-white' : 'text-black'} 
-            text-3xl sm:text-4xl md:text-5xl lg:text-6xl 2xl:text-[50px] 
-            font-bold pb-6 leading-tight`}
+            text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] 2xl:text-[90px] 
+            font-bold pb-6 leading-[1.1] max-w-[800px]`}
           >
-            Come work at 3RD SHADE!
+            Come work at <br className="hidden sm:block" />3RD SHADE!
           </h1>
           <div className="inline-block relative p-[3px] bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full animate-border-move bg-[length:200%_200%]">
             <button 
               onClick={scrollToOpenings}
               className={`relative ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'} 
-                text-lg font-semibold py-3 px-8 rounded-full 
-                transition-colors duration-200 
-                hover:bg-opacity-90`}
+                text-base sm:text-lg font-semibold 
+                py-2 sm:py-3 px-6 sm:px-8 rounded-full 
+                transition-all duration-200 
+                hover:bg-opacity-90 hover:scale-105
+                active:scale-95`}
             >
               Explore our jobs
             </button>
@@ -41,14 +43,19 @@ const CareerHero = () => {
         </div>
       </div>
 
-      <div className="relative w-full h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] xl:h-[525px] 2xl:h-[558px]">
+      <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] 2xl:h-[800px]">
         <Image 
           src="/career-hero.webp" 
           alt="3RD SHADE team" 
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
+          className="transition-opacity duration-300"
+          sizes="100vw"
+          priority
         />
-        <div className="absolute -top-[131px] right-8 md:right-[122px] w-[262px] h-[262px] group">
+        <div className={`absolute -top-[131px] right-4 sm:right-8 md:right-[122px] 
+          w-[200px] sm:w-[262px] h-[200px] sm:h-[262px] group
+          transition-transform duration-300 hover:scale-105`}>
           <div className={`relative w-full h-full ${theme === 'dark' ? 'bg-white' : 'bg-black'} 
             rounded-full flex items-center justify-center 
             transition-transform duration-300 ease-in-out group-hover:scale-110

@@ -121,22 +121,65 @@ const getImageSrc = (index: number, theme: 'dark' | 'light') => {
 
 const MobileTimelineItem = ({ index }: { index: number }) => {
   const { theme } = useTheme();
+  const timelineContent = [
+    { 
+      title: "Brand Strategy", 
+      description: "Crafting unique brand identities",
+      icon: BsBrush
+    },
+    { 
+      title: "Web Development", 
+      description: "Building modern web experiences",
+      icon: BsCode
+    },
+    { 
+      title: "Digital Marketing", 
+      description: "Reaching your target audience",
+      icon: BsMegaphone
+    },
+    { 
+      title: "UI/UX Design", 
+      description: "Creating intuitive interfaces",
+      icon: BsLayers
+    },
+    { 
+      title: "Content Creation", 
+      description: "Engaging your audience",
+      icon: BsCamera
+    },
+    { 
+      title: "Analytics", 
+      description: "Data-driven decisions",
+      icon: BsGraphUp
+    }
+  ];
+
+  const currentContent = timelineContent[index];
+  const IconComponent = currentContent.icon;
   
   return (
-    <div className="w-full px-2">
-      <div className="relative w-full aspect-[3/1] overflow-hidden rounded-[4px]">
-        <div className="absolute left-1/2 -translate-x-1/2 w-[75%] h-full">
-          <Image
-            src={getImageSrc(index, theme)}
-            alt={`Timeline item ${index + 1}`}
-            fill
-            className="object-cover object-center"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority={index === 0}
-            style={{ 
-              filter: theme === 'light' ? 'invert(1)' : 'none'
-            }}
-          />
+    <div className="w-full px-4 py-2">
+      <div className="relative w-full aspect-[16/9] bg-opacity-80 rounded-lg overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 z-10" />
+        <Image
+          src={getImageSrc(index, theme)}
+          alt={`Timeline item ${index + 1}`}
+          fill
+          className="object-cover object-center"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          priority={index === 0}
+          style={{ 
+            filter: theme === 'light' ? 'invert(1)' : 'none'
+          }}
+        />
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-4 text-white">
+          <div className="flex items-center gap-2 mb-2">
+            <IconComponent className="w-5 h-5" />
+            <h3 className="text-lg font-bold">{currentContent.title}</h3>
+          </div>
+          <p className="text-sm text-gray-200 text-center">
+            {currentContent.description}
+          </p>
         </div>
       </div>
     </div>
@@ -305,15 +348,13 @@ export default function Component() {
             spaceBetween={30}
             slidesPerView={1}
             pagination={{ 
-              clickable: true,
-              bulletClass: `swiper-pagination-bullet !${theme === 'dark' ? 'bg-white/30' : 'bg-black/30'}`,
-              bulletActiveClass: `swiper-pagination-bullet-active !${theme === 'dark' ? 'bg-white' : 'bg-black'}`,
+              clickable: true
             }}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
             }}
-            className="h-full !pb-12"
+            className={`h-full !pb-12 ${theme === 'dark' ? '[&_.swiper-pagination-bullet]:!bg-white/50 [&_.swiper-pagination-bullet-active]:!bg-white' : '[&_.swiper-pagination-bullet]:!bg-black/50 [&_.swiper-pagination-bullet-active]:!bg-black'}`}
           >
             {Array.from({ length: totalItems }).map((_, index) => (
               <SwiperSlide key={index} className="pb-2">

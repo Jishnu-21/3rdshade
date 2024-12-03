@@ -40,7 +40,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <main className="flex-grow">
         <div 
           ref={contentRef} 
-          className="relative z-10 transition-transform duration-300 ease-in-out pt-[80px]"
+          className="relative z-10 transition-transform duration-300 ease-in-out"
           style={{ 
             transform: footerVisible ? `translateY(-${translateY}px)` : 'none'
           }}

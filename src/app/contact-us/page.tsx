@@ -1,5 +1,5 @@
 "use client"
-
+import { useTheme } from '@/app/context/ThemeContext';
 import React, { useState } from 'react'
 import Header from '../components/header'
 import SupportForm from '../components/Contact-us/SupportForm'
@@ -9,6 +9,7 @@ import CustomAlert from '../components/Alert'
 const Layout = dynamic(() => import('../components/Homepage/Layout'), { ssr: false });
 
 const ContactUsPage = () => {
+  const { theme } = useTheme();
   const [alertInfo, setAlertInfo] = useState({ message: '', type: 'success' as 'success' | 'error', isVisible: false });
 
   const showAlert = (message: string, type: 'success' | 'error') => {
@@ -23,7 +24,7 @@ const ContactUsPage = () => {
     <div className="flex flex-col min-h-screen">
       <Header/>
       <Layout>
-        <div className="flex-grow pb-10">
+        <div className={`relative ${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-1000 ease-in-out flex-grow`}>
           <SupportForm onAlertShow={showAlert} />
           <FooterLabel/>
         </div>
