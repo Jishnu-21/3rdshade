@@ -34,23 +34,57 @@ const translations = [
   { language: 'Marketing', word: 'Reach', font: '' },
   { language: 'Marketing', word: 'Engagement', font: '' },
   { language: 'Marketing', word: 'Campaigns', font: '' },
-  { language: 'Marketing', word: 'Social Media Strategies', font: '' },
-  { language: 'Marketing', word: 'Influencer Marketing', font: '' }
+  { language: 'Marketing', word: 'Advertising', font: '' },
+  { language: 'Marketing', word: 'Influencers', font: '' }
 ];
 
 const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) => {
   const { theme } = useTheme();
-  const [currentWord, setCurrentWord] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showCursor, setShowCursor] = useState(true);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [showColorSplash, setShowColorSplash] = useState(false);
   const [splashPosition, setSplashPosition] = useState({ x: 0, y: 0 });
 
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: false
-  });
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % translations.length);
+        setIsAnimating(false);
+      }, 500); // Half of the animation duration
+    }, 3000); // Change word every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const flipVariants = {
+    initial: {
+      rotateX: 0,
+      opacity: 1,
+      scale: 1,
+      y: 0
+    },
+    exit: {
+      rotateX: -180,
+      opacity: 0,
+      scale: 0.9,
+      y: 20,
+      transition: { 
+        duration: 0.4,
+        ease: [0.645, 0.045, 0.355, 1.000]
+      }
+    },
+    enter: {
+      rotateX: 0,
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: { 
+        duration: 0.4,
+        ease: [0.645, 0.045, 0.355, 1.000]
+      }
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -157,46 +191,14 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
     }, 1500);
   };
 
-  useEffect(() => {
-    const cursorInterval = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 530);
-
-    return () => clearInterval(cursorInterval);
-  }, []);
-
-  useEffect(() => {
-    const targetWord = translations[currentIndex].word;
-    const typingSpeed = isDeleting ? 100 : 150;
-
-    const handleTyping = () => {
-      setCurrentWord((prev) => {
-        if (!isDeleting) {
-          if (prev.length < targetWord.length) {
-            return targetWord.slice(0, prev.length + 1);
-          } else {
-            setTimeout(() => setIsDeleting(true), 1500);
-            return prev;
-          }
-        } else {
-          if (prev.length > 0) {
-            return prev.slice(0, -1);
-          } else {
-            setIsDeleting(false);
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % translations.length);
-            return prev;
-          }
-        }
-      });
-    };
-
-    const typingTimeout = setTimeout(handleTyping, typingSpeed);
-    return () => clearTimeout(typingTimeout);
-  }, [currentWord, isDeleting, currentIndex]);
-
   const getCurrentWordStyle = () => ({
     fontFamily: translations[currentIndex].font,
     direction: 'ltr' as const
+  });
+
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: false
   });
 
   return (
@@ -328,31 +330,39 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
         >
         Welcome to the Digital Universe of 3rd Shade
         </h2>
-        <h1 className="text-[26px] sm:text-[32px] md:text-[46px] lg:text-[56px] xl:text-[70px] 
-          2xl:text-[90px] 3xl:text-[110px] 4xl:text-[130px]
-          font-bold leading-[1.1] mb-4 2xl:mb-6 3xl:mb-8 4xl:mb-10"
+        <h1 className="text-[50px] sm:text-[65px] md:text-[85px] lg:text-[110px] xl:text-[130px] 
+          2xl:text-[150px] 3xl:text-[170px] 4xl:text-[190px]
+          font-bold leading-[1.1] mb-4 2xl:mb-6 3xl:mb-8 4xl:mb-10 max-w-[1400px] mx-auto"
         >
-          <span className={theme === 'dark' ? 'text-white' : 'text-black'}>You have landed</span>
-          <br />
-          <span className={theme === 'dark' ? 'text-white' : 'text-black'}>in the realm of </span>
-          <span 
-            className={`bg-gradient-to-r from-[#F1967D] via-[#C93F80] to-[#1CB0CE] text-transparent bg-clip-text inline-block transition-all duration-300 ease-in-out ${translations[currentIndex].font}`}
-            style={{
-              ...getCurrentWordStyle(),
-              letterSpacing: '-0.02em',
+          <span className={`${theme === 'dark' ? 'text-white' : 'text-black'} block mb-2`}>A Relm of</span>
+          <motion.div
+            style={{ 
+              perspective: 2000,
+              transformStyle: 'preserve-3d'
             }}
+            className="inline-block"
           >
-            {currentWord}
-            <span 
-              className={`inline-block w-[3px] h-[1em] ml-1 align-middle ${
-                showCursor ? 'opacity-100' : 'opacity-0'
-              } bg-gradient-to-r from-[#F1967D] via-[#C93F80] to-[#1CB0CE]`}
-              style={{ 
-                transform: 'translateY(-0.1em)',
-                transition: 'opacity 0.1s ease-in-out'
-              }}
-            />
-          </span>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={currentIndex}
+                variants={flipVariants}
+                initial="initial"
+                animate="enter"
+                exit="exit"
+                className={`bg-gradient-to-r from-[#F1967D] via-[#C93F80] to-[#1CB0CE] 
+                  text-transparent bg-clip-text inline-block transition-all duration-300 
+                  ease-in-out ${translations[currentIndex].font}`}
+                style={{
+                  ...getCurrentWordStyle(),
+                  letterSpacing: '-0.02em',
+                  backfaceVisibility: 'hidden',
+                  transformStyle: 'preserve-3d'
+                }}
+              >
+                {translations[currentIndex].word}
+              </motion.span>
+            </AnimatePresence>
+          </motion.div>
         </h1>
         <p className={`text-[15px] 2xl:text-[18px] 3xl:text-[22px] 4xl:text-[26px]
           leading-[2] ${theme === 'dark' ? 'text-[#4A9EDE]' : 'text-[#2779BD]'} 
