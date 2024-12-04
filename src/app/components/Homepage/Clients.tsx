@@ -5,13 +5,13 @@ import Image from 'next/image';
 import { useTheme } from '@/app/context/ThemeContext';
 
 const clients = [
-  { src: '/clients.png', alt: 'Client Logo 1' },
-  { src: '/clients.png', alt: 'Client Logo 2' },
-  { src: '/clients.png', alt: 'Client Logo 3' },
-  { src: '/clients.png', alt: 'Client Logo 4' },
-  { src: '/clients.png', alt: 'Client Logo 5' },
-  { src: '/clients.png', alt: 'Client Logo 6' },
-  { src: '/clients.png', alt: 'Client Logo 7' },
+  { src: '/group-5.webp', alt: 'Client Logo 1' },
+  { src: '/group-84.webp', alt: 'Client Logo 2' },
+  { src: '/group-2.webp', alt: 'Client Logo 3' },
+  { src: '/group-85.webp', alt: 'Client Logo 4' },
+  { src: '/group-3-300x103.webp', alt: 'Client Logo 5' },
+  { src: '/group-83-300x100.webp', alt: 'Client Logo 6' },
+  { src: '/group-300x95.webp', alt: 'Client Logo 7' },
   { src: '/clients.png', alt: 'Client Logo 8' },
   { src: '/clients.png', alt: 'Client Logo 9' },
   { src: '/clients.png', alt: 'Client Logo 10' },

@@ -58,10 +58,10 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
                   mb-6 sm:mb-8 md:mb-0 order-2 sm:order-1"
                 >
                   {[/* eslint-disable @typescript-eslint/no-unused-vars */
-                    { icon: FaLinkedinIn, href: "https://www.linkedin.com" },
-                    { icon: FaInstagram, href: "https://www.instagram.com" },
+                    { icon: FaLinkedinIn, href: "https://www.linkedin.com/company/3rd-shade" },
+                    { icon: FaInstagram, href: "https://www.instagram.com/3rdshade.in/" },
                     { icon: FaYoutube, href: "https://www.youtube.com" },
-                    { icon: FaFacebookF, href: "https://www.facebook.com" }
+                    { icon: FaFacebookF, href: "https://www.facebook.com/people/3rd-Shade/100095235566896/" }
                   ].map((social, index) => (
                     <Link 
                       key={index}

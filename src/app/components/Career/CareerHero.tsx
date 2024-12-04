@@ -22,10 +22,10 @@ const CareerHero = () => {
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-[122px] py-8 sm:py-12 md:py-16 lg:py-20">
         <div className="text-start pb-8 sm:pb-12">
           <h1 className={`${theme === 'dark' ? 'text-white' : 'text-black'} 
-            text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] 2xl:text-[90px] 
-            font-bold pb-6 leading-[1.1] max-w-[800px]`}
+            text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[60px] 2xl:text-[70px] 
+            font-bold pb-4 leading-[1.1] max-w-[800px]`}
           >
-            Come work at <br className="hidden sm:block" />3RD SHADE!
+            Join us and add Shade to our growing Canvas!
           </h1>
           <div className="inline-block relative p-[3px] bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full animate-border-move bg-[length:200%_200%]">
             <button 

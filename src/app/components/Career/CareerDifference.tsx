@@ -22,23 +22,19 @@ const CareerDifference = () => {
               ${theme === 'dark' ? 'text-white' : 'text-black'} 
               leading-tight`}
             >
-              What<br />makes us<br />different?
-            </h1>
+            Here’s something <br/>you need to know about us        
+           </h1>
             <div>
               <h2 className={`text-3xl sm:text-4xl md:text-[48px] font-bold pb-4 sm:pb-6 
                 ${theme === 'dark' ? 'text-white' : 'text-black'}`}
               >
-                Family, not company
+              More than Just Colleagues
               </h2>
               <p className={`text-sm sm:text-base md:text-lg leading-6 sm:leading-7 pb-6 sm:pb-8 
                 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-800'} 
                 max-w-md`}
               >
-                Like our design, the qualities that sets us apart are
-                simple and yet amazing. We won&apos;t promise you the
-                world when you come to work with us, but we will
-                commit to uphold the values that make 3rd shade a
-                great place to work at.
+               We are weirdly creative people brewing magic. We talk more than ‘Let me know if you need any assistance with this’ and are always up for Tea and Coffee Breaks. 
               </p>
             </div>
           </div>
@@ -47,11 +43,7 @@ const CareerDifference = () => {
               pb-[50px] sm:pb-[75px] md:pb-[100px] lg:pb-[150px] 
               ${theme === 'dark' ? 'text-gray-300' : 'text-gray-800'}`}
             >
-              Like our design, the qualities that sets us apart are
-              simple and yet amazing. We won&apos;t promise you the
-              world when you come to work with us, but we will
-              commit to uphold the values that make 3rd shade a
-              great place to work at.
+             We are crazy about what we do.  We are dreamers lost in stories and hardcore designs. We are super workaholics but also entertainers ourselves, adding a pinch of drama to our work. 
             </p>
             <div className="grid grid-cols-2 gap-2 sm:gap-4">
               <div className={`aspect-square ${theme === 'dark' ? 'opacity-90' : 'opacity-100'} 

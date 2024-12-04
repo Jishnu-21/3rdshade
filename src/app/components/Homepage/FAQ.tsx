@@ -13,7 +13,7 @@ const faqs: FAQ[] = [
   {
     question: "What are the Digital Marketing services you cater to?",
     answer: <>
-      We cover 360-degree marketing services that include:<br/><br/>
+      We cover 360-degree marketing services that includes:<br/>
       • Branding<br/>
       • Social Media Management<br/>
       • Performance marketing<br/>

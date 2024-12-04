@@ -73,7 +73,8 @@ const BenefitsSection = () => {
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight max-w-[600px]"
             variants={itemVariants}
           >
-            We put you first.<br />Always.
+            What do we Look for <br />
+            in our Future Teammate?
           </motion.h2>
           <motion.button 
             variants={itemVariants}
@@ -109,7 +110,7 @@ const BenefitsSection = () => {
 
         {/* Benefits Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 lg:gap-12">
-          {['Health Insurance', 'Hybrid culture', 'Upskill Programs'].map((benefit, index) => (
+          {['Vision', 'Passion', 'Learners'].map((benefit, index) => (
             <motion.div 
               key={index} 
               variants={itemVariants}
@@ -123,13 +124,19 @@ const BenefitsSection = () => {
               </motion.h3>
               <motion.p 
                 variants={itemVariants}
-                className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} 
-                  text-sm sm:text-base md:text-lg leading-relaxed`}
+                className={`${
+                  theme === 'dark' ? 'text-black' : 'text-white'
+                } text-sm sm:text-base md:text-lg leading-relaxed`}
               >
-                Like our design, the qualities that sets us apart are simple
-                and yet amazing. We won&apos;t promise you the world when you
-                come to work with us, but we will commit to uphold the
-                values that make 3rd shade a great place to work at.
+                {benefit === 'Vision' && (
+                  <>Skills can be taught, but what we seek in someone is a Vision. One who can turn ideas into action, seeing not just what is but what could be. One who brings fresh perspectives and paves the way for bold, transformative growth.</>
+                )}
+                {benefit === 'Passion' && (
+                  <>We’re looking for people who live and breathe digital marketing, staying energized by every challenge. One who ignites creativity, is up to date on trends, and transforms strategies into stories that captivate and inspire.</>
+                )}
+                {benefit === 'Learners' && (
+                  <>There are dozens of new things introduced in the Digital World. We are always on the hunt for lifelong learners driven by the excitement of discovering new trends, tools, and techniques that keep us ahead in the digital world.</>
+                )}
               </motion.p>
             </motion.div>
           ))}

@@ -13,7 +13,7 @@ const ServicesHeader: React.FC = () => {
           Services
         </h1>
         <p className={`text-lg sm:text-xl ${theme === 'dark' ? 'text-gray-300' : 'text-black'} max-w-md`}>
-          Interact with your users on the platform they prefer. Web and mobile - we have you covered.
+        Tweets, Posts, Pixels, Clicks, Conversions- we do all things Digital. 
         </p>
       </div>
     </div>

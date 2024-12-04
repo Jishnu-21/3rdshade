@@ -33,15 +33,13 @@ export default function FamilyNotCompany() {
             leading-[1.1]
             ${theme === 'dark' ? 'text-black' : 'text-white'}`}
           >
-            Family, not <br className="hidden sm:block" />company
-          </h2>
+         Grow with Us
+         </h2>
           <p className={`text-base sm:text-lg md:text-xl lg:text-2xl 
             leading-relaxed
             ${theme === 'dark' ? 'text-gray-800' : 'text-gray-300'}`}
           >
-            Like our design, the qualities that sets us apart are simple and yet amazing. 
-            We won&apos;t promise you the world when you come to work with us, but we will 
-            commit to uphold the values that make 3rd shade a great place to work at.
+           We realize what our mates expect from us. We are a team and every victory, and every achievement is a collective effort. We believe in a Win-Win situation. You Grow We Grow, and the other way around. 
           </p>
         </div>
       </div>

@@ -18,29 +18,29 @@ const TopClients = () => {
           ${theme === 'dark' ? 'text-black' : 'text-white'}
           transition-colors duration-300`}
         >
-          Top Clients
+        Clients across various Industries
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 
           gap-4 sm:gap-6 md:gap-8 justify-items-center">
           <ClientCard
             logoSrc="/client1.png"
-            name="Indian Food Box"
-            description="Interact with your users on the platform they prefer."
+            name="Myza Jewels"
+            description="An American Diamond Jewellery brand that narrates the story of womanhood and crafts pieces for everyday and special occasions."
           />
           <ClientCard
             logoSrc="/client1.png"
-            name="Indian Food Box"
-            description="Interact with your users on the platform they prefer."
+            name="The Nashik Squad"
+            description="An event organizer set in Nashik. Our brand collaboration together hosted the Music concert of Sachet-Parampara at Sula-Vineyards in Nashik."
           />
           <ClientCard
             logoSrc="/client1.png"
-            name="Indian Food Box"
-            description="Interact with your users on the platform they prefer."
+            name="Super Hoomans"
+            description="A pet grooming brand founded in Pune that ensures a Ghar wali feeling for your pet."
           />
           <ClientCard
             logoSrc="/client1.png"
-            name="Indian Food Box"
-            description="Interact with your users on the platform they prefer."
+            name="Foot Buti"
+            description="A traditional ethnic wear brand that celebrates Indian culture and artisans through its daily wear collection."
           />
         </div>
       </div>

@@ -40,22 +40,49 @@ const translations = [
 
 const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) => {
   const { theme } = useTheme();
+  const [currentWord, setCurrentWord] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [showCursor, setShowCursor] = useState(true);
   const [showColorSplash, setShowColorSplash] = useState(false);
   const [splashPosition, setSplashPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % translations.length);
-        setIsAnimating(false);
-      }, 500); // Half of the animation duration
-    }, 3000); // Change word every 3 seconds
+    const cursorInterval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 300); // Faster cursor blink
 
-    return () => clearInterval(interval);
+    return () => clearInterval(cursorInterval);
   }, []);
+
+  useEffect(() => {
+    const targetWord = translations[currentIndex].word;
+    const typingSpeed = isDeleting ? 50 : 70; // Faster typing and deleting
+
+    const handleTyping = () => {
+      setCurrentWord((prev) => {
+        if (!isDeleting) {
+          if (prev.length < targetWord.length) {
+            return targetWord.slice(0, prev.length + 1);
+          } else {
+            setTimeout(() => setIsDeleting(true), 1000); // Shorter pause before deleting
+            return prev;
+          }
+        } else {
+          if (prev.length > 0) {
+            return prev.slice(0, -1);
+          } else {
+            setIsDeleting(false);
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % translations.length);
+            return prev;
+          }
+        }
+      });
+    };
+
+    const typingTimeout = setTimeout(handleTyping, typingSpeed);
+    return () => clearTimeout(typingTimeout);
+  }, [currentWord, isDeleting, currentIndex]);
 
   const flipVariants = {
     initial: {
@@ -318,57 +345,47 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
       {/* Content with fade */}
       <motion.div 
         variants={itemVariants} 
-        className="w-full relative z-10 max-w-[1440px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] 4xl:max-w-[2000px] mx-auto"
+        className="w-full relative z-10 max-w-[1440px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] 4xl:max-w-[2000px] mx-auto pt-[80px] sm:pt-[100px]"
         style={{ 
           opacity: Math.max(0, 1 - (scrollProgress * 2)),
           visibility: scrollProgress >= 0.5 ? 'hidden' : 'visible'
         }}
       >
-        <h2 className={`text-[13px] 2xl:text-[16px] 3xl:text-[20px] 4xl:text-[24px]
+        <h2 className={`text-[10px] xs:text-[11px] sm:text-[13px] md:text-[14px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[20px] 4xl:text-[24px]
           ${theme === 'dark' ? 'text-[#4A9EDE]' : 'text-[#2779BD]'} 
-          tracking-[0.15em] mb-3 2xl:mb-4 3xl:mb-5 4xl:mb-6 font-normal`}
+          tracking-[0.15em] mb-2 sm:mb-3 2xl:mb-4 3xl:mb-5 4xl:mb-6 font-normal`}
         >
         Welcome to the Digital Universe of 3rd Shade
         </h2>
-        <h1 className="text-[50px] sm:text-[65px] md:text-[85px] lg:text-[110px] xl:text-[130px] 
+        <h1 className="text-[30px] xs:text-[35px] sm:text-[50px] md:text-[65px] lg:text-[110px] xl:text-[130px] 
           2xl:text-[150px] 3xl:text-[170px] 4xl:text-[190px]
-          font-bold leading-[1.1] mb-4 2xl:mb-6 3xl:mb-8 4xl:mb-10 max-w-[1400px] mx-auto"
+          font-bold leading-[1.1] mb-3 sm:mb-4 2xl:mb-6 3xl:mb-8 4xl:mb-10 max-w-[1400px] mx-auto"
         >
-          <span className={`${theme === 'dark' ? 'text-white' : 'text-black'} block mb-2`}>A Relm of</span>
-          <motion.div
-            style={{ 
-              perspective: 2000,
-              transformStyle: 'preserve-3d'
+          <span className={`${theme === 'dark' ? 'text-white' : 'text-black'} block mb-1 sm:mb-2`}>A Realm of</span>
+          <span 
+            className={`bg-gradient-to-r from-[#F1967D] via-[#C93F80] to-[#1CB0CE] text-transparent bg-clip-text inline-block transition-all duration-300 ease-in-out ${translations[currentIndex].font}`}
+            style={{
+              ...getCurrentWordStyle(),
+              letterSpacing: '-0.02em',
             }}
-            className="inline-block"
           >
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={currentIndex}
-                variants={flipVariants}
-                initial="initial"
-                animate="enter"
-                exit="exit"
-                className={`bg-gradient-to-r from-[#F1967D] via-[#C93F80] to-[#1CB0CE] 
-                  text-transparent bg-clip-text inline-block transition-all duration-300 
-                  ease-in-out ${translations[currentIndex].font}`}
-                style={{
-                  ...getCurrentWordStyle(),
-                  letterSpacing: '-0.02em',
-                  backfaceVisibility: 'hidden',
-                  transformStyle: 'preserve-3d'
-                }}
-              >
-                {translations[currentIndex].word}
-              </motion.span>
-            </AnimatePresence>
-          </motion.div>
+            {currentWord}
+            <span 
+              className={`inline-block w-[3px] h-[1em] ml-1 align-middle ${
+                showCursor ? 'opacity-100' : 'opacity-0'
+              } bg-gradient-to-r from-[#F1967D] via-[#C93F80] to-[#1CB0CE]`}
+              style={{ 
+                transform: 'translateY(-0.1em)',
+                transition: 'opacity 0.1s ease-in-out'
+              }}
+            />
+          </span>
         </h1>
-        <p className={`text-[15px] 2xl:text-[18px] 3xl:text-[22px] 4xl:text-[26px]
-          leading-[2] ${theme === 'dark' ? 'text-[#4A9EDE]' : 'text-[#2779BD]'} 
-          mx-auto mb-6 2xl:mb-8 3xl:mb-10 4xl:mb-12
-          max-w-[800px] 2xl:max-w-[900px] 3xl:max-w-[1000px] 4xl:max-w-[1200px] font-normal
-          tracking-wide`}
+        <p className={`text-[11px] xs:text-[12px] sm:text-[15px] md:text-[16px] lg:text-[18px] xl:text-[19px] 2xl:text-[20px]
+          leading-[1.8] ${theme === 'dark' ? 'text-[#4A9EDE]' : 'text-[#2779BD]'} 
+          mx-[30px] xs:mx-[40px] sm:mx-[80px] md:mx-[100px] lg:mx-[140px] xl:mx-[160px] 2xl:mx-[180px] 
+          mb-4 sm:mb-6 2xl:mb-8 3xl:mb-10 4xl:mb-12
+          font-normal tracking-wide max-w-[800px] sm:max-w-[1000px] md:max-w-[1200px] lg:max-w-[1200px] 2xl:max-w-[1400px] 3xl:max-w-[1600px] 4xl:max-w-[1800px]`}
         >
           &apos;Beauty lies in the eyes of the Be-holder&apos;
           The success of your Business lies in how your audience perceives it, not how you do it.

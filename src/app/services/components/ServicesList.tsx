@@ -4,7 +4,7 @@ import React from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
 
 const services = [
-  'Branding', 'Web Development', 'Logo Design',
+  'Branding', 'Website Development', 'Logo Design',
   'UI/UX Design', 'Packaging',
   'Product Feature Videos','Mobile App Design',  'Digital Marketing', 'Illustrations & Iconography',
   'Consulting Services', 'Motion Design Systems', 'Nykaa Listing',
@@ -27,8 +27,7 @@ const ServicesList: React.FC = () => {
           font-bold text-center mb-16
           ${theme === 'dark' ? 'text-white' : 'text-black'}
         `}>
-          Here Are Some Services<br />
-          We Can Help You With
+         Services that Spark Magic
         </h2>
         <div className="w-full max-w-4xl">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-8">

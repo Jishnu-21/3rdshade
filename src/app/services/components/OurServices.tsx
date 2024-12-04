@@ -39,8 +39,8 @@ const OurServices = () => {
             font-bold text-center
             ${isDark ? 'text-white' : 'text-black'}
           `}>
-            Here Are Some Services<br />
-            We Can Help You With
+            Our services bundled into<br />
+            Two Power Products
           </h2>
 
           <div className="h-48 md:h-60" />

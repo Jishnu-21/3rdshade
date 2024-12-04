@@ -43,12 +43,12 @@ const IndustryProblems = () => {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-[122px]">
         <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
           font-bold text-center ${theme === 'dark' ? 'text-white' : 'text-black'}
-          mb-6 sm:mb-8 md:mb-12 lg:mb-16 
-          px-4 sm:px-8 md:px-16`}>
-          <span className="block sm:hidden">Industry Problems Solved</span>
-          <span className="hidden sm:block">
-            Industry Specific Problems<br />
-            Solved With Design
+          mb-6 sm:mb-8 md:mb-12 lg:mb-16 max-w-[800px] mx-auto`}>
+          <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-[48px] mb-2">
+            Case Studies
+          </span>
+          <span className="block text-xl sm:text-2xl md:text-3xl lg:text-[36px] text-gray-600">
+            Know us with the Facts
           </span>
         </h2>
 

@@ -16,14 +16,12 @@ const WorkCulture = () => {
           <h2 className={`text-5xl font-bold pb-6 
             ${theme === 'dark' ? 'text-white' : 'text-black'}`}
           >
-            Family, not company
-          </h2>
+         We are all Learners
+        </h2>
           <p className={`text-xl pb-8 max-w-lg 
             ${theme === 'dark' ? 'text-gray-300' : 'text-gray-800'}`}
           >
-            Like our design, the qualities that sets us apart are simple and yet amazing. 
-            We won&apos;t promise you the world when you come to work with us, but we will 
-            commit to uphold the values that make 3rd shade a great place to work at.
+          Every member of our team right from the hierarchy is a learner. We believe the more you consume, the more you deliver. And so is why, we never stop the process of learning, from ourselves, from our colleagues. We bet every day here is an opportunity to learn something new. 
           </p>
           <div className={`relative w-[75%] h-[500px] 
             ${theme === 'dark' ? 'opacity-90' : 'opacity-100'}
@@ -44,14 +42,12 @@ const WorkCulture = () => {
             <h2 className={`text-5xl font-bold pb-6 
               ${theme === 'dark' ? 'text-white' : 'text-black'}`}
             >
-              Family, not company
-            </h2>
+            We are all Learners
+          </h2>
             <p className={`text-xl 
               ${theme === 'dark' ? 'text-gray-300' : 'text-gray-800'}`}
             >
-              Like our design, the qualities that sets us apart are simple and yet amazing. 
-              We won&apos;t promise you the world when you come to work with us, but we will 
-              commit to uphold the values that make 3rd shade a great place to work at.
+             We hire people with a vision to create things. Shaping you to do your best is on us. From training to mentorship, we provide you with all the resources you need to build your skills make you the best in your field, and make you ready for the competitive world.  
             </p>
           </div>
           <div className="lg:w-1/2">
