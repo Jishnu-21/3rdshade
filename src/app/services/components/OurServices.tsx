@@ -32,7 +32,7 @@ const OurServices = () => {
     <section className={`w-full ${isDark ? 'bg-black' : 'bg-white'}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1000px] mx-auto flex flex-col">
-          <div className="h-32 md:h-40" />
+          <div className="h-16 md:h-24" />
           
           <h2 className={`
             text-3xl sm:text-4xl md:text-5xl 
@@ -43,7 +43,7 @@ const OurServices = () => {
             Two Power Products
           </h2>
 
-          <div className="h-48 md:h-60" />
+          <div className="h-24 md:h-32" />
 
           <motion.div 
             className="flex justify-between items-center px-4 md:px-10"
@@ -104,7 +104,7 @@ const OurServices = () => {
             ))}
           </motion.div>
 
-          <div className="h-48 md:h-60" />
+          <div className="h-24 md:h-32" />
         </div>
       </div>
     </section>

@@ -158,26 +158,25 @@ const MobileTimelineItem = ({ index }: { index: number }) => {
   const IconComponent = currentContent.icon;
   
   return (
-    <div className="w-full px-4 py-2">
-      <div className="relative w-full aspect-[16/9] bg-opacity-80 rounded-lg overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 z-10" />
+    <div className="w-full px-2 py-4">
+      <div className={`relative w-full aspect-[16/9] rounded-xl overflow-hidden
+        ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}
+        backdrop-blur-sm
+      `}>
         <Image
           src={getImageSrc(index, theme)}
           alt={`Timeline item ${index + 1}`}
           fill
-          className="object-cover object-center"
+          className="object-cover object-center opacity-20"
           sizes="(max-width: 768px) 100vw, 50vw"
           priority={index === 0}
-          style={{ 
-            filter: theme === 'light' ? 'invert(1)' : 'none'
-          }}
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-4 text-white">
-          <div className="flex items-center gap-2 mb-2">
-            <IconComponent className="w-5 h-5" />
-            <h3 className="text-lg font-bold">{currentContent.title}</h3>
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-6">
+          <div className={`flex items-center gap-3 mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+            <IconComponent className="w-6 h-6" />
+            <h3 className="text-xl font-bold">{currentContent.title}</h3>
           </div>
-          <p className="text-sm text-gray-200 text-center">
+          <p className={`text-base text-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
             {currentContent.description}
           </p>
         </div>
@@ -289,18 +288,20 @@ export default function Component() {
         animate={isInView ? "visible" : "hidden"}
         className={`${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'} 
           px-4 sm:px-6 md:px-8 xl:px-[122px]
-          mt-[40vh]
+          mt-[20vh] md:mt-[40vh]
           py-8 flex flex-col relative
-          sm:h-[55vh]
+          min-h-screen md:min-h-0
+          sm:h-auto md:h-[55vh]
           xl:h-screen
+          z-10
         `}
       >
         {/* Title section */}
-        <div className="md:absolute md:top-8 w-full md:w-1/3 z-10 mb-4 md:mb-0">
-          <h2 className="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-left">
+        <div className="md:absolute md:top-8 w-full md:w-1/3 z-10 mb-8 md:mb-0">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 md:mb-4 text-left">
           Beyond the Ordinary. What Do We Do?
           </h2>
-          <p className={`${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'} text-base md:text-xl text-left`}>
+          <p className={`${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'} text-sm sm:text-base md:text-xl text-left`}>
             It's not just about having a website or social media presence. We understand you and your brand to market in a unique way.
           </p>
         </div>
@@ -342,10 +343,10 @@ export default function Component() {
         </div>
 
         {/* Mobile Timeline */}
-        <div className="md:hidden">
+        <div className="md:hidden mt-8">
           <Swiper
             modules={[Pagination, Autoplay]}
-            spaceBetween={30}
+            spaceBetween={20}
             slidesPerView={1}
             pagination={{ 
               clickable: true
@@ -357,7 +358,7 @@ export default function Component() {
             className={`h-full !pb-12 ${theme === 'dark' ? '[&_.swiper-pagination-bullet]:!bg-white/50 [&_.swiper-pagination-bullet-active]:!bg-white' : '[&_.swiper-pagination-bullet]:!bg-black/50 [&_.swiper-pagination-bullet-active]:!bg-black'}`}
           >
             {Array.from({ length: totalItems }).map((_, index) => (
-              <SwiperSlide key={index} className="pb-2">
+              <SwiperSlide key={index} className="pb-8">
                 <MobileTimelineItem index={index} />
               </SwiperSlide>
             ))}

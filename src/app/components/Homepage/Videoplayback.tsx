@@ -13,7 +13,13 @@ const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: nu
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;
-      const progress = Math.min(1, scrollY / viewportHeight);
+      const isMobile = window.innerWidth <= 768;
+      
+      // Adjust scroll progress calculation for mobile
+      const progress = isMobile 
+        ? Math.min(1, scrollY / (viewportHeight * 0.7)) // Faster scroll progress on mobile
+        : Math.min(1, scrollY / viewportHeight);
+      
       setScrollProgress(progress);
       onScroll(progress);
     };
@@ -49,7 +55,7 @@ const Videoplayback = ({ autoPlay = true, muted = true, onScroll = (progress: nu
         className="sticky top-0 w-full h-screen overflow-hidden bg-black"
         style={{
           zIndex: 50,
-          transform: `translateY(${Math.max(0, 100 - (scrollProgress * 100))}vh)`,
+          transform: `translateY(${Math.max(0, 100 - (scrollProgress * (window.innerWidth <= 768 ? 150 : 100)))}vh)`,
           transition: 'transform 0.1s ease-out',
         }}
       >

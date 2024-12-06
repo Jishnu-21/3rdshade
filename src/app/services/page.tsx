@@ -27,7 +27,6 @@ const ServicesPage = () => {
       <DesignProcess />
       <IndustryProblems />
       <TopClients />
-      <ProductPromoBanner />
       <div className={`relative ${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-1000 ease-in-out`}>
         <FooterLabel />
       </div>  

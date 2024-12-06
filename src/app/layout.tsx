@@ -16,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "3rd Shade",
+  title: "3rdshade",
   description: "Digital Agency",
 };
 

@@ -93,29 +93,37 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, toggleOpen,
       >
         {question}
       </span>
-      {isOpen ? (
-        <Minus className={`w-5 h-5 ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
-          group-hover:${theme === 'dark' ? 'text-white' : 'text-black'} transition-colors duration-200`} 
-        />
-      ) : (
-        <Plus className={`w-5 h-5 ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
-          group-hover:${theme === 'dark' ? 'text-white' : 'text-black'} transition-colors duration-200`} 
-        />
-      )}
-    </button>
-    {isOpen && (
-      <div className={`pt-2 text-sm ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
-        transition-colors duration-200`}
-      >
-        {answer}
+      <div className="transform transition-transform duration-200">
+        {isOpen ? (
+          <Minus className={`w-5 h-5 ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
+            group-hover:${theme === 'dark' ? 'text-white' : 'text-black'} transition-colors duration-200`} 
+          />
+        ) : (
+          <Plus className={`w-5 h-5 ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
+            group-hover:${theme === 'dark' ? 'text-white' : 'text-black'} transition-colors duration-200`} 
+          />
+        )}
       </div>
-    )}
+    </button>
+    <div 
+      className={`grid transition-all duration-200 ease-in-out ${
+        isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+      }`}
+    >
+      <div className="overflow-hidden">
+        <div className={`pt-2 text-sm ${theme === 'dark' ? 'text-[#ABABAB]' : 'text-gray-600'} 
+          transition-colors duration-200`}
+        >
+          {answer}
+        </div>
+      </div>
+    </div>
   </div>
 );
 
 const FAQ: React.FC = () => {
   const { theme } = useTheme();
-  const [openIndex, setOpenIndex] = useState<number>(0);
+  const [openIndex, setOpenIndex] = useState<number>(-1);
 
   return (
     <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} 

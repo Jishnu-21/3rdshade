@@ -24,7 +24,6 @@ const montserrat = Montserrat({
   weight: ['400', '700'],
   display: 'swap',
 });
-
 const translations = [
   { language: 'Marketing', word: 'Marketing', font: '' },
   { language: 'Marketing', word: 'Consulting', font: '' },
@@ -347,18 +346,20 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
         variants={itemVariants} 
         className="w-full relative z-10 max-w-[1440px] 2xl:max-w-[1600px] 3xl:max-w-[1800px] 4xl:max-w-[2000px] mx-auto pt-[80px] sm:pt-[100px]"
         style={{ 
-          opacity: Math.max(0, 1 - (scrollProgress * 2)),
-          visibility: scrollProgress >= 0.5 ? 'hidden' : 'visible'
+          opacity: window.innerWidth <= 768 
+            ? Math.max(0, 1 - (scrollProgress * 3)) // Faster fade on mobile
+            : Math.max(0, 1 - (scrollProgress * 2)),
+          visibility: scrollProgress >= (window.innerWidth <= 768 ? 0.4 : 0.5) ? 'hidden' : 'visible'
         }}
       >
-        <h2 className={`text-[10px] xs:text-[11px] sm:text-[13px] md:text-[14px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[20px] 4xl:text-[24px]
-          ${theme === 'dark' ? 'text-[#4A9EDE]' : 'text-[#2779BD]'} 
+        <h2 className={`text-[12px] xs:text-[14px] sm:text-[15px] md:text-[16px] lg:text-[18px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text-[24px]
+          ${theme === 'dark' ? 'text-white' : 'text-black'} 
           tracking-[0.15em] mb-2 sm:mb-3 2xl:mb-4 3xl:mb-5 4xl:mb-6 font-normal`}
         >
         Welcome to the Digital Universe of 3rd Shade
         </h2>
-        <h1 className="text-[30px] xs:text-[35px] sm:text-[50px] md:text-[65px] lg:text-[110px] xl:text-[130px] 
-          2xl:text-[150px] 3xl:text-[170px] 4xl:text-[190px]
+        <h1 className="text-[45px] xs:text-[52px] sm:text-[60px] md:text-[65px] lg:text-[100px] xl:text-[120px] 
+          2xl:text-[140px] 3xl:text-[160px] 4xl:text-[180px]
           font-bold leading-[1.1] mb-3 sm:mb-4 2xl:mb-6 3xl:mb-8 4xl:mb-10 max-w-[1400px] mx-auto"
         >
           <span className={`${theme === 'dark' ? 'text-white' : 'text-black'} block mb-1 sm:mb-2`}>A Realm of</span>
@@ -381,9 +382,9 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
             />
           </span>
         </h1>
-        <p className={`text-[11px] xs:text-[12px] sm:text-[15px] md:text-[16px] lg:text-[18px] xl:text-[19px] 2xl:text-[20px]
-          leading-[1.8] ${theme === 'dark' ? 'text-[#4A9EDE]' : 'text-[#2779BD]'} 
-          mx-[30px] xs:mx-[40px] sm:mx-[80px] md:mx-[100px] lg:mx-[140px] xl:mx-[160px] 2xl:mx-[180px] 
+        <p className={`text-[14px] xs:text-[15px] sm:text-[16px] md:text-[17px] lg:text-[18px] xl:text-[19px] 2xl:text-[20px]
+          leading-[1.8] ${theme === 'dark' ? 'text-white' : 'text-black'} 
+          mx-[20px] xs:mx-[30px] sm:mx-[80px] md:mx-[100px] lg:mx-[140px] xl:mx-[160px] 2xl:mx-[180px] 
           mb-4 sm:mb-6 2xl:mb-8 3xl:mb-10 4xl:mb-12
           font-normal tracking-wide max-w-[800px] sm:max-w-[1000px] md:max-w-[1200px] lg:max-w-[1200px] 2xl:max-w-[1400px] 3xl:max-w-[1600px] 4xl:max-w-[1800px]`}
         >

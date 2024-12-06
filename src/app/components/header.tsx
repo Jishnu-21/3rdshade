@@ -136,12 +136,10 @@ export default function Header() {
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // Close menu if it's open
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }
-    // Force a hard navigation to home
-    window.location.href = '/';
+    router.push('/');
   };
 
   return (

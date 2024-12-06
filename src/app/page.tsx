@@ -78,7 +78,7 @@ const Page = () => {
             <Videoplayback 
               onScroll={(progress) => setScrollProgress(progress)}
             />
-            <div className="scroll-mt-24 relative">
+            <div className="mt-24  ">
               <ScrollingTimeline />
             </div>
             <ServiceLine />
