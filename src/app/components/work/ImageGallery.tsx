@@ -17,14 +17,14 @@ interface ImageProps {
 }
 
 const images: ImageProps[] = [
-  { url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80', width: 300, height: 300, description: "Minimalist workspace design", mobileWidth: 160, mobileHeight: 160 },
-  { url: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=800&q=80', width: 320, height: 240, description: "Creative studio setup", mobileWidth: 160, mobileHeight: 120 },
-  { url: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80', width: 280, height: 280, description: "Modern design workspace", mobileWidth: 160, mobileHeight: 160 },
-  { url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80', width: 290, height: 290, description: "Clean desk setup", mobileWidth: 135, mobileHeight: 135 },
-  { url: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=800&q=80', width: 310, height: 310, description: "Professional workspace", mobileWidth: 145, mobileHeight: 145 },
-  { url: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80', width: 300, height: 250, description: "Team collaboration", mobileWidth: 140, mobileHeight: 115 },
-  { url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80', width: 280, height: 260, description: "Creative brainstorming", mobileWidth: 130, mobileHeight: 120 },
-  { url: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80', width: 270, height: 270, description: "Modern office space", mobileWidth: 125, mobileHeight: 125 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736048/3rdshade-works/jpdb3zbihiqecdwpowsg.png', width: 300, height: 300, description: "Minimalist workspace design", mobileWidth: 160, mobileHeight: 160 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736048/3rdshade-works/p9peyd1xzyfhuzfzdzz7.png', width: 320, height: 240, description: "Creative studio setup", mobileWidth: 160, mobileHeight: 120 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736049/3rdshade-works/ccej5uxdem7cpyhy0isr.png', width: 280, height: 280, description: "Modern design workspace", mobileWidth: 160, mobileHeight: 160 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736049/3rdshade-works/q3jj8l5farltcmllvd6g.jpg', width: 290, height: 290, description: "Clean desk setup", mobileWidth: 135, mobileHeight: 135 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736048/3rdshade-works/c8kndzowax5w0pgglg25.png', width: 310, height: 310, description: "Professional workspace", mobileWidth: 145, mobileHeight: 145 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736047/3rdshade-works/zghlqghwr7dtpuj35jad.png', width: 300, height: 250, description: "Team collaboration", mobileWidth: 140, mobileHeight: 115 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736047/3rdshade-works/vsdajjq25qjhtkb6rshe.png', width: 280, height: 260, description: "Creative brainstorming", mobileWidth: 130, mobileHeight: 120 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736046/3rdshade-works/iazn0uscngxx4a3mpe7i.png', width: 270, height: 270, description: "Modern office space", mobileWidth: 125, mobileHeight: 125 },
 ];
 
 const ImageGallery: React.FC = () => {

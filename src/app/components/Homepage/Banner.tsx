@@ -190,12 +190,14 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
         ripple.style.width = '100px';
         ripple.style.height = '100px';
         ripple.style.borderRadius = '50%';
-        ripple.style.background = `conic-gradient(from ${Math.random() * 360}deg, 
-          #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE, #F1967D)`;
+        // Adjusted gradient for blue tones in dark theme
+        ripple.style.background = theme === 'dark' 
+          ? `conic-gradient(from ${Math.random() * 360}deg, #1E3A8A, #2563EB, #3B82F6, #60A5FA, #1E3A8A)`
+          : `conic-gradient(from ${Math.random() * 360}deg, #FF4E50, #FC913A, #F9D423, #EDE574, #FF4E50)`;
         ripple.style.transform = 'translate(-50%, -50%) scale(0)';
         ripple.style.animation = `ripple 1.5s ease-out forwards`;
         ripple.style.zIndex = '100';
-        ripple.style.mixBlendMode = 'overlay';
+        ripple.style.mixBlendMode = theme === 'dark' ? 'overlay' : 'soft-light';
         ripple.style.pointerEvents = 'none';
         const bannerElement = document.querySelector('.banner-container');
         if (bannerElement) {
@@ -211,7 +213,6 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
       createRipple(i * 100, 10 + i * 2);
     }
 
-    // Reset main splash after animation
     setTimeout(() => {
       setShowColorSplash(false);
     }, 1500);
@@ -290,7 +291,7 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
               initial={{ scale: 0, opacity: 0 }}
               animate={{ 
                 scale: [0, 15],
-                opacity: [1, 0]
+                opacity: [0.8, 0]
               }}
               exit={{ opacity: 0 }}
               transition={{ 
@@ -303,23 +304,27 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
                 top: splashPosition.y,
                 width: '100px',
                 height: '100px',
-                background: 'conic-gradient(from 0deg, #F1967D, #C93F80, #955DDC, #7071E9, #1CB0CE, #F1967D)',
+                background: theme === 'dark'
+                  ? 'conic-gradient(from 0deg, #1E3A8A, #2563EB, #3B82F6, #60A5FA, #1E3A8A)'
+                  : 'conic-gradient(from 0deg, #FF4E50, #FC913A, #F9D423, #EDE574, #FF4E50)',
                 borderRadius: '50%',
                 zIndex: 100,
                 transformOrigin: 'center center',
                 pointerEvents: 'none',
-                mixBlendMode: 'overlay'
+                mixBlendMode: theme === 'dark' ? 'overlay' : 'soft-light'
               }}
             />
             <motion.div
               initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 0.3, 0] }}
+              animate={{ opacity: [0, 0.2, 0] }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1.5 }}
               style={{
                 position: 'fixed',
                 inset: 0,
-                background: 'radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%)',
+                background: theme === 'dark'
+                  ? 'radial-gradient(circle at center, rgba(30, 58, 138, 0.15) 0%, transparent 70%)'
+                  : 'radial-gradient(circle at center, rgba(255,0,0,0.08) 0%, transparent 70%)',
                 zIndex: 99,
                 pointerEvents: 'none'
               }}
@@ -421,5 +426,5 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
     </motion.div>
   );
 };
-
+  
 export default Banner;

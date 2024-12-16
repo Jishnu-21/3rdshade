@@ -7,29 +7,30 @@ import ServicesList from './components/ServicesList';
 import DesignProcess from './components/DesignProcess';
 import IndustryProblems from './components/IndustryProblems';
 import TopClients from './components/TopClients';
-import ProductPromoBanner from './components/ProductPromoBanner';
 import Header from '../components/header';
-import Layout from '../components/Homepage/Layout';
 import FooterLabel from '../components/Career/FooterLabel';
 import OurServices from './components/OurServices';
 import { useTheme } from '@/app/context/ThemeContext';
+import Layout from '../components/Homepage/Layout';
 
 const ServicesPage = () => {
   const { theme } = useTheme(); 
   return (
-    <div className="services-page bg-black w-full">
-       <Header />
+    <div className={`services-page w-full ${theme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300`}>
+      <Header />
       <Layout>
-      <ServicesHeader />
-      <FullWidthImage />
-      <ServicesList />
-      <OurServices />
-      <DesignProcess />
-      <IndustryProblems />
-      <TopClients />
-      <div className={`relative ${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-1000 ease-in-out`}>
-        <FooterLabel />
-      </div>  
+      <main className="min-h-screen">
+        <ServicesHeader />
+        <FullWidthImage />
+        <ServicesList />
+        <OurServices />
+        <DesignProcess />
+        <IndustryProblems />
+        <TopClients />
+        <div className={`relative ${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-300`}>
+          <FooterLabel />
+        </div>
+      </main>
       </Layout>
     </div>
   );

@@ -1,9 +1,8 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useTheme } from '@/app/context/ThemeContext';
-import { usePathname } from 'next/navigation';
 
 // Preload critical components
 const Header = dynamic(() => import('./components/header'), { 
@@ -42,7 +41,7 @@ const FAQ = dynamic(() => import('./components/Homepage/FAQ'), { ssr: false });
 const MoreInfoWithTime = dynamic(() => import('./components/Homepage/MoreInfoWithTime'), { ssr: false });
 
 const LoadingSpinner = ({ theme }: { theme: 'dark' | 'light' }) => (
-  <div className={`fixed inset-0 flex items-center justify-center ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
+  <div className={`fixed inset-0 flex items-center justify-center transition-colors duration-300 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
     <div className={`animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 
       ${theme === 'dark' ? 'border-white' : 'border-black'}`} 
     />
@@ -51,25 +50,10 @@ const LoadingSpinner = ({ theme }: { theme: 'dark' | 'light' }) => (
 
 const Page = () => {
   const { theme } = useTheme();
-  const pathname = usePathname();
-  const [isMounted, setIsMounted] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  useEffect(() => {
-    setIsMounted(false);
-    const timer = setTimeout(() => {
-      setIsMounted(true);
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [pathname]);
-
-  if (!isMounted) {
-    return <LoadingSpinner theme={theme} />;
-  }
-
   return (
-    <div className={`transition-colors duration-300`}>
+    <div className={`transition-colors duration-300 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
       <Header key="header" />
       <Layout>
         <div className='w-full scroll-smooth'>
@@ -78,7 +62,7 @@ const Page = () => {
             <Videoplayback 
               onScroll={(progress) => setScrollProgress(progress)}
             />
-            <div className="mt-24  ">
+            <div className="mt-24">
               <ScrollingTimeline />
             </div>
             <ServiceLine />
@@ -92,7 +76,7 @@ const Page = () => {
               </div>
             </div>
           </div>
-          <div className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-500`}>
+          <div className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-300`}>
             <MoreInfoWithTime />
           </div>
         </div>

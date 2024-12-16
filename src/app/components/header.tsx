@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/app/context/ThemeContext';
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
@@ -93,7 +93,7 @@ export default function Header() {
   };
 
   const ContactButton = () => (
-    <Link href="/contact-us" className="group">
+    <NextLink href="/contact-us" className="group">
       <div 
         className="relative w-[160px] h-[57px] rounded-[21px] text-sm font-medium text-white overflow-hidden inline-block"
       >
@@ -117,7 +117,7 @@ export default function Header() {
           }}
         ></span>
       </div>
-    </Link>
+    </NextLink>
   );
 
   const ThemeToggle = () => (
@@ -135,11 +135,16 @@ export default function Header() {
   );
 
   const handleLogoClick = (e: React.MouseEvent) => {
-    e.preventDefault();
+    // Close menu if it's open
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }
-    router.push('/');
+    
+    // Scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   return (
@@ -161,10 +166,12 @@ export default function Header() {
           }`}
       >
         <div className="flex-shrink-0 relative z-[100] flex items-center">
-          <Link 
-            href="/" 
+          <NextLink 
+            href={"/[[...catchall]]"} 
+            as="/"
             onClick={handleLogoClick}
             className="cursor-pointer"
+            aria-label="Go to homepage"
           >
             <Image 
               src={logoSrc}
@@ -176,7 +183,7 @@ export default function Header() {
               onError={() => setLogoError(true)}
               key={`logo-${theme}`}
             />
-          </Link>
+          </NextLink>
         </div>
         {!isMobile && (
           <nav className="hidden xl:flex flex-grow justify-center mx-4 relative z-[100]">
@@ -195,12 +202,13 @@ export default function Header() {
                   }}>
                 {menuItems.map((item) => (
                   <li key={item}>
-                    <Link 
-                      href={`/${item.toLowerCase().replace(' ', '-')}`} 
+                    <NextLink 
+                      href={"/[[...catchall]]"}
+                      as={`/${item.toLowerCase().replace(' ', '-')}`}
                       className={`${theme === 'dark' ? 'text-white hover:text-gray-300' : 'text-black hover:text-gray-600'} transition-colors text-sm font-medium`}
                     >
                       {item}
-                    </Link>
+                    </NextLink>
                   </li>
                 ))}
               </ul>
@@ -250,69 +258,70 @@ export default function Header() {
             </div>
           )}
         </div>
-        <AnimatePresence>
-  {isMenuOpen && (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 bg-black z-[998] xl:hidden"
-      style={{
-        top: '0',
-        height: '100vh',
-        width: '100vw',
-        overflow: 'hidden',
-      }}
-    >
-      <motion.div
-        initial="closed"
-        animate="open"
-        exit="closed"
-        variants={menuVariants}
-        className="fixed right-0 w-full h-full flex flex-col"
-        style={{
-          background: theme === 'dark'
-            ? 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)'
-            : 'linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%)',
-          paddingTop: '100px',
-          top: 0,
-          zIndex: 999,
-        }}
-      >
-        <div className="relative z-[999] h-full flex flex-col justify-between px-6">
-          <nav className="max-w-md mx-auto w-full">
-            <ul className="space-y-8">
-              {menuItems.map((item) => (
-                <motion.li
-                  key={item}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05, x: 10, color: theme === 'dark' ? "#ffffff" : "#000000" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-center"
-                >
-                  <Link 
-                    href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                    className={`${theme === 'dark' ? 'text-white' : 'text-black'} 
-                      text-3xl font-medium flex items-center justify-center`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </nav>
-          <div className="pb-20 flex justify-center">
-            <ContactButton />
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  )}
-</AnimatePresence>
       </header>
-    </>
 
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black z-[998] xl:hidden"
+            style={{
+              top: '0',
+              height: '100vh',
+              width: '100vw',
+              overflow: 'hidden',
+            }}
+          >
+            <motion.div
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={menuVariants}
+              className="fixed right-0 w-full h-full flex flex-col"
+              style={{
+                background: theme === 'dark'
+                  ? 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)'
+                  : 'linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%)',
+                paddingTop: '100px',
+                top: 0,
+                zIndex: 999,
+              }}
+            >
+              <div className="relative z-[999] h-full flex flex-col justify-between px-6">
+                <nav className="max-w-md mx-auto w-full">
+                  <ul className="space-y-8">
+                    {menuItems.map((item) => (
+                      <motion.li
+                        key={item}
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.05, x: 10, color: theme === 'dark' ? "#ffffff" : "#000000" }}
+                        whileTap={{ scale: 0.95 }}
+                        className="text-center"
+                      >
+                        <NextLink 
+                          href={"/[[...catchall]]"}
+                          as={`/${item.toLowerCase().replace(' ', '-')}`}
+                          className={`${theme === 'dark' ? 'text-white' : 'text-black'} 
+                            text-3xl font-medium flex items-center justify-center`}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {item}
+                        </NextLink>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </nav>
+                <div className="pb-20 flex justify-center">
+                  <ContactButton />
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

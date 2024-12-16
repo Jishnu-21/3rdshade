@@ -24,8 +24,15 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
 
   const itemPosition = y - scrollY;
   const isVisible = itemPosition >= 0 && itemPosition <= windowHeight;
+  
+  // Calculate opacity based on position
   const opacity = isVisible ? 1 : 0;
-  const leftSideOpacity = 1;
+  
+  // Calculate opacity only for the left side
+  const titleAreaHeight = 280; // Approximate height of title section
+  const leftSideOpacity = itemPosition < titleAreaHeight 
+    ? Math.max(0.1, (itemPosition / titleAreaHeight)) 
+    : 1;
 
   const timelineContent = [
     { 
@@ -77,13 +84,16 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
       className={`flex items-center ${index % 2 === 0 ? 'flex-row-reverse' : ''}`}
     >
       <motion.div 
-        className={`w-[calc(50%-2rem)] ${index % 2 === 0 ? 'pl-4' : 'pr-4'}`}
-        style={{ opacity: leftSideOpacity }}
+        className={`w-[calc(50%-2rem)] ${index % 2 === 0 ? 'pl-4' : 'pr-4'} md:w-[calc(50%-1.5rem)]`}
+        style={{ 
+          opacity: index % 2 === 0 ? 1 : leftSideOpacity,
+          transition: 'opacity 0.3s ease-in-out'
+        }}
       >
         <div className="relative">
           <div className="absolute inset-0 flex flex-col items-center justify-center z-10 p-4">
-            <h3 className="text-xl font-bold mb-2 text-center">{currentContent.title}</h3>
-            <p className={`text-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+            <h3 className="text-xl md:text-2xl font-bold mb-2 text-center">{currentContent.title}</h3>
+            <p className={`text-center md:text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               {currentContent.description}
             </p>
           </div>
@@ -101,13 +111,13 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
         </div>
       </motion.div>
       <motion.div 
-        className={`w-16 h-16 ${theme === 'dark' ? 'bg-white' : 'bg-black'} rounded-full z-10 flex items-center justify-center relative`}
-        style={{ opacity: leftSideOpacity }}
+        className={`w-16 h-16 md:w-20 md:h-20 ${theme === 'dark' ? 'bg-white' : 'bg-black'} rounded-full z-10 flex items-center justify-center relative`}
+        style={{ opacity: 1 }}
       >
         <IconComponent 
           size={24} 
+          className="transition-transform hover:scale-110 md:scale-125"
           color={theme === 'dark' ? 'black' : 'white'} 
-          className="transition-transform hover:scale-110"
         />
       </motion.div>
     </motion.div>
@@ -158,7 +168,7 @@ const MobileTimelineItem = ({ index }: { index: number }) => {
   const IconComponent = currentContent.icon;
   
   return (
-    <div className="w-full px-2 py-4">
+    <div className="w-full px-2 py-4 md:px-4 md:py-6">
       <div className={`relative w-full aspect-[16/9] rounded-xl overflow-hidden
         ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}
         backdrop-blur-sm
@@ -171,12 +181,12 @@ const MobileTimelineItem = ({ index }: { index: number }) => {
           sizes="(max-width: 768px) 100vw, 50vw"
           priority={index === 0}
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-6">
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-6 md:p-8">
           <div className={`flex items-center gap-3 mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-            <IconComponent className="w-6 h-6" />
-            <h3 className="text-xl font-bold">{currentContent.title}</h3>
+            <IconComponent className="w-6 h-6 md:w-8 md:h-8" />
+            <h3 className="text-xl md:text-2xl font-bold">{currentContent.title}</h3>
           </div>
-          <p className={`text-base text-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+          <p className={`text-base md:text-lg text-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
             {currentContent.description}
           </p>
         </div>
