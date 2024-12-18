@@ -55,7 +55,7 @@ export function TimelineSection() {
           <div className="relative z-10 space-y-32">
             {timelineData.map((item, index) => (
               <TimelineItem 
-                key={item.id}
+                key={index}
                 data={item}
                 index={index}
                 progress={scrollYProgress}

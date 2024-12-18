@@ -17,15 +17,17 @@ interface ImageProps {
 }
 
 const images: ImageProps[] = [
-  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736048/3rdshade-works/jpdb3zbihiqecdwpowsg.png', width: 300, height: 300, description: "Minimalist workspace design", mobileWidth: 160, mobileHeight: 160 },
-  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736048/3rdshade-works/p9peyd1xzyfhuzfzdzz7.png', width: 320, height: 240, description: "Creative studio setup", mobileWidth: 160, mobileHeight: 120 },
-  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736049/3rdshade-works/ccej5uxdem7cpyhy0isr.png', width: 280, height: 280, description: "Modern design workspace", mobileWidth: 160, mobileHeight: 160 },
-  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736049/3rdshade-works/q3jj8l5farltcmllvd6g.jpg', width: 290, height: 290, description: "Clean desk setup", mobileWidth: 135, mobileHeight: 135 },
-  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736048/3rdshade-works/c8kndzowax5w0pgglg25.png', width: 310, height: 310, description: "Professional workspace", mobileWidth: 145, mobileHeight: 145 },
-  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736047/3rdshade-works/zghlqghwr7dtpuj35jad.png', width: 300, height: 250, description: "Team collaboration", mobileWidth: 140, mobileHeight: 115 },
-  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736047/3rdshade-works/vsdajjq25qjhtkb6rshe.png', width: 280, height: 260, description: "Creative brainstorming", mobileWidth: 130, mobileHeight: 120 },
-  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736046/3rdshade-works/iazn0uscngxx4a3mpe7i.png', width: 270, height: 270, description: "Modern office space", mobileWidth: 125, mobileHeight: 125 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736048/3rdshade-works/jpdb3zbihiqecdwpowsg.png', width: 300, height: 300, description: "Vansonix", mobileWidth: 160, mobileHeight: 160 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736042/3rdshade-works/t4cqr6ngmwxbxppvz4ft.png', width: 320, height: 240, description: "Fashioncons", mobileWidth: 160, mobileHeight: 120 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736049/3rdshade-works/ccej5uxdem7cpyhy0isr.png', width: 280, height: 280, description: "Super Hoomans", mobileWidth: 160, mobileHeight: 160 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736049/3rdshade-works/q3jj8l5farltcmllvd6g.jpg', width: 290, height: 290, description: "Desishimners", mobileWidth: 135, mobileHeight: 135 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736048/3rdshade-works/c8kndzowax5w0pgglg25.png', width: 310, height: 310, description: "Dryo", mobileWidth: 145, mobileHeight: 145 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736047/3rdshade-works/zghlqghwr7dtpuj35jad.png', width: 300, height: 250, description: "Vansonix x Cred", mobileWidth: 140, mobileHeight: 115 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736043/3rdshade-works/rsbzc9huv79nmktcn8am.png', width: 280, height: 260, description: "Indian Food Box", mobileWidth: 130, mobileHeight: 120 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736043/3rdshade-works/jmx1yza7g4wu1nv6lcux.png', width: 280, height: 260, description: "A Dash of me", mobileWidth: 130, mobileHeight: 120 },
+  { url: 'https://res.cloudinary.com/dkgjl08a5/image/upload/v1733736041/3rdshade-works/t8ny8ikxrhxsbqoqdbtr.png', width: 270, height: 270, description: "A Dash of me ", mobileWidth: 125, mobileHeight: 125 },
 ];
+
 
 const ImageGallery: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -36,7 +38,7 @@ const ImageGallery: React.FC = () => {
   const [renderedImages, setRenderedImages] = useState<JSX.Element[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const mousePositionRef = useRef({ x: 0, y: 0 });
-  const [containerSize, _setContainerSize] = useState({ width: 2000, height: 2000 });
+  const [containerSize, _setContainerSize] = useState({ width: 2000, height: 2200 });
 
   const windowSize = useWindowSize()
 
@@ -144,7 +146,7 @@ const ImageGallery: React.FC = () => {
             alt={image.description}
             width={isMobile ? image.mobileWidth : image.width}
             height={isMobile ? image.mobileHeight : image.height}
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-full object-contain rounded-lg"
             priority={index < 4}
             quality={85}
             sizes={`(max-width: 768px) ${image.mobileWidth}px, ${image.width}px`}
@@ -176,36 +178,105 @@ const ImageGallery: React.FC = () => {
   }, [createImageElements]);
 
   const calculateImagePositions = useCallback((width: number, height: number) => {
-    const positions = [];
-    const gridColumns = isMobile ? 2 : isTablet ? 2 : 3;
-    const gridRows = Math.ceil(images.length / gridColumns);
+    const positions: { x: number; y: number }[] = [];
+    const gridSize = {
+      width: containerSize.width * 0.8,
+      height: containerSize.height * 0.8
+    };
     
-    const cellWidth = isMobile ? 
-      Math.min(width / gridColumns - GRID_GAP, 140) :
-      Math.max(width / gridColumns, 400);
-    const cellHeight = isMobile ? 
-      Math.min(height / gridRows - GRID_GAP, 140) :
-      Math.max(height / gridRows, 400);
+    // Increase the grid resolution for better spacing
+    const gridResolution = 10; // Higher number means finer grid
+    const occupiedSpaces: boolean[][] = Array(Math.ceil(gridSize.height * gridResolution))
+      .fill(false)
+      .map(() => Array(Math.ceil(gridSize.width * gridResolution)).fill(false));
+
+    const isSpaceAvailable = (x: number, y: number, imgWidth: number, imgHeight: number) => {
+      // Convert actual coordinates to grid coordinates
+      const gridX = Math.floor(x * gridResolution);
+      const gridY = Math.floor(y * gridResolution);
+      const gridWidth = Math.ceil(imgWidth * gridResolution);
+      const gridHeight = Math.ceil(imgHeight * gridResolution);
+
+      // Add padding around images
+      const padding = isMobile ? 20 : 50;
+      const paddingGrid = Math.ceil(padding * gridResolution);
+
+      for (let i = gridY - paddingGrid; i < gridY + gridHeight + paddingGrid; i++) {
+        for (let j = gridX - paddingGrid; j < gridX + gridWidth + paddingGrid; j++) {
+          if (occupiedSpaces[i]?.[j]) return false;
+        }
+      }
+      return true;
+    };
+
+    const markSpaceOccupied = (x: number, y: number, imgWidth: number, imgHeight: number) => {
+      const gridX = Math.floor(x * gridResolution);
+      const gridY = Math.floor(y * gridResolution);
+      const gridWidth = Math.ceil(imgWidth * gridResolution);
+      const gridHeight = Math.ceil(imgHeight * gridResolution);
+
+      // Add padding around images
+      const padding = isMobile ? 20 : 50;
+      const paddingGrid = Math.ceil(padding * gridResolution);
+
+      for (let i = gridY - paddingGrid; i < gridY + gridHeight + paddingGrid; i++) {
+        for (let j = gridX - paddingGrid; j < gridX + gridWidth + paddingGrid; j++) {
+          if (occupiedSpaces[i]) {
+            occupiedSpaces[i][j] = true;
+          }
+        }
+      }
+    };
+
+    // Adjust image sizes based on screen size
+    const getAdjustedImageSize = (image: ImageProps) => {
+      const scaleFactor = isMobile ? 0.8 : isTablet ? 0.9 : 1;
+      return {
+        width: (isMobile ? image.mobileWidth : image.width) * scaleFactor,
+        height: (isMobile ? image.mobileHeight : image.height) * scaleFactor
+      };
+    };
 
     for (let i = 0; i < images.length; i++) {
-      const col = i % gridColumns;
-      const row = Math.floor(i / gridColumns);
-      
-      const x = col * (cellWidth + GRID_GAP);
-      const y = row * (cellHeight + GRID_GAP);
-      
-      const randomOffset = isMobile ? 2 : 20;
-      const randomX = Math.random() * randomOffset - randomOffset/2;
-      const randomY = Math.random() * randomOffset - randomOffset/2;
-      
-      positions.push({ 
-        x: x + randomX, 
-        y: y + randomY 
-      });
+      const image = images[i];
+      const { width: imgWidth, height: imgHeight } = getAdjustedImageSize(image);
+      let placed = false;
+      let attempts = 0;
+      const maxAttempts = 300; // Increased attempts for better placement
+
+      while (!placed && attempts < maxAttempts) {
+        // Add margin from edges
+        const margin = isMobile ? 20 : 100;
+        const x = margin + Math.floor(Math.random() * (gridSize.width - imgWidth - margin * 2));
+        const y = margin + Math.floor(Math.random() * (gridSize.height - imgHeight - margin * 2));
+
+        if (isSpaceAvailable(x, y, imgWidth, imgHeight)) {
+          markSpaceOccupied(x, y, imgWidth, imgHeight);
+          
+          // Reduced random offset for more controlled placement
+          const randomOffset = isMobile ? 2 : 10;
+          const randomX = Math.random() * randomOffset - randomOffset / 2;
+          const randomY = Math.random() * randomOffset - randomOffset / 2;
+
+          positions.push({
+            x: x + randomX + (containerSize.width - gridSize.width) / 2,
+            y: y + randomY + (containerSize.height - gridSize.height) / 2
+          });
+          placed = true;
+        }
+        attempts++;
+      }
+
+      // If placement fails, use a more deterministic fallback
+      if (!placed) {
+        const fallbackX = (i % 3) * (gridSize.width / 3) + (containerSize.width - gridSize.width) / 2;
+        const fallbackY = Math.floor(i / 3) * (gridSize.height / 3) + (containerSize.height - gridSize.height) / 2;
+        positions.push({ x: fallbackX, y: fallbackY });
+      }
     }
 
     return positions;
-  }, [GRID_GAP, isMobile, isTablet]);
+  }, [GRID_GAP, isMobile, isTablet, containerSize.width, containerSize.height]);
 
   const handleInfiniteScroll = () => {
     if (!scrollContainerRef.current) return;
