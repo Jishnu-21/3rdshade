@@ -6,6 +6,7 @@ import { Noto_Sans, Noto_Sans_Arabic, Montserrat } from 'next/font/google';
 import { useTheme } from '@/app/context/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useRouter } from 'next/navigation';
 
 // Load fonts
 const notoSans = Noto_Sans({
@@ -211,6 +212,19 @@ const Banner: React.FC<{ scrollProgress?: number }> = ({ scrollProgress = 0 }) =
     // Create multiple ripples with different delays and scales
     for (let i = 0; i < 5; i++) {
       createRipple(i * 100, 10 + i * 2);
+    }
+
+    // Add smooth scroll to Brands section with offset
+    const brandsSection = document.getElementById('brands');
+    if (brandsSection) {
+      const headerOffset = 0; // Adjust this value if you have a fixed header
+      const elementPosition = brandsSection.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
 
     setTimeout(() => {

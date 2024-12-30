@@ -38,7 +38,7 @@ const ImageGallery: React.FC = () => {
   const [renderedImages, setRenderedImages] = useState<JSX.Element[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const mousePositionRef = useRef({ x: 0, y: 0 });
-  const [containerSize, _setContainerSize] = useState({ width: 2000, height: 2200 });
+  const [containerSize, _setContainerSize] = useState({ width: 2000, height: 2000 });
 
   const windowSize = useWindowSize()
 
@@ -146,7 +146,7 @@ const ImageGallery: React.FC = () => {
             alt={image.description}
             width={isMobile ? image.mobileWidth : image.width}
             height={isMobile ? image.mobileHeight : image.height}
-            className="w-full h-full object-contain rounded-lg"
+            className="w-full h-full object-cover rounded-lg"
             priority={index < 4}
             quality={85}
             sizes={`(max-width: 768px) ${image.mobileWidth}px, ${image.width}px`}
@@ -178,105 +178,36 @@ const ImageGallery: React.FC = () => {
   }, [createImageElements]);
 
   const calculateImagePositions = useCallback((width: number, height: number) => {
-    const positions: { x: number; y: number }[] = [];
-    const gridSize = {
-      width: containerSize.width * 0.8,
-      height: containerSize.height * 0.8
-    };
+    const positions = [];
+    const gridColumns = isMobile ? 2 : isTablet ? 2 : 3;
+    const gridRows = Math.ceil(images.length / gridColumns);
     
-    // Increase the grid resolution for better spacing
-    const gridResolution = 10; // Higher number means finer grid
-    const occupiedSpaces: boolean[][] = Array(Math.ceil(gridSize.height * gridResolution))
-      .fill(false)
-      .map(() => Array(Math.ceil(gridSize.width * gridResolution)).fill(false));
-
-    const isSpaceAvailable = (x: number, y: number, imgWidth: number, imgHeight: number) => {
-      // Convert actual coordinates to grid coordinates
-      const gridX = Math.floor(x * gridResolution);
-      const gridY = Math.floor(y * gridResolution);
-      const gridWidth = Math.ceil(imgWidth * gridResolution);
-      const gridHeight = Math.ceil(imgHeight * gridResolution);
-
-      // Add padding around images
-      const padding = isMobile ? 20 : 50;
-      const paddingGrid = Math.ceil(padding * gridResolution);
-
-      for (let i = gridY - paddingGrid; i < gridY + gridHeight + paddingGrid; i++) {
-        for (let j = gridX - paddingGrid; j < gridX + gridWidth + paddingGrid; j++) {
-          if (occupiedSpaces[i]?.[j]) return false;
-        }
-      }
-      return true;
-    };
-
-    const markSpaceOccupied = (x: number, y: number, imgWidth: number, imgHeight: number) => {
-      const gridX = Math.floor(x * gridResolution);
-      const gridY = Math.floor(y * gridResolution);
-      const gridWidth = Math.ceil(imgWidth * gridResolution);
-      const gridHeight = Math.ceil(imgHeight * gridResolution);
-
-      // Add padding around images
-      const padding = isMobile ? 20 : 50;
-      const paddingGrid = Math.ceil(padding * gridResolution);
-
-      for (let i = gridY - paddingGrid; i < gridY + gridHeight + paddingGrid; i++) {
-        for (let j = gridX - paddingGrid; j < gridX + gridWidth + paddingGrid; j++) {
-          if (occupiedSpaces[i]) {
-            occupiedSpaces[i][j] = true;
-          }
-        }
-      }
-    };
-
-    // Adjust image sizes based on screen size
-    const getAdjustedImageSize = (image: ImageProps) => {
-      const scaleFactor = isMobile ? 0.8 : isTablet ? 0.9 : 1;
-      return {
-        width: (isMobile ? image.mobileWidth : image.width) * scaleFactor,
-        height: (isMobile ? image.mobileHeight : image.height) * scaleFactor
-      };
-    };
+    const cellWidth = isMobile ? 
+      Math.min(width / gridColumns - GRID_GAP, 140) :
+      Math.max(width / gridColumns, 400);
+    const cellHeight = isMobile ? 
+      Math.min(height / gridRows - GRID_GAP, 140) :
+      Math.max(height / gridRows, 400);
 
     for (let i = 0; i < images.length; i++) {
-      const image = images[i];
-      const { width: imgWidth, height: imgHeight } = getAdjustedImageSize(image);
-      let placed = false;
-      let attempts = 0;
-      const maxAttempts = 300; // Increased attempts for better placement
-
-      while (!placed && attempts < maxAttempts) {
-        // Add margin from edges
-        const margin = isMobile ? 20 : 100;
-        const x = margin + Math.floor(Math.random() * (gridSize.width - imgWidth - margin * 2));
-        const y = margin + Math.floor(Math.random() * (gridSize.height - imgHeight - margin * 2));
-
-        if (isSpaceAvailable(x, y, imgWidth, imgHeight)) {
-          markSpaceOccupied(x, y, imgWidth, imgHeight);
-          
-          // Reduced random offset for more controlled placement
-          const randomOffset = isMobile ? 2 : 10;
-          const randomX = Math.random() * randomOffset - randomOffset / 2;
-          const randomY = Math.random() * randomOffset - randomOffset / 2;
-
-          positions.push({
-            x: x + randomX + (containerSize.width - gridSize.width) / 2,
-            y: y + randomY + (containerSize.height - gridSize.height) / 2
-          });
-          placed = true;
-        }
-        attempts++;
-      }
-
-      // If placement fails, use a more deterministic fallback
-      if (!placed) {
-        const fallbackX = (i % 3) * (gridSize.width / 3) + (containerSize.width - gridSize.width) / 2;
-        const fallbackY = Math.floor(i / 3) * (gridSize.height / 3) + (containerSize.height - gridSize.height) / 2;
-        positions.push({ x: fallbackX, y: fallbackY });
-      }
+      const col = i % gridColumns;
+      const row = Math.floor(i / gridColumns);
+      
+      const x = col * (cellWidth + GRID_GAP);
+      const y = row * (cellHeight + GRID_GAP);
+      
+      const randomOffset = isMobile ? 2 : 20;
+      const randomX = Math.random() * randomOffset - randomOffset/2;
+      const randomY = Math.random() * randomOffset - randomOffset/2;
+      
+      positions.push({ 
+        x: x + randomX, 
+        y: y + randomY 
+      });
     }
 
     return positions;
-  }, [GRID_GAP, isMobile, isTablet, containerSize.width, containerSize.height]);
+  }, [GRID_GAP, isMobile, isTablet]);
 
   const handleInfiniteScroll = () => {
     if (!scrollContainerRef.current) return;

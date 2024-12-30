@@ -92,7 +92,7 @@ const BrandsWeBuilt: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-gray-700 text-black min-h-screen py-8 sm:py-12 md:py-16 lg:py-20
+    <div id="brands" className="bg-gray-700 text-black min-h-screen py-8 sm:py-12 md:py-16 lg:py-20
       relative overflow-hidden flex items-center justify-center"
     >
       <div className="absolute inset-0 z-20">

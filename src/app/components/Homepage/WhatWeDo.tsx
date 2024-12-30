@@ -267,14 +267,14 @@ export default function Component() {
       color: theme === 'dark' ? 'bg-red-500' : 'bg-red-500/90',
       position: "lg:left-[5%] md:left-[10%] left-0 lg:top-[5%] md:top-[5%] top-0",
       frontContent: (
-        <div className="flex flex-col items-start p-6 sm:p-8 lg:p-12">
+        <div className="flex flex-col items-start p-6 sm:p-8 lg:p-10">
           <ChatBubbleLeftRightIcon className="h-16 w-16 sm:h-20 sm:w-20 text-white/80" />
           <p className="text-xl sm:text-2xl font-light text-white mt-auto">Consulting</p>
         </div>
       ),
       backContent: (
-        <div className="text-sm sm:text-base lg:text-lg font-light text-white p-6 sm:p-8 lg:p-12 text-left leading-relaxed">
-          We listen first, act second. Understanding your business challenges, we create tailored solutions that drive real results.
+        <div className="text-xs sm:text-sm lg:text-base font-light text-white p-4 sm:p-6 lg:p-8 text-left leading-relaxed">
+          We listen first and act second. Your goals and challenges matter to us. What's missing in your business? Which strategy will work best for you? Understanding your business, we create solutions that work for you.
         </div>
       )
     },
@@ -283,14 +283,14 @@ export default function Component() {
       color: theme === 'dark' ? 'bg-purple-500' : 'bg-purple-500/90',
       position: "lg:left-[35%] md:left-[10%] left-0 lg:top-[25%] md:top-[40%] top-0",
       frontContent: (
-        <div className="flex flex-col items-start p-12">
-          <SparklesIcon className="h-20 w-20 text-white/80" />
-          <p className="text-2xl font-light text-white mt-auto">Creativity</p>
+        <div className="flex flex-col items-start p-6 sm:p-8 lg:p-10">
+          <SparklesIcon className="h-16 w-16 sm:h-20 sm:w-20 text-white/80" />
+          <p className="text-xl sm:text-2xl font-light text-white mt-auto">Creativity</p>
         </div>
       ),
       backContent: (
-        <div className="text-sm sm:text-base lg:text-lg font-light text-white p-12 text-left leading-relaxed">
-          Fresh ideas are our specialty. We turn your business story into something unique and memorable with thoughtful, creative solutions.
+        <div className="text-xs sm:text-sm lg:text-base font-light text-white p-4 sm:p-6 lg:p-8 text-left leading-relaxed">
+          Fresh ideas are our specialty. Every project gets our creative best, turning your business story into something unique and memorable. Every work of ours depicts a unique perspective that narrates your business's story.
         </div>
       )
     },
@@ -299,14 +299,14 @@ export default function Component() {
       color: theme === 'dark' ? 'bg-blue-600' : 'bg-blue-600/90',
       position: "lg:left-[65%] md:left-[10%] left-0 lg:top-[45%] md:top-[75%] top-0",
       frontContent: (
-        <div className="flex flex-col items-start p-12">
-          <CubeTransparentIcon className="h-20 w-20 text-white/80" />
-          <p className="text-2xl font-light text-white mt-auto">End-to-End Solutions</p>
+        <div className="flex flex-col items-start p-6 sm:p-8 lg:p-10">
+          <CubeTransparentIcon className="h-16 w-16 sm:h-20 sm:w-20 text-white/80" />
+          <p className="text-xl sm:text-2xl font-light text-white mt-auto">End-to-End Solutions</p>
         </div>
       ),
       backContent: (
-        <div className="text-sm sm:text-base lg:text-lg font-light text-white p-12 text-left leading-relaxed">
-          Your one-stop marketing powerhouse. From strategy to execution, we deliver comprehensive 360-degree marketing solutions.
+        <div className="text-xs sm:text-sm lg:text-base font-light text-white p-4 sm:p-6 lg:p-8 text-left leading-relaxed">
+          The moment you join us, you have found every single service right here. We are your one-stop marketing powerhouse, offering 360-degree solutions that your business needs.
         </div>
       )
     },

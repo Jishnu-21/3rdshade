@@ -123,9 +123,6 @@ export default function Component() {
                     {testimonial.content}
                   </p>
                   <div className="flex items-center">
-                    <div className={`w-12 h-12 ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'} 
-                      rounded-full mr-4`}
-                    ></div>
                     <div>
                       <p className="font-semibold">{testimonial.author}</p>
                       <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>

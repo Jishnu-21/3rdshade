@@ -136,24 +136,24 @@ const Banner: React.FC = () => {
           className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 md:mb-8 leading-[1.1]"
           variants={textVariants}
         >
-          <span className="inline-block">Bringing Your</span>
+          <span className="inline-block">Unnati:</span>
           <br className="hidden sm:block" />
-          <span className="inline-block">Dream Into{' '}</span>
-          <span className="text-[#0049FF] italic">Reality</span>
+          <span className="inline-block">From Success to{' '}</span>
+          <span className="text-[#0049FF] italic">Supersuccess!</span>
         </motion.h1>
 
         <motion.p 
           className="text-gray-400 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 md:mb-10 max-w-[280px] sm:max-w-xl md:max-w-2xl mx-auto leading-relaxed"
           variants={textVariants}
         >
-          We increase revenue and ensure sustainable long-term growth
-          <br className="hidden sm:block" />
-          for your business through powerful Webflow websites.
+Unnati is your brand’s personal growth booster! 
+<br className="hidden sm:block" />
+A perfect mix of strategies and consulting,it is for established businesses that aim to break barriers and grow faster!
         </motion.p>
 
         <motion.div variants={textVariants}>
           <Link 
-            href="/book-meeting"
+            href="/contact-us"
             className="inline-block bg-[#AAFF00] text-black px-6 sm:px-8 py-2.5 sm:py-3 rounded-md hover:bg-[#95E600] transition-colors text-sm sm:text-base font-medium"
           >
             Book A Meeting

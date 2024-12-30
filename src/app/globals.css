@@ -348,3 +348,15 @@ html, body {
     opacity: 0.8;
   }
 }
+
+
+.ripple-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  pointer-events: none;
+  border-radius: 50%;
+  transform-origin: center;
+}

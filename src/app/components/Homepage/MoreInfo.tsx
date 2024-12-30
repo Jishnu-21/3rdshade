@@ -27,7 +27,7 @@ const MoreInfo = () => {
         mb-6 sm:mb-8 md:mb-10 lg:mb-14
         ${theme === 'dark' ? 'text-black' : 'text-white'}
       `}>
-        For more information
+       From business to iconic brand
       </h2>
       <Link href="/contact-us" className="inline-block">
         <button className={`
@@ -48,7 +48,7 @@ const MoreInfo = () => {
           active:scale-95
           transform hover:-translate-y-0.5
         `}>
-          Contact us
+          Let's make it happen
         </button>
       </Link>
     </div>

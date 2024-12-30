@@ -58,8 +58,8 @@ const HowWeWork2 = () => {
               mb-6 md:mb-0"
             variants={textVariants}
           >
-            The design subscription that connects you to your dream team
-          </motion.h2>
+Unnati: Your brand’s next big leap starts here! 
+</motion.h2>
         </div>
 
         {/* Right Section */}
@@ -69,22 +69,8 @@ const HowWeWork2 = () => {
               mb-6 sm:mb-8 leading-relaxed"
             variants={textVariants}
           >
-            A subscription can alleviate the stress of staffing, managing expenses, 
-            or make design calls like a Creative Director. We partner with you to 
-            ensure that your design elevates your brand to new levels.
+        It combines killer strategies, and data-driven results with personal consulting straight from our founders, ensuring your business gets the spotlight it deserves. Whether it’s boosting engagement or driving sales, Unnati turns potential into performance and makes your success our mission! Contact us to learn about our 3 packages, Silver, Platinum, and Gold, each one taking you towards Business Growth. 
           </motion.p>
-          <motion.button 
-            className="bg-[#0066FF] text-white 
-              px-6 sm:px-8 py-2.5 sm:py-3 
-              rounded-md hover:bg-[#0052CC] 
-              transition-colors text-sm sm:text-base font-medium
-              w-full sm:w-auto"
-            variants={textVariants}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            See Pricing
-          </motion.button>
         </div>
       </motion.div>
     </div>

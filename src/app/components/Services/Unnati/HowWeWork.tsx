@@ -58,8 +58,8 @@ const HowWeWork = () => {
               mb-6 md:mb-0"
             variants={textVariants}
           >
-            Get a dedicated design team at fraction of the cost.
-          </motion.h2>
+        The ‘Why’ Behind Idea of Unnati          
+</motion.h2>
         </div>
 
         {/* Right Section */}
@@ -69,22 +69,8 @@ const HowWeWork = () => {
               mb-6 sm:mb-8 leading-relaxed"
             variants={textVariants}
           >
-            Grow your brand with high-quality design for a flat monthly fee. 
-            Work with senior designers. Subscribe and make as many requests 
-            as you need - no limits.
+           You know, when you have built something great, but wonder how to push the limits and take it to the next level? Even successful businesses sometimes hit a wall with their growth and marketing. That’s why we introduced Unnati. A service focused on smart strategies and consulting that delivers measurable results, giving your brand a push that brings it to the limelight. 
           </motion.p>
-          <motion.button 
-            className="bg-[#0066FF] text-white 
-              px-6 sm:px-8 py-2.5 sm:py-3 
-              rounded-md hover:bg-[#0052CC] 
-              transition-colors text-sm sm:text-base font-medium
-              w-full sm:w-auto"
-            variants={textVariants}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            See Pricing
-          </motion.button>
         </div>
       </motion.div>
     </div>

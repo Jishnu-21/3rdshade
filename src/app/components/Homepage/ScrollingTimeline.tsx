@@ -51,7 +51,7 @@ const TimelineItem = ({ index, y, scrollY }: { index: number; y: number; scrollY
       icon: BsBuilding
     },
     { 
-      title: "Create Success Stories", 
+      title: "Write Success Stories", 
       description: "Turning visions into achievements",
       icon: BsTrophy
     },
@@ -236,6 +236,7 @@ export default function Component() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const componentRef = useRef<HTMLDivElement>(null)
   const [isAtBottom, setIsAtBottom] = useState(false);
+  const [titleOpacity, setTitleOpacity] = useState(1);
   
   const isInView = useInView(componentRef, {
     once: false,
@@ -266,6 +267,11 @@ export default function Component() {
         const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
         const newScrollY = scrollTop;
         setScrollY(newScrollY);
+        
+        // Calculate title opacity based on scroll position
+        const fadeOutThreshold = 100; // Adjust this value to control when the fade starts
+        const opacity = Math.max(0, 1 - (scrollTop / fadeOutThreshold));
+        setTitleOpacity(opacity);
         
         // Check if we're at the bottom
         setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 50);
@@ -306,13 +312,16 @@ export default function Component() {
           z-10
         `}
       >
-        {/* Title section */}
-        <div className="md:absolute md:top-8 w-full md:w-1/3 z-10 mb-8 md:mb-0">
+        {/* Title section with opacity transition */}
+        <div 
+          className="md:absolute md:top-8 w-full md:w-1/3 z-10 mb-8 md:mb-0 transition-opacity duration-300"
+          style={{ opacity: titleOpacity }}
+        >
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 md:mb-4 text-left">
-          Beyond the Ordinary. What Do We Do?
+            Beyond the Ordinary. What Do We Do?
           </h2>
           <p className={`${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'} text-sm sm:text-base md:text-xl text-left`}>
-            It's not just about having a website or social media presence. We understand you and your brand to market in a unique way.
+            With stories that spark emotions and visuals that grab attention, we build brands that truly connect, people remember, love, and trust 
           </p>
         </div>
 

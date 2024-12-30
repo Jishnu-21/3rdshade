@@ -2,7 +2,7 @@
 import React, { forwardRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaInstagram, FaYoutube, FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
+import { FaInstagram, FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/app/context/ThemeContext';
 
@@ -60,7 +60,6 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
                   {[/* eslint-disable @typescript-eslint/no-unused-vars */
                     { icon: FaLinkedinIn, href: "https://www.linkedin.com/company/3rd-shade" },
                     { icon: FaInstagram, href: "https://www.instagram.com/3rdshade.in/" },
-                    { icon: FaYoutube, href: "https://www.youtube.com" },
                     { icon: FaFacebookF, href: "https://www.facebook.com/people/3rd-Shade/100095235566896/" }
                   ].map((social, index) => (
                     <Link 
@@ -87,10 +86,9 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>(({ className = '', isVisi
                 >
                   {[/* eslint-disable @typescript-eslint/no-unused-vars */
                     { href: "/about", label: "About" },
-                    { href: "/contact", label: "Contact" },
-                    { href: "/case-studies", label: "Case Studies" },
+                    { href: "/contact-us", label: "Contact" },
                     { href: "/blog", label: "Blog" },
-                    { href: "/privacy", label: "Privacy" }
+                    { href: "/services", label: "Services" }
                   ].map((link, index) => (
                     <Link 
                       key={index}
