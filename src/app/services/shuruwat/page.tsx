@@ -1,13 +1,14 @@
 'use client';
 
 import React from 'react'
-import Header from '@/app/components/Services/Unnati/Header'
-import Banner from '@/app/components/Services/Unnati/Banner'
-import HowWeWork from '@/app/components/Services/Unnati/HowWeWork'
-import HowWeWork2 from '@/app/components/Services/Unnati/HowWeWork2'
-import ProcessSteps from '@/app/components/Services/Unnati/ProcessSteps'
-import CompanyMarquee from '@/app/components/Services/Unnati/CompanyMarquee'
-import CTASection from '@/app/components/Services/Unnati/CTASection'
+import Header from '@/app/components/Services/Shuruwat/Header'
+import Banner from '@/app/components/Services/Shuruwat/Banner'
+import HowWeWork from '@/app/components/Services/Shuruwat/HowWeWork'
+import HowWeWork2 from '@/app/components/Services/Shuruwat/HowWeWork2'
+import ProcessSteps from '@/app/components/Services/Shuruwat/ProcessSteps'
+import CompanyMarquee from '@/app/components/Services/Shuruwat/CompanyMarquee'
+import CTASection from '@/app/components/Services/Shuruwat/CTASection'
+import VideoCtaSection from '@/app/components/Services/Shuruwat/VideoCtaSection';
 
 const Page = () => {
   return (
@@ -19,6 +20,7 @@ const Page = () => {
       <ProcessSteps />
       <CompanyMarquee />
       <HowWeWork2 />
+      <VideoCtaSection/>
       <CTASection />
       </div>
     </>
