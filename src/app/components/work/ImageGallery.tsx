@@ -45,7 +45,7 @@ const ImageGallery: React.FC = () => {
   const isMobile = windowSize.width <= 768;
   const isTablet = windowSize.width <= 1024 && windowSize.width > 768;
 
-  const GRID_GAP = isMobile ? 10 : isTablet ? 150 : 200;
+  const GRID_GAP = isMobile ? 20 : isTablet ? 40 : 200;
 
   const createImageElements = useCallback((positions: { x: number; y: number }[]) => {
     return images.map((image, index) => {
@@ -58,13 +58,13 @@ const ImageGallery: React.FC = () => {
           style={{
             left: `${pos.x}px`,
             top: `${pos.y}px`,
-            width: `${isMobile ? image.mobileWidth : image.width}px`,
-            height: `${isMobile ? image.mobileHeight : image.height}px`,
+            width: `${isMobile ? image.mobileWidth : isTablet ? image.width * 0.8 : image.width}px`,
+            height: `${isMobile ? image.mobileHeight : isTablet ? image.height * 0.8 : image.height}px`,
           }}
           whileHover={{ 
-            scale: isMobile ? 1.01 : 1.05,
+            scale: isMobile ? 1.01 : isTablet ? 1.03 : 1.05,
             zIndex: 10,
-            rotate: isMobile ? [-0.5, 0.5] : [-1, 1],
+            rotate: isMobile ? [-0.5, 0.5] : isTablet ? [-0.75, 0.75] : [-1, 1],
             transition: {
               rotate: {
                 repeat: Infinity,
@@ -144,8 +144,8 @@ const ImageGallery: React.FC = () => {
           <Image
             src={image.url}
             alt={image.description}
-            width={isMobile ? image.mobileWidth : image.width}
-            height={isMobile ? image.mobileHeight : image.height}
+            width={isMobile ? image.mobileWidth : isTablet ? image.width * 0.8 : image.width}
+            height={isMobile ? image.mobileHeight : isTablet ? image.height * 0.8 : image.height}
             className="w-full h-full object-cover rounded-lg"
             priority={index < 4}
             quality={85}
@@ -154,7 +154,7 @@ const ImageGallery: React.FC = () => {
         </motion.div>
       );
     });
-  }, [isMobile]);
+  }, [isMobile, isTablet]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -179,24 +179,29 @@ const ImageGallery: React.FC = () => {
 
   const calculateImagePositions = useCallback((width: number, height: number) => {
     const positions = [];
-    const gridColumns = isMobile ? 2 : isTablet ? 2 : 3;
+    const gridColumns = isMobile ? 2 : isTablet ? 3 : 3;
     const gridRows = Math.ceil(images.length / gridColumns);
     
     const cellWidth = isMobile ? 
       Math.min(width / gridColumns - GRID_GAP, 140) :
+      isTablet ?
+      Math.min(width / gridColumns - GRID_GAP, 250) :
       Math.max(width / gridColumns, 400);
+    
     const cellHeight = isMobile ? 
       Math.min(height / gridRows - GRID_GAP, 140) :
+      isTablet ?
+      Math.min(height / gridRows - GRID_GAP, 250) :
       Math.max(height / gridRows, 400);
 
     for (let i = 0; i < images.length; i++) {
       const col = i % gridColumns;
       const row = Math.floor(i / gridColumns);
       
-      const x = col * (cellWidth + GRID_GAP);
-      const y = row * (cellHeight + GRID_GAP);
+      const x = col * (cellWidth + GRID_GAP) + GRID_GAP/2;
+      const y = row * (cellHeight + GRID_GAP) + GRID_GAP/2;
       
-      const randomOffset = isMobile ? 2 : 20;
+      const randomOffset = isMobile ? 2 : isTablet ? 10 : 20;
       const randomX = Math.random() * randomOffset - randomOffset/2;
       const randomY = Math.random() * randomOffset - randomOffset/2;
       

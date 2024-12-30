@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useTheme } from '@/app/context/ThemeContext';
 
@@ -51,6 +51,11 @@ const LoadingSpinner = ({ theme }: { theme: 'dark' | 'light' }) => (
 const Page = () => {
   const { theme } = useTheme();
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    // Reset scroll position when component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className={`transition-colors duration-300 ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>

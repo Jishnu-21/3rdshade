@@ -6,7 +6,8 @@ import NextLink from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '@/app/context/ThemeContext';
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
@@ -19,6 +20,7 @@ export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const [logoError, setLogoError] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const logoSrc = theme === 'dark' 
     ? "/logo png-01 2.png"  // dark theme logo
@@ -85,7 +87,42 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
-  const menuItems = ['Services', 'Work', 'About Us', 'Careers'];
+  const handleLogoClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // Close menu if it's open
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+    
+    // If we're not already on the home page, navigate to it
+    if (pathname !== '/') {
+      await router.push('/');
+      // Force a re-render after navigation
+      router.refresh();
+    } else {
+      // If we're already on home page, just scroll to top
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleMenuItemClick = async (path: string) => {
+    setIsMenuOpen(false);
+    if (path !== pathname) {
+      await router.push(path);
+      router.refresh();
+    }
+  };
+
+  const menuItems = [
+    { name: 'Services', path: '/services' },
+    { name: 'Work', path: '/work' },
+    { name: 'About', path: '/about' },
+    { name: 'Careers', path: '/careers' }
+  ];
   const menuVariants = {
     closed: { opacity: 0, x: "100%" },
     open: { opacity: 1, x: 0, transition: { staggerChildren: 0.07, delayChildren: 0.2 } }
@@ -138,19 +175,6 @@ export default function Header() {
     </button>
   );
 
-  const handleLogoClick = (e: React.MouseEvent) => {
-    // Close menu if it's open
-    if (isMenuOpen) {
-      setIsMenuOpen(false);
-    }
-    
-    // Scroll to top
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
   return (
     <>
       <header 
@@ -170,13 +194,7 @@ export default function Header() {
           }`}
       >
         <div className="flex-shrink-0 relative z-[100] flex items-center">
-          <NextLink 
-            href={"/[[...catchall]]"} 
-            as="/"
-            onClick={handleLogoClick}
-            className="cursor-pointer"
-            aria-label="Go to homepage"
-          >
+          <Link href="/" className="relative z-[100]" onClick={handleLogoClick}>
             <Image 
               src={logoSrc}
               alt="3RD SHADE" 
@@ -187,7 +205,7 @@ export default function Header() {
               onError={() => setLogoError(true)}
               key={`logo-${theme}`}
             />
-          </NextLink>
+          </Link>
         </div>
         {!isMobile && (
           <nav className="hidden xl:flex flex-grow justify-center mx-4 relative z-[100]">
@@ -205,14 +223,14 @@ export default function Header() {
                     borderRadius: '21px',
                   }}>
                 {menuItems.map((item) => (
-                  <li key={item}>
-                    <NextLink 
-                      href={"/[[...catchall]]"}
-                      as={`/${item.toLowerCase().replace(' ', '-')}`}
+                  <li key={item.name}>
+                    <Link 
+                      href={item.path}
+                      onClick={() => handleMenuItemClick(item.path)}
                       className={`${theme === 'dark' ? 'text-white hover:text-gray-300' : 'text-black hover:text-gray-600'} transition-colors text-sm font-medium`}
                     >
-                      {item}
-                    </NextLink>
+                      {item.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -299,7 +317,7 @@ export default function Header() {
               className="fixed right-0 w-full h-full flex flex-col"
               style={{
                 background: theme === 'dark'
-                  ? 'linear-gradient(180deg, #000000 0%, #000000 100%)'
+                  ? 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)'
                   : 'linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%)',
                 paddingTop: '100px',
                 top: 0,
@@ -313,21 +331,20 @@ export default function Header() {
                   <ul className="space-y-8">
                     {menuItems.map((item) => (
                       <motion.li
-                        key={item}
+                        key={item.name}
                         variants={itemVariants}
-                        whileHover={{ scale: 1.05, x: 10, color: theme === 'dark' ? "#ffffff" : "#000000" }}
+                        whileHover={{ scale: 1.05, x: 10 }}
                         whileTap={{ scale: 0.95 }}
                         className="text-center"
                       >
-                        <NextLink 
-                          href={"/[[...catchall]]"}
-                          as={`/${item.toLowerCase().replace(' ', '-')}`}
+                        <Link 
+                          href={item.path}
+                          onClick={() => handleMenuItemClick(item.path)}
                           className={`${theme === 'dark' ? 'text-white' : 'text-black'} 
                             text-3xl font-medium flex items-center justify-center`}
-                          onClick={() => setIsMenuOpen(false)}
                         >
-                          {item}
-                        </NextLink>
+                          {item.name}
+                        </Link>
                       </motion.li>
                     ))}
                   </ul>

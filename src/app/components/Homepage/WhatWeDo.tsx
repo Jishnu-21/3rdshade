@@ -265,7 +265,7 @@ export default function Component() {
     {
       id: "card1",
       color: theme === 'dark' ? 'bg-red-500' : 'bg-red-500/90',
-      position: "lg:left-[5%] md:left-[10%] left-0 lg:top-[5%] md:top-[5%] top-0",
+      position: "lg:left-[5%] md:left-[10%] left-0 lg:top-[5%] md:top-[10%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-6 sm:p-8 lg:p-10">
           <ChatBubbleLeftRightIcon className="h-16 w-16 sm:h-20 sm:w-20 text-white/80" />
@@ -281,7 +281,7 @@ export default function Component() {
     {
       id: "card2",
       color: theme === 'dark' ? 'bg-purple-500' : 'bg-purple-500/90',
-      position: "lg:left-[35%] md:left-[10%] left-0 lg:top-[25%] md:top-[40%] top-0",
+      position: "lg:left-[35%] md:left-[30%] left-0 lg:top-[25%] md:top-[30%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-6 sm:p-8 lg:p-10">
           <SparklesIcon className="h-16 w-16 sm:h-20 sm:w-20 text-white/80" />
@@ -297,7 +297,7 @@ export default function Component() {
     {
       id: "card3",
       color: theme === 'dark' ? 'bg-blue-600' : 'bg-blue-600/90',
-      position: "lg:left-[65%] md:left-[10%] left-0 lg:top-[45%] md:top-[75%] top-0",
+      position: "lg:left-[65%] md:left-[50%] left-0 lg:top-[45%] md:top-[50%] top-0",
       frontContent: (
         <div className="flex flex-col items-start p-6 sm:p-8 lg:p-10">
           <CubeTransparentIcon className="h-16 w-16 sm:h-20 sm:w-20 text-white/80" />
@@ -313,7 +313,7 @@ export default function Component() {
   ];
 
   return (
-    <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'} p-4 md:p-8 mt-8`}>
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'} p-4 md:p-8 mt-8 md:pb-0`}>
       <h1 className={`mb-8 md:mb-12 text-center text-3xl md:text-4xl lg:text-5xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
         <span className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
         Not your Regular Digital Marketing Firm. WHY?        
@@ -373,14 +373,14 @@ export default function Component() {
       <div className="hidden md:block">
         <div 
           ref={containerRef} 
-          className="relative mx-auto h-[1000px] md:h-[1200px] lg:h-[800px] max-w-[1200px] px-4"
+          className="relative mx-auto h-[1000px] md:h-[800px] lg:h-[800px] max-w-[1200px] px-4"
         >
           {cards.map((card) => (
             <div
               key={card.id}
               className={`absolute 
-                w-[280px] md:w-[80%] lg:w-[300px] 
-                h-[280px] md:h-[250px] lg:h-[300px] 
+                w-[280px] md:w-[280px] lg:w-[300px] 
+                h-[280px] md:h-[280px] lg:h-[300px] 
                 ${card.position}
                 transition-all duration-1000 ease-out will-change-transform cursor-pointer
                 hover:scale-105 group
