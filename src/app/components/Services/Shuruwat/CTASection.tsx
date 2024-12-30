@@ -52,8 +52,7 @@ const CTASection = () => {
               tracking-tight mb-3 sm:mb-4"
             variants={textVariants}
           >
-            <span className="block">Become part of the</span>
-            <span className="block">design revolution</span>
+            <span className="block">Start Right, Start Strong, Start with Shuruwaat</span>
           </motion.h2>
           
           <motion.p 
@@ -63,16 +62,15 @@ const CTASection = () => {
               max-w-[280px] sm:max-w-none mx-auto"
             variants={textVariants}
           >
-            <span className="block">Jump on a membership and start</span>
-            <span className="block">requesting designs right away!</span>
+            <span className="block"> A strong Shuruwaat is all it takes to build a brand that leaves a mark.</span>
           </motion.p>
 
           <motion.button 
-            className="bg-[#0066FF] text-white 
+            className="bg-[#30D5B6] text-white 
               w-full sm:w-auto
               px-6 sm:px-8 
               py-2.5 sm:py-3 
-              rounded-md hover:bg-[#0052CC] 
+              rounded-md hover:bg-[#30D5B6] 
               transition-colors 
               text-sm sm:text-base 
               font-medium 

@@ -63,20 +63,24 @@ export default function Header() {
   useEffect(() => {
     if (isMenuOpen) {
       // Lock scroll
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = 'var(--scrollbar-width)'; // Prevent layout shift
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${window.scrollY}px`;
+      document.body.style.width = '100%';
       setIsScrollLocked(true);
     } else {
-      // Unlock scroll
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
+      // Restore scroll position and unlock
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
       setIsScrollLocked(false);
     }
 
-    // Cleanup
     return () => {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
       setIsScrollLocked(false);
     };
   }, [isMenuOpen]);
@@ -230,7 +234,13 @@ export default function Header() {
                 className="relative w-8 h-8"
               >
                 {isMenuOpen ? (
-                  <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg 
+                    className="w-full h-full" 
+                    fill="none" 
+                    stroke={theme === 'dark' ? 'white' : 'black'} 
+                    viewBox="0 0 24 24"
+                    style={{ zIndex: 9999 }}
+                  >
                     <path 
                       strokeLinecap="round" 
                       strokeLinejoin="round" 
@@ -239,7 +249,12 @@ export default function Header() {
                     />
                   </svg>
                 ) : (
-                  <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg 
+                    className="w-full h-full" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
                     <path 
                       strokeLinecap="round" 
                       strokeLinejoin="round" 
@@ -267,12 +282,13 @@ export default function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black z-[998] xl:hidden"
+            className="fixed inset-0 bg-black z-[98] xl:hidden"
             style={{
               top: '0',
               height: '100vh',
               width: '100vw',
               overflow: 'hidden',
+              position: 'fixed'
             }}
           >
             <motion.div
@@ -283,11 +299,13 @@ export default function Header() {
               className="fixed right-0 w-full h-full flex flex-col"
               style={{
                 background: theme === 'dark'
-                  ? 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)'
+                  ? 'linear-gradient(180deg, #000000 0%, #000000 100%)'
                   : 'linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%)',
                 paddingTop: '100px',
                 top: 0,
-                zIndex: 999,
+                zIndex: 99,
+                position: 'fixed',
+                overflow: 'hidden'
               }}
             >
               <div className="relative z-[999] h-full flex flex-col justify-between px-6">

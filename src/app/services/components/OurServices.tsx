@@ -32,21 +32,21 @@ const OurServices = () => {
     <section className={`w-full ${isDark ? 'bg-black' : 'bg-white'}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1000px] mx-auto flex flex-col">
-          <div className="h-16 md:h-24" />
+          <div className="h-12 md:h-24" />
           
           <h2 className={`
-            text-3xl sm:text-4xl md:text-5xl 
-            font-bold text-center
+            text-2xl sm:text-3xl md:text-5xl 
+            font-bold text-center px-4
             ${isDark ? 'text-white' : 'text-black'}
           `}>
             Our services bundled into<br />
             Two Power Products
           </h2>
 
-          <div className="h-24 md:h-32" />
+          <div className="h-16 md:h-32" />
 
           <motion.div 
-            className="flex justify-between items-center px-4 md:px-10"
+            className="flex flex-col md:flex-row gap-8 md:gap-0 justify-between items-center px-4 md:px-10"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -56,7 +56,7 @@ const OurServices = () => {
               <Link 
                 key={service.name}
                 href={service.path}
-                className="group relative cursor-pointer"
+                className="group relative cursor-pointer w-full md:w-auto"
               >
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -66,20 +66,21 @@ const OurServices = () => {
                     duration: 0.5,
                     delay: index * 0.1 
                   }}
-                  className="relative w-[280px] h-[80px] transition-transform duration-300 group-hover:scale-105"
+                  className="relative w-full md:w-[280px] h-[60px] sm:h-[70px] md:h-[80px] 
+                           transition-transform duration-300 group-hover:scale-105"
                 >
                   <Image
                     src={isDark ? service.darkLogo : service.logo}
                     alt={service.alt}
                     fill
                     className="object-contain"
-                    sizes="280px"
+                    sizes="(max-width: 768px) 100vw, 280px"
                     priority
                   />
                   
                   <div className={`
                     absolute -top-4 -right-4 
-                    w-8 h-8 rounded-full 
+                    w-6 h-6 md:w-8 md:h-8 rounded-full 
                     ${isDark ? 'bg-white/10' : 'bg-black/10'} 
                     flex items-center justify-center
                     opacity-0 group-hover:opacity-100
@@ -87,7 +88,7 @@ const OurServices = () => {
                     group-hover:translate-x-1 group-hover:-translate-y-1
                   `}>
                     <FiArrowUpRight 
-                      className={`w-4 h-4 ${isDark ? 'text-white' : 'text-black'}`}
+                      className={`w-3 h-3 md:w-4 md:h-4 ${isDark ? 'text-white' : 'text-black'}`}
                     />
                   </div>
 
@@ -104,7 +105,7 @@ const OurServices = () => {
             ))}
           </motion.div>
 
-          <div className="h-24 md:h-32" />
+          <div className="h-16 md:h-32" />
         </div>
       </div>
     </section>

@@ -304,20 +304,20 @@ export default function Component() {
         animate={isInView ? "visible" : "hidden"}
         className={`${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'} 
           px-4 sm:px-6 md:px-8 xl:px-[122px]
-          mt-[20vh] md:mt-[40vh]
-          py-8 flex flex-col relative
-          min-h-screen md:min-h-0
+          mt-[10vh] sm:mt-[15vh] md:mt-[40vh]
+          py-4 sm:py-6 md:py-8 flex flex-col relative
+          min-h-[80vh] md:min-h-0
           sm:h-auto md:h-[55vh]
           xl:h-screen
           z-10
         `}
       >
-        {/* Title section with opacity transition */}
+        {/* Title section */}
         <div 
-          className="md:absolute md:top-8 w-full md:w-1/3 z-10 mb-8 md:mb-0 transition-opacity duration-300"
+          className="md:absolute md:top-8 w-full md:w-1/3 z-10 mb-4 sm:mb-6 md:mb-0 transition-opacity duration-300"
           style={{ opacity: titleOpacity }}
         >
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 md:mb-4 text-left">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 md:mb-4 text-left">
             Beyond the Ordinary. What Do We Do?
           </h2>
           <p className={`${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'} text-sm sm:text-base md:text-xl text-left`}>
@@ -362,10 +362,10 @@ export default function Component() {
         </div>
 
         {/* Mobile Timeline */}
-        <div className="md:hidden mt-8">
+        <div className="md:hidden mt-4 sm:mt-6">
           <Swiper
             modules={[Pagination, Autoplay]}
-            spaceBetween={20}
+            spaceBetween={16}
             slidesPerView={1}
             pagination={{ 
               clickable: true
@@ -374,10 +374,10 @@ export default function Component() {
               delay: 3000,
               disableOnInteraction: false,
             }}
-            className={`h-full !pb-12 ${theme === 'dark' ? '[&_.swiper-pagination-bullet]:!bg-white/50 [&_.swiper-pagination-bullet-active]:!bg-white' : '[&_.swiper-pagination-bullet]:!bg-black/50 [&_.swiper-pagination-bullet-active]:!bg-black'}`}
+            className={`h-full !pb-8 ${theme === 'dark' ? '[&_.swiper-pagination-bullet]:!bg-white/50 [&_.swiper-pagination-bullet-active]:!bg-white' : '[&_.swiper-pagination-bullet]:!bg-black/50 [&_.swiper-pagination-bullet-active]:!bg-black'}`}
           >
             {Array.from({ length: totalItems }).map((_, index) => (
-              <SwiperSlide key={index} className="pb-8">
+              <SwiperSlide key={index} className="pb-6">
                 <MobileTimelineItem index={index} />
               </SwiperSlide>
             ))}

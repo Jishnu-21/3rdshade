@@ -98,14 +98,18 @@ const SupportForm: React.FC<SupportFormProps> = ({ onAlertShow }) => {
       `}</style>
       <div className={`${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-gray-900'} pt-16 sm:pt-24 md:pt-36 pb-16 px-4 sm:px-8 md:px-16 lg:px-[122px]`}>
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-1">Stuck at </h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-1"> Ready to watch 
+          </h1>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             <span className="bg-gradient-to-r from-[#FF6B6B] via-[#FF9F4A] to-[#FFC837] text-transparent bg-clip-text">
-              Business Growth ?
+            your business grow and thrive?
             </span>
           </h2>
-          <p className="text-gray-400 text-xs sm:text-sm mb-8 sm:mb-12 max-w-xl">
+          <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-4 max-w-xl">
           Let’s write down a happy story for your digital journey. We are always excited to answer your Queries and work with potential businesses!
+          </p>
+          <p className="text-gray-400 text-xs sm:text-sm mb-12 sm:mb-12 max-w-xl">
+          Drop us your message and we will get back to you soon! 
           </p>
           <div className="flex flex-col lg:flex-row gap-8">
             <form onSubmit={handleSubmit} className="w-full lg:w-2/3 space-y-8 sm:space-y-12">

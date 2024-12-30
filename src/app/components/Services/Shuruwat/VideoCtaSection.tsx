@@ -56,7 +56,7 @@ const VideoCtaSection = () => {
               playsInline
               className="w-full h-full object-cover"
             >
-              <source src="/path-to-your-video.mp4" type="video/mp4" />
+              <source src="https://res.cloudinary.com/dkgjl08a5/video/upload/f_auto:video,q_auto/wvz3zbnqxu2tgworqmvg"  type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             {/* Optional Overlay */}

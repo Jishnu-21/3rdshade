@@ -52,8 +52,7 @@ const CTASection = () => {
               tracking-tight mb-3 sm:mb-4"
             variants={textVariants}
           >
-            <span className="block">Become part of the</span>
-            <span className="block">design revolution</span>
+            <span className="block">Grow Big, Grow Bold, Grow with Unnati</span>
           </motion.h2>
           
           <motion.p 
@@ -63,8 +62,7 @@ const CTASection = () => {
               max-w-[280px] sm:max-w-none mx-auto"
             variants={textVariants}
           >
-            <span className="block">Jump on a membership and start</span>
-            <span className="block">requesting designs right away!</span>
+            <span className="block">Take the Next Big Step. From Good to Great, fuel your brands’ growth. </span>
           </motion.p>
 
           <motion.button 
