@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useTheme } from '@/app/context/ThemeContext';
 
 const ProblemSolution = ({ industry, title, description, imageSrc, theme }) => (
-  <div className="flex flex-col items-center p-6 sm:p-8 hover:shadow-lg transition-shadow duration-300 rounded-xl">
+  <div className="flex flex-col items-center p-4 sm:p-6 hover:shadow-lg transition-shadow duration-300 rounded-xl">
     <div className="relative w-full aspect-[4/3] mb-4 sm:mb-6 overflow-hidden rounded-lg group">
       <Image 
         src={imageSrc} 
@@ -16,7 +16,7 @@ const ProblemSolution = ({ industry, title, description, imageSrc, theme }) => (
         priority
       />
     </div>
-    <div className="text-start w-full mb-4">
+    <div className="text-start w-full">
       <p className="text-[#955DDC] font-medium uppercase mb-2 sm:mb-3 
         text-xs sm:text-sm md:text-base tracking-wider">
         {industry}
@@ -27,7 +27,7 @@ const ProblemSolution = ({ industry, title, description, imageSrc, theme }) => (
         {title}
       </h3>
       <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} 
-        text-xs sm:text-sm md:text-base 
+        text-sm sm:text-base md:text-lg 
         leading-relaxed line-clamp-3`}>
         {description}
       </p>
@@ -56,23 +56,23 @@ const IndustryProblems = () => {
           gap-6 sm:gap-8 md:gap-10 lg:gap-12
           max-w-[1200px] mx-auto">
           <ProblemSolution
-            industry="Indian Food Box"
-            title=" Building India's Leading Cloud Kitchen Brand"
-            description=" Indian Food Box, a leading Cloud Kitchen. From crafting their identity to driving successful franchise campaigns, we powered their growth. Together, we turned their vision into a thriving reality."
+            industry="ARTIFICIAL INTELLIGENCE"
+            title="UX & UI Design for Kyte App"
+            description="Interact with your users on the platform they prefer. Web and mobile - we have you covered."
             imageSrc="/problem1.png"
             theme={theme}
           />
           <ProblemSolution
-            industry=" Elite Pack "
-            title=" Revolutionizing the Packaging Industry"
-            description="Logo design, website development, driving sales, and a comprehensive social media strategy that helped Elite Pack’s sustainable solutions spread worldwide."
+            industry="CAR POOLING"
+            title="UX & UI Design for Kyte App"
+            description="Interact with your users on the platform they prefer. Web and mobile - we have you covered."
             imageSrc="/problem2.png"
             theme={theme}
           />
           <ProblemSolution
-            industry="A Dash of Me "
-            title="Giving Natural care a bigger Platform "
-            description="A brand story into every touchpoint, captivating packaging, an intuitive e-commerce experience, and engaging social media – we helped them connect with a global audience seeking authentic, natural self-care."
+            industry="3D PRINTING"
+            title="UX & UI Design for Kyte App"
+            description="Interact with your users on the platform they prefer. Web and mobile - we have you covered."
             imageSrc="/problem3.png"
             theme={theme}
           />

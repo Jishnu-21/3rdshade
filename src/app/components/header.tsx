@@ -317,7 +317,7 @@ export default function Header() {
               className="fixed right-0 w-full h-full flex flex-col"
               style={{
                 background: theme === 'dark'
-                  ? 'linear-gradient(180deg, #282B2C 0%, #1A1A1A 100%)'
+                  ? 'linear-gradient(180deg, #00000C 0%, #1A1A1A 100%)'
                   : 'linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%)',
                 paddingTop: '100px',
                 top: 0,

@@ -177,7 +177,7 @@ export default function AboutPage() {
                         <img
                           src={founder.image}
                           alt={founder.name}
-                          className="w-full h-[300px] object-cover"
+                          className="w-full h-full object-contain"
                         />
                       </div>
                       <div className="p-6">

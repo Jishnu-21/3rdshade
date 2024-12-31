@@ -1,5 +1,5 @@
 "use client"
-
+import Head from 'next/head'; // Import Head from next/head
 import React, { useEffect } from 'react'
 import { useTheme } from '@/app/context/ThemeContext'
 import ServicesHeader from './components/ServicesHeader'
@@ -26,23 +26,28 @@ const ServicesPage = () => {
   }, [])
 
   return (
-    <div className={`services-page w-full ${theme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300`}>
-      <Header />
-      <Layout>
-        <main className="min-h-screen">
-          <ServicesHeader />
-          <FullWidthImage />
-          <ServicesList />
-          <OurServices />
-          <DesignProcess />
-          <IndustryProblems />
-          <TopClients />
-          <div className={`relative ${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-300`}>
-            <FooterLabel />
-          </div>
-        </main>
-      </Layout>
-    </div>
+    <>
+      <Head>
+        <title>Unnati - Comprehensive Services Overview</title>
+      </Head>
+      <div className={`services-page w-full ${theme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300`}>
+        <Header />
+        <Layout>
+          <main className="min-h-screen">
+            <ServicesHeader />
+            <FullWidthImage />
+            <ServicesList />
+            <OurServices />
+            <DesignProcess />
+            <IndustryProblems />
+            <TopClients />
+            <div className={`relative ${theme === 'dark' ? 'bg-white' : 'bg-black'} transition-colors duration-300`}>
+              <FooterLabel />
+            </div>
+          </main>
+        </Layout>
+      </div>
+    </>
   )
 }
 
