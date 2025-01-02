@@ -19,8 +19,8 @@ const brands = [
   { name: "Hush Hiven", image: "/brand1.jpg" },
   { name: "Pallid Blue Studio", image: "/brand2.jpg" },
   { name: "A Dash of me", image: "/brand3.jpg" },
-  { name: "Poochyx", image: "/brand1.jpg" },
-  { name: "Elite Pack", image: "/brand2.jpg" }
+  { name: "Poochyx", image: "/brand4.jpg" },
+  { name: "Elite Pack", image: "/brand5.jpg" }
 ];
 
 const ShootingStar: React.FC<{ 
@@ -112,7 +112,7 @@ const BrandsWeBuilt: React.FC = () => {
           <motion.div
             key={hoveredBrand}
             initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 0.6, scale: 1 }}
+            animate={{ opacity: 0.8, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="absolute inset-0 z-10"

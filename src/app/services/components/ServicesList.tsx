@@ -34,7 +34,7 @@ const ServicesList: React.FC = () => {
                 <div className="w-2 h-2 bg-[#955DDC] rounded-full mr-4 flex-shrink-0"></div>
                 <span className={`
                   text-base md:text-lg 
-                  ${theme === 'dark' ? 'text-gray-300' : 'text-black'}
+                  ${theme === 'dark' ? 'text-white' : 'text-black'}
                   transition-colors duration-300
                 `}>
                   {service}

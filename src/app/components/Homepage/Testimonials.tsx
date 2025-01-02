@@ -6,34 +6,24 @@ import { useTheme } from '@/app/context/ThemeContext'
 
 const testimonials = [
     {
-      content: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal.",
+      content: "Have taken services from them, their team is highly supportive and understood the requirements perfectly. We received the deliverables within the promised timeframe, and the quality exceeded our expectations. Highly recommended!",
       author: "John Mikias",
-      position: "Manager"
     },
     {
-      content: "Working with Hush Hiven has been a game-changer for our business. Their innovative approach to digital marketing has significantly increased our online presence and customer engagement.",
+      content: "They are truly professional and creative in their approach. The team brought our vision to life with fresh ideas and a seamless execution process. It was a pleasure collaborating with them!.",
       author: "Sarah Johnson",
-      position: "CEO, TechStart Inc."
     },
     {
-      content: "The team at Hush Hiven is incredibly professional and creative. They took our vague ideas and transformed them into a stunning website that perfectly represents our brand.",
+      content: "Working with 3rd Shade was a fantastic experience! Their attention to detail, commitment to deadlines, and ability to turn concepts into reality is unmatched. The results speak for themselves!.",
       author: "Michael Chen",
-      position: "Marketing Director"
     },
     {
-      content: "I was impressed by Hush Hiven's attention to detail and their ability to meet tight deadlines. They delivered a product that exceeded our expectations in both quality and functionality.",
+      content: "The team at 3rd Shade is incredible! They ensured that the whole experience was easy, cooperative, and worry-free. The outcomes surpassed what we had hoped for, and we’ve received so much positive feedback on their work.",
       author: "Emily Rodriguez",
-      position: "Project Manager"
     },
     {
-      content: "Hush Hiven's expertise in SEO and content strategy has been invaluable. We've seen a significant increase in organic traffic and lead generation since partnering with them.",
+      content: "I am thoroughly impressed with 3rd Shade’s dedication and expertise. They understood our brand and crafted solutions that were impactful. I would recommend them to anyone looking for top-notch service!",
       author: "David Thompson",
-      position: "Digital Marketing Specialist"
-    },
-    {
-      content: "The personalized service we received from Hush Hiven was outstanding. They took the time to understand our unique needs and delivered a tailored solution that has greatly improved our online operations.",
-      author: "Lisa Patel",
-      position: "Operations Manager"
     }
   ]
   
@@ -124,9 +114,8 @@ export default function Component() {
                   </p>
                   <div className="flex items-center">
                     <div>
-                      <p className="font-semibold">{testimonial.author}</p>
+                      <p className="font-bold">{testimonial.author}</p>
                       <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-                        {testimonial.position}
                       </p>
                     </div>
                   </div>
