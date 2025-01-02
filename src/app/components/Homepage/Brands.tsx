@@ -112,7 +112,7 @@ const BrandsWeBuilt: React.FC = () => {
           <motion.div
             key={hoveredBrand}
             initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 0.8, scale: 1 }}
+            animate={{ opacity: 0.6, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="absolute inset-0 z-10"

@@ -5,16 +5,17 @@ import Image from 'next/image';
 import { useTheme } from '@/app/context/ThemeContext';
 
 const clients = [
-  { src: '/group-5.webp', alt: 'Client Logo 1' },
-  { src: '/group-84.webp', alt: 'Client Logo 2' },
-  { src: '/group-2.webp', alt: 'Client Logo 3' },
-  { src: '/group-85.webp', alt: 'Client Logo 4' },
-  { src: '/group-3-300x103.webp', alt: 'Client Logo 5' },
-  { src: '/group-83-300x100.webp', alt: 'Client Logo 6' },
-  { src: '/group-300x95.webp', alt: 'Client Logo 7' },
-  { src: '/clients.png', alt: 'Client Logo 8' },
-  { src: '/clients.png', alt: 'Client Logo 9' },
-  { src: '/clients.png', alt: 'Client Logo 10' },
+  { src: '/clients/1.png', darkSrc: '/clients/2.png', alt: 'Client Logo 1' },
+  { src: '/clients/5.png', darkSrc: '/clients/6.png', alt: 'Client Logo 3' },
+  { src: '/clients/7.png', darkSrc: '/clients/8.png', alt: 'Client Logo 4' },
+  { src: '/clients/11.png', darkSrc: '/clients/12.png', alt: 'Client Logo 6' },
+  { src: '/clients/13.png', darkSrc: '/clients/14.png', alt: 'Client Logo 7' },
+  { src: '/clients/15.png', darkSrc: '/clients/16.png', alt: 'Client Logo 8' },
+  { src: '/clients/17.png', darkSrc: '/clients/18.png', alt: 'Client Logo 9' },
+  { src: '/clients/19.png', darkSrc: '/clients/20.png', alt: 'Client Logo 10' },
+  { src: '/clients/21.png', darkSrc: '/clients/22.png', alt: 'Client Logo 11' },
+  { src: '/clients/23.png', darkSrc: '/clients/24.png', alt: 'Client Logo 12' },
+  { src: '/clients/25.png', darkSrc: '/clients/26.png', alt: 'Client Logo 13' },
 ];
 
 const ClientsMarquee = () => {
@@ -36,11 +37,11 @@ const ClientsMarquee = () => {
                   <div 
                     key={index} 
                     className={`client-logo ${theme === 'dark' ? 'opacity-100' : 'opacity-90'} 
-                      mx-4 sm:mx-6 md:mx-8 flex items-center justify-center`}
+                      mx-0 flex items-center justify-center`}
                   >
-                    <div className="relative w-[100px] h-[50px] sm:w-[120px] sm:h-[60px] md:w-[140px] md:h-[70px]">
+                    <div className="relative w-[280px] h-[140px]">
                       <Image 
-                        src={client.src} 
+                        src={theme === 'dark' ? client.darkSrc : client.src}
                         alt={client.alt} 
                         fill
                         style={{ objectFit: 'contain' }}
@@ -55,11 +56,11 @@ const ClientsMarquee = () => {
                   <div 
                     key={index} 
                     className={`client-logo ${theme === 'dark' ? 'opacity-100' : 'opacity-90'} 
-                      mx-4 sm:mx-6 md:mx-8 flex items-center justify-center`}
+                      mx-0 flex items-center justify-center`}
                   >
-                    <div className="relative w-[100px] h-[50px] sm:w-[120px] sm:h-[60px] md:w-[140px] md:h-[70px]">
+                    <div className="relative w-[280px] h-[140px]">
                       <Image 
-                        src={client.src} 
+                        src={theme === 'dark' ? client.darkSrc : client.src}
                         alt={client.alt} 
                         fill
                         style={{ objectFit: 'contain' }}
