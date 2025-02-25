@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { generateWorkSchema } from '@/app/utils/schema'
 import { generateStructuredBacklinks, generateRelatedContent } from '@/app/utils/backlinks'
 import RelatedContent from '@/app/components/RelatedContent'
+import WorkContent from './WorkContent'
 
 async function getWork(slug: string) {
   // This would be your API call
@@ -59,48 +60,16 @@ export default async function WorkPage({ params }: { params: { slug: string } })
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(backlinksSchema) }}
       />
-      <main className="work-content">
-        <article>
-          <h1>{work.title}</h1>
-          <img src={work.imageUrl} alt={work.title} />
-          <div 
-            className="content"
-            dangerouslySetInnerHTML={{ __html: work.content }} 
-          />
-          
-          {/* Structured internal linking */}
-          <RelatedContent 
-            currentSlug={params.slug}
-            category={work.category}
-          />
-        </article>
-
-        <style jsx>{`
-          .work-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-          }
-
-          h1 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-          }
-
-          img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-          }
-
-          .content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #333;
-          }
-        `}</style>
-      </main>
+      <WorkContent
+        title={work.title}
+        imageUrl={work.imageUrl}
+        content={work.content}
+      >
+        <RelatedContent 
+          currentSlug={params.slug}
+          category={work.category}
+        />
+      </WorkContent>
     </>
   )
 }
