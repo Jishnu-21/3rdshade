@@ -11,7 +11,6 @@ import TopClients from './components/TopClients'
 import Header from '../components/header'
 import FooterLabel from '../components/Career/FooterLabel'
 import OurServices from './components/OurServices'
-import Cards from '../components/Services/components/Cards'
 import Layout from '../components/Homepage/Layout'
 
 const ServicesPage = () => {
