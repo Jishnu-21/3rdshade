@@ -7,6 +7,8 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { Dialog } from '@headlessui/react';
 import Image from 'next/image';
 
+type BusinessStatusType = 'not-started' | 'early-stage';
+
 const businesses = {
   'not-started': {
     title: 'Shuruwat',
@@ -18,15 +20,15 @@ const businesses = {
   'early-stage': {
     title: 'Unnati',
     logo: '/unnati-logo.png',
-    question: 'Are you struggling to increase sales and profitability while scaling your business?',
+    question: 'Are you struggling to increase sales and profitability while scaling your business?',
     description: 'Accelerate your growth with Unnati - transform your startup into a thriving business.',
     color: 'pink'
   }
-};
+} as const;
 
 const BusinessStatus = () => {
   const { theme } = useTheme();
-  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<BusinessStatusType | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -111,7 +113,7 @@ const BusinessStatus = () => {
     }
   };
 
-  const handleStatusSelect = (status: string) => {
+  const handleStatusSelect = (status: BusinessStatusType) => {
     setSelectedStatus(status);
     setShowForm(true);
   };
@@ -193,7 +195,7 @@ const BusinessStatus = () => {
 
             <motion.button
               variants={cardVariants}
-              onClick={() => handleStatusSelect(key)}
+              onClick={() => handleStatusSelect(key as BusinessStatusType)}
               className={`group p-6 rounded-2xl border-2 transition-all duration-500 w-full
                 flex flex-col items-center text-center
                 hover:shadow-2xl hover:scale-[1.02]
