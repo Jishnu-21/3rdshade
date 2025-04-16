@@ -687,7 +687,7 @@ const Banner = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="mt-4 xl:mt-4 lg:mt-0 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 font-medium text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 md:mb-4 tracking-tight">
+              <h2 className="mt-4 xl:mt-4 lg:mt-[-30px] text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 font-medium text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 md:mb-4 tracking-tight">
                 Welcome to 3rdShade Realty
               </h2>
             </motion.div>
