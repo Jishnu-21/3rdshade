@@ -1,0 +1,28 @@
+.react-clock--dark-mode {
+  background: transparent !important;
+}
+
+.react-clock--dark-mode .react-clock__face {
+  border-color: #555;
+  background: #222;
+}
+
+.react-clock--dark-mode .react-clock__hand__body {
+  background-color: #fff;
+}
+
+.react-clock--dark-mode .react-clock__mark__body {
+  background-color: #666;
+}
+
+.react-clock--dark-mode .react-clock__second-hand__body {
+  background-color: #955DDC;
+}
+
+.react-clock--dark-mode .react-clock__minute-hand__body {
+  background-color: #fff;
+}
+
+.react-clock--dark-mode .react-clock__hour-hand__body {
+  background-color: #fff;
+}

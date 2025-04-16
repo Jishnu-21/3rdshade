@@ -1,0 +1,27 @@
+.glowOnHover {
+  transition: text-shadow 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.glowOnHover:hover {
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(255, 255, 255, 0.8),
+    0 0 30px rgba(255, 255, 255, 0.6),
+    0 0 40px rgba(255, 255, 255, 0.4);
+}
+
+.glowOnHoverBlue {
+  transition: text-shadow 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.glowOnHoverBlue:hover {
+  text-shadow: 
+    0 0 10px rgba(0, 102, 255, 0.8),
+    0 0 20px rgba(0, 102, 255, 0.8),
+    0 0 30px rgba(0, 102, 255, 0.6),
+    0 0 40px rgba(0, 102, 255, 0.4);
+} 
