@@ -11,7 +11,7 @@ const VideoModal = ({
   const [isOpen, setIsOpen] = useState(true);
   const [isMini, setIsMini] = useState(true); // mini = true, fullscreen = false
   const [isMuted, setIsMuted] = useState(muted);
-  const videoRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Modal entrance animation variants
   const miniVariants = {
