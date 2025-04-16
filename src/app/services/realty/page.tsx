@@ -697,7 +697,7 @@ const Banner = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h3 className="text-3xl sm:text-3xl md:text-3xl lg:text-5xl xl:text-6xl font-bold text-white/90 leading-tight tracking-tighter">
+              <h3 className="text-3xl sm:text-3xl md:text-3xl lg:text-5xl xl:text-7xl font-bold text-white/90 leading-tight tracking-tighter">
                 Your Gateway to Luxury
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500">
@@ -716,7 +716,7 @@ const Banner = () => {
               }}
               className="max-w-xl mt-4 sm:mt-6"
             >
-              <p className="text-sm sm:text-base md:text-lg lg:text-sm xl:text-xl text-gray-200 leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg lg:text-sm xl:text-2xl text-gray-200 leading-relaxed">
                 Looking to buy property in Dubai or make a high-return investment? At 3rd Shade Realty, we offer a handpicked selection of luxury villas, apartments, and commercial spaces in Dubai's prime locations. Whether you're an investor or a homeowner, we provide expert guidance and seamless transactions.
               </p>
             </motion.div>
