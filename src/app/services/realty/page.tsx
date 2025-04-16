@@ -697,7 +697,7 @@ const Banner = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h3 className="text-3xl sm:text-3xl md:text-3xl lg:text-5xl xl:text-7xl font-bold text-white/90 leading-tight tracking-tighter">
+              <h3 className="text-3xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-7xl font-bold text-white/90 leading-tight tracking-tighter">
                 Your Gateway to Luxury
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500">
