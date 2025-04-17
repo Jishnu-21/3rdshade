@@ -27,7 +27,7 @@ const VideoModal = ({
     <AnimatePresence>
       {isMini && (
         <motion.div
-          className="fixed bottom-4 right-4 w-28 h-48 sm:w-36 sm:h-64 z-[9999] shadow-2xl group"
+          className="fixed bottom-4 right-4 w-28 h-48 sm:w-36 sm:h-64 lg:w-48 lg:h-80 z-[9999] shadow-2xl group"
           variants={miniVariants}
           initial="hidden"
           animate="visible"
@@ -102,7 +102,7 @@ const VideoModal = ({
           transition={{ duration: 0.3 }}
         >
           <div
-            className="relative bg-black w-[92vw] h-[92vh] max-w-[420px] max-h-[92vh] flex items-center justify-center rounded-lg overflow-hidden"
+            className="relative bg-black w-[92vw] h-[92vh] max-w-[420px] max-h-[92vh] lg:max-w-[600px] lg:max-h-[92vh] flex items-center justify-center rounded-lg overflow-hidden"
             style={{ borderRadius: 16 }}
           >
             <video
