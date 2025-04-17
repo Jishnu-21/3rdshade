@@ -54,7 +54,7 @@ const VideoModal = ({
               muted={isMuted}
               loop
               playsInline
-              className="w-full h-full object-cover aspect-[9/16] cursor-pointer"
+              className="w-full h-full object-contain aspect-[9/16] cursor-pointer"
               onClick={() => setIsMini(false)}
             />
             {/* Close Button (only on hover) */}
@@ -114,7 +114,7 @@ const VideoModal = ({
               controls
               loop
               playsInline
-              className="w-full h-full object-cover aspect-[9/16]"
+              className="w-full h-full object-contain aspect-[9/16]"
             />
             {/* Close Button (return to mini) */}
             <button
