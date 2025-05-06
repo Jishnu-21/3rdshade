@@ -54,7 +54,7 @@ const ContactInfo = () => {
       iconSrc: "/location@4x 1.png", // Dark theme image
       lightIconSrc: "/location-light.png", // Light theme image
       title: "Address",
-      link: "https://maps.app.goo.gl/tXeSEFEyE8qs5A2i9" // Link for Address
+      link: "https://maps.app.goo.gl/qhR5tSf5L5MhVkRK6" // Link for Address
     },
     { 
       iconSrc: "/mail@4x 1.png", // Dark theme image
