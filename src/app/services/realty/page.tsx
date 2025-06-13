@@ -968,7 +968,7 @@ const Footer = () => {
                 Contact: info@3rdshade.com
               </p>
               <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-400"}`}>
-                Phone: (123) 456-7890
+                Phone: +91 8600181189
               </p>
             </div>
             <p
